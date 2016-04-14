@@ -12,7 +12,7 @@ import com.luoyp.brnmall.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends BaseFragment {
 
 
     public HomeFragment() {

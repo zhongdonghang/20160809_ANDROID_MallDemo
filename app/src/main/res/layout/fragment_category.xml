@@ -1,13 +1,29 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.luoyp.brnmall.fragment.CategoryFragment">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal"
+              tools:context="com.luoyp.brnmall.fragment.CategoryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+    <ListView
+        android:id="@+id/category_list_view"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:text="分类"/>
+        android:layout_gravity="left"
+        android:layout_weight="1"
+        android:background="@android:color/holo_orange_dark"
+        android:scrollbars="none">
 
-</FrameLayout>
+    </ListView>
+
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/category_goods_list_view"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:layout_weight="2"
+        android:background="@android:color/darker_gray"
+        android:scrollbars="none"/>
+
+</LinearLayout>
