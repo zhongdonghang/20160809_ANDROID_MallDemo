@@ -8,6 +8,9 @@
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"/>
+        android:paddingBottom="14dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="14dp"
+        android:textColor="@color/textColor"
+        android:textSize="14sp"/>
 </LinearLayout>

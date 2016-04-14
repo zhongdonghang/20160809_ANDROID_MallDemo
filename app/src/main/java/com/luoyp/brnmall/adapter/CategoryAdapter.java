@@ -1,6 +1,7 @@
 package com.luoyp.brnmall.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ public class CategoryAdapter extends BaseAdapter {
 
     private Context context;
     private List<CategoryModel.Category> categoryList;
+    private int index;
 
     public CategoryAdapter(Context context, List<CategoryModel.Category> categoryList) {
         this.context = context;
@@ -42,6 +44,7 @@ public class CategoryAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup container) {
+        //  TLog.d("id:" + getItem(position).getCateId());
         ViewHolder holder;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -54,7 +57,22 @@ public class CategoryAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         holder.name.setText(getItem(position).getCateName());
+        if (position == index) {// 判断当前position是否为选中项
+            view.setBackgroundColor(Color.WHITE);
+        } else {
+            view.setBackgroundColor(Color.parseColor("#EFEFEF"));
+        }
         return view;
+    }
+
+    /**
+     * 设置选中的项 * * @param index
+     */
+    public void setMySelection(int index) {
+        this.index = index;
+
+        notifyDataSetChanged();
+
     }
 
     private static class ViewHolder {

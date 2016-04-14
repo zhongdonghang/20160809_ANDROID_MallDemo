@@ -16,13 +16,13 @@ import com.luoyp.brnmall.view.TabView;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 
     // PushManager.getInstance().initialize(this.getApplicationContext());
 
-    private String[] mTitle = {"主页", "公告", "我的", "设置"};
-    private int[] mIconSelect = {R.drawable.home, R.drawable.order, R.drawable.shopcar, R.drawable.mine};
-    private int[] mIconNormal = {R.drawable.home_s, R.drawable.order_s, R.drawable.shopcar_s, R.drawable.mine_s};
+    private String[] mTitle = {"首页", "分类", "购物车", "我的"};
+    private int[] mIconSelect = {R.drawable.home_s, R.drawable.order_s, R.drawable.shopcar_s, R.drawable.mine};
+    private int[] mIconNormal = {R.drawable.home, R.drawable.order, R.drawable.shopcar, R.drawable.mine_s};
     private ViewPager mViewPager;
     private TabView mTabView;
     private Map<Integer, Fragment> mFragmentMap;
@@ -42,6 +42,7 @@ public class MainActivity extends BaseActivity {
         mFragmentMap = new HashMap<>();
         mViewPager = (ViewPager) findViewById(R.id.id_view_pager);
         mViewPager.setOffscreenPageLimit(4);
+        mViewPager.addOnPageChangeListener(this);
         mViewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
         mTabView = (TabView) findViewById(R.id.id_tab);
         mTabView.setViewPager(mViewPager);
@@ -67,7 +68,28 @@ public class MainActivity extends BaseActivity {
             }
             mFragmentMap.put(position, fragment);
         }
+
+
         return fragment;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        if (position == 0) {
+            toolbar.setTitle("精生缘实销");
+            return;
+        }
+        toolbar.setTitle(mTitle[position]);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 
     class PageAdapter extends FragmentPagerAdapter implements TabView.OnItemIconTextSelectListener {
@@ -86,13 +108,16 @@ public class MainActivity extends BaseActivity {
             int icon[] = new int[2];
             icon[0] = mIconSelect[position];
             icon[1] = mIconNormal[position];
+
             return icon;
         }
 
         @Override
         public String onTextSelect(int position) {
+
             return mTitle[position];
-            //  return "xx";
+
+            //  return "";
         }
 
         @Override
