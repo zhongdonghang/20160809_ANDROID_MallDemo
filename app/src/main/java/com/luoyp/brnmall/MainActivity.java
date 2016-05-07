@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.luoyp.brnmall.fragment.CategoryFragment;
 import com.luoyp.brnmall.fragment.HomeFragment;
@@ -26,6 +28,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private ViewPager mViewPager;
     private TabView mTabView;
     private Map<Integer, Fragment> mFragmentMap;
+    private boolean isLogin = false;
 
     private Toolbar toolbar;
 
@@ -34,18 +37,26 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mFragmentMap = new HashMap<>();
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // 登录标志
+        isLogin = App.getPref("isLogin", false);
 
         mFragmentMap = new HashMap<>();
         mViewPager = (ViewPager) findViewById(R.id.id_view_pager);
         mViewPager.setOffscreenPageLimit(4);
         mViewPager.addOnPageChangeListener(this);
         mViewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
+        mViewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;// 返回 true，禁止滑动翻页
+            }
+        });
         mTabView = (TabView) findViewById(R.id.id_tab);
         mTabView.setViewPager(mViewPager);
+        mTabView.setContext(this);
 
     }
 
@@ -84,6 +95,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             toolbar.setTitle("精生缘实销");
             return;
         }
+
         toolbar.setTitle(mTitle[position]);
     }
 

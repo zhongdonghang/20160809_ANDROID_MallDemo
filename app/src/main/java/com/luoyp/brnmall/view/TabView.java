@@ -1,6 +1,7 @@
 package com.luoyp.brnmall.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -10,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
+import com.luoyp.brnmall.activity.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,7 @@ public class TabView extends LinearLayout implements View.OnClickListener {
     private int mChildSize;
     private List<TabItem> mTabItems;
     private OnItemIconTextSelectListener mListener;
+    private Context mContext;
 
     private int mTextSize = 12;
     private int mTextColorSelect = 0xff45c01a;
@@ -63,6 +67,10 @@ public class TabView extends LinearLayout implements View.OnClickListener {
         }
         typedArray.recycle();
         mTabItems = new ArrayList<>();
+    }
+
+    public void setContext(Context context){
+        this.mContext = context;
     }
 
     public void setViewPager(final ViewPager mViewPager) {
@@ -150,6 +158,13 @@ public class TabView extends LinearLayout implements View.OnClickListener {
         int position = (Integer) v.getTag();
         if (mViewPager.getCurrentItem() == position) {
             return;
+        }
+        if (position == 2){
+            boolean isLogin = App.getPref("isLogin", false);
+            if (!isLogin){
+                mContext.startActivity(new Intent(mContext, LoginActivity.class));
+                return;
+            }
         }
         for (TabItem tabItem : mTabItems) {
             tabItem.setTabAlpha(0);

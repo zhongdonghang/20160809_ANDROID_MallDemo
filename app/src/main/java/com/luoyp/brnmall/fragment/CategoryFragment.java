@@ -3,6 +3,7 @@ package com.luoyp.brnmall.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,20 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.adapter.CategoryAdapter;
+import com.luoyp.brnmall.adapter.CategoryGoodsAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
+import com.luoyp.brnmall.model.CategoryGoodsModel;
 import com.luoyp.brnmall.model.CategoryModel;
 import com.luoyp.xlibrary.tools.TLog;
 import com.squareup.okhttp.Request;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +41,12 @@ public class CategoryFragment extends BaseFragment {
     private PullToRefreshListView categorygoodslistview;
     private CategoryAdapter adapter;
     private List<CategoryModel.Category> categoryListData;
+    private CategoryGoodsModel categoryGoodsModel;
+    private  CategoryGoodsAdapter categoryGoodsAdapter;
+
+    private boolean isFirstLoad = true;  // 首次可见标志
+    private int pageNumber = 1;
+    private String cateId;
 
 //    public CategoryFragment() {
 //        // Required empty public constructor
@@ -50,6 +63,9 @@ public class CategoryFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 实例化
+        categoryGoodsModel = new CategoryGoodsModel();
+        categoryGoodsModel.setGoodsBeanList(new ArrayList<CategoryGoodsModel.GoodsBean>());
     }
 
     @Override
@@ -62,13 +78,9 @@ public class CategoryFragment extends BaseFragment {
         refreshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                TLog.d("刷新");
                 showProgressDialog("正在加载数据");
-
                 categoryListData.clear();
                 adapter.notifyDataSetChanged();
-
                 getCategoty();
             }
         });
@@ -82,44 +94,59 @@ public class CategoryFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TLog.d(position + "  " + id);
                 adapter.setMySelection(position);
-
+                pageNumber = 1;
+                cateId = categoryListData.get(position).getCateId()+"";
+                categoryGoodsModel.getGoodsBeanList().clear();
+                categoryGoodsAdapter.notifyDataSetChanged();
+                getCategoryCoodsList(cateId,pageNumber + "");
 //                Intent intent = new Intent(getActivity(), MessageDetailActivity_.class);
 //                //position从1开始,所以list中对应减1
 //                intent.putExtra("id", messageListData.get(position - 1).getId());
 //                startActivity(intent);
             }
         });
-
+        setupListView();
         return view;
     }
 
     public void setupView(View views) {
 
-//        categorylistview.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
-//        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-//            @Override
-//            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-//
-//            }
-//
-//            @Override
-//            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-//                getCommunityInfoList();
-//            }
-//        });
+    }
 
+    private void setupListView(){
+        // 设置适配器
+        categoryGoodsAdapter = new CategoryGoodsAdapter(getActivity(),categoryGoodsModel);
+        categorygoodslistview.setAdapter(categoryGoodsAdapter);
+        // 设置刷新方式
+        categorygoodslistview.setMode(PullToRefreshBase.Mode.BOTH);
+        categorygoodslistview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                // 下拉
+            }
 
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                // 上拉
+            }
+        });
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && isFirstLoad) {
+            showProgressDialog("正在加载数据");
+            categoryListData.clear();
+            adapter.notifyDataSetChanged();
+            getCategoty();
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        showProgressDialog("正在加载数据");
 
-        categoryListData.clear();
-        adapter.notifyDataSetChanged();
-
-        getCategoty();
     }
 
     @Override
@@ -135,13 +162,15 @@ public class CategoryFragment extends BaseFragment {
                 dismissProgressDialog();
                 categorylistview.setVisibility(View.GONE);
                 refreshBtn.setVisibility(View.VISIBLE);
-
             }
 
             @Override
             public void onResponse(String response) {
                 dismissProgressDialog();
                 TLog.d("一级目录：" + response);
+                if (response == null) {
+                    return;
+                }
                 CategoryModel category = new Gson().fromJson(response, CategoryModel.class);
 
                 if (category.getResult() == "false") {
@@ -160,8 +189,53 @@ public class CategoryFragment extends BaseFragment {
                 adapter.notifyDataSetChanged();
                 categorylistview.performItemClick(categorylistview, 0, 0);
                 adapter.setMySelection(0);
-
+                isFirstLoad = false;
             }
         });
     }
+
+    /**
+     * 获取分类商品
+     *
+     * @param cateId    分类id
+     * @param pageIndex 页码
+     */
+    private void getCategoryCoodsList(String cateId, String pageIndex) {
+        BrnmallAPI.getProductListByCateId(cateId, pageIndex, new ApiCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+                // 关闭加载提示
+                dismissProgressDialog();
+                //categorygoodslistview.setRefreshing(false);
+                //categorygoodslistview.onRefreshComplete();
+            }
+
+            @Override
+            public void onResponse(String response) {
+                // 关闭加载提示
+                dismissProgressDialog();
+                //categorygoodslistview.setRefreshing(false);
+                //categorygoodslistview.onRefreshComplete();
+                TLog.e("分类商品=  " + response);
+                if (TextUtils.isEmpty(response)){
+                    return;
+                }
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getString("result").equals("false")){
+                        return;
+                    }
+                    JSONObject dataObject = jsonObject.getJSONObject("data");
+                    categoryGoodsModel.setPageInfo(categoryGoodsModel.jsonToPageInfoBean(dataObject.getString("PageModel")));
+                    categoryGoodsModel.getGoodsBeanList().addAll(categoryGoodsModel.jsonToGoodsBeanList(dataObject.getString("ProductList")));
+                    categoryGoodsAdapter.notifyDataSetChanged();
+                    pageNumber++;
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 }

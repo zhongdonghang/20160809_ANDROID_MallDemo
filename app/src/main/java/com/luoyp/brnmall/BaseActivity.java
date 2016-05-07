@@ -106,7 +106,6 @@ public class BaseActivity extends AppCompatActivity {
 
     public void toLogin() {
 
-
     }
 
 

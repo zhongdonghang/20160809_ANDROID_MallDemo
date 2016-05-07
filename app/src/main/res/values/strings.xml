@@ -4,4 +4,30 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- 登录 注册 -->
+    <string name="prompt_phone">手机</string>
+    <string name="prompt_password">密码</string>
+    <string name="prompt_confirmpwd">确认密码</string>
+    <string name="action_sign_in">登 录</string>
+    <string name="action_register">注 册</string>
+    <string name="prompt_introduce_phone">推荐人手机</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_phone">手机号码无效</string>
+    <string name="error_invalid_password">这个密码太短了</string>
+    <string name="error_pwd_confirmpwd">两次密码不一样</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">必填项</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="action_forget_pwd">忘记密码？</string>
+
+
+    <!-- 购物车 -->
+    <string name="action_jiesuan">去结算</string>
+
+    <!-- topbar -->
+    <string name="topbar_title">标题</string>
 </resources>
