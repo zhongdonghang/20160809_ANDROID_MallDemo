@@ -42,6 +42,12 @@
     <!-- android:protectionLevel="normal" > -->
     <!-- </permission>&lt;!&ndash;替换为第三方应用的包名&ndash;&gt; -->
     <!-- 个推SDK权限配置结束 -->
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"/>
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -174,6 +180,8 @@
             android:label="@string/title_activity_login"/>
         <activity android:name=".activity.RegisterActivity"/>
         <activity android:name=".activity.EditOrderActy">
+        </activity>
+        <activity android:name=".activity.PayActivity">
         </activity>
     </application>
 

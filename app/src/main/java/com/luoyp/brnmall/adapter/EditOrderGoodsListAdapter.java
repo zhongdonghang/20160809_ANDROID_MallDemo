@@ -57,7 +57,7 @@ public class EditOrderGoodsListAdapter extends BaseAdapter {
         }
 
         holder.goodsName.setText(getItem(position).getName());
-        holder.goodsNum.setText(getItem(position).getBuyCount() + "");
+        holder.goodsNum.setText("x " + getItem(position).getBuyCount());
         App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreId()
                 + BrnmallAPI.BaseImgUrl2 + getItem(position).getShowImg())
                 .placeholder(R.mipmap.logo).error(R.mipmap.logo).into(holder.shopcarImg);

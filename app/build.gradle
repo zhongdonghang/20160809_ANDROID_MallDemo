@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile project(':xlibrary')
     compile project(':pullToRefreshView')
@@ -43,7 +43,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     // compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'org.simple:androideventbus:1.0.5.1'
-
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.ashokvarma.android:bottom-navigation-bar:1.0.0'
+    compile files('libs/alipaySdk-20160427.jar')
 }
