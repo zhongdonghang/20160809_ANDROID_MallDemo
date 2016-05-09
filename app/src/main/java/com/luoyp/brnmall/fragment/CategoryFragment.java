@@ -21,7 +21,7 @@ import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.CategoryGoodsModel;
 import com.luoyp.brnmall.model.CategoryModel;
-import com.luoyp.xlibrary.tools.TLog;
+import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
 
 import org.json.JSONException;
@@ -92,7 +92,7 @@ public class CategoryFragment extends BaseFragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TLog.d(position + "  " + id);
+                KLog.d(position + "  " + id);
                 adapter.setMySelection(position);
                 pageNumber = 1;
                 cateId = categoryListData.get(position).getCateId()+"";
@@ -123,11 +123,20 @@ public class CategoryFragment extends BaseFragment {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 // 下拉
+                pageNumber = 1;
+                categoryGoodsModel.getGoodsBeanList().clear();
+                getCategoryCoodsList(cateId, pageNumber + "");
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                // 上拉
+                getCategoryCoodsList(cateId, pageNumber + "");
+            }
+        });
+        categorygoodslistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                KLog.d("产品id" + categoryGoodsModel.getGoodsBeanList().get(position - 1).getPid());
             }
         });
     }
@@ -167,7 +176,7 @@ public class CategoryFragment extends BaseFragment {
             @Override
             public void onResponse(String response) {
                 dismissProgressDialog();
-                TLog.d("一级目录：" + response);
+                KLog.json("一级目录：" + response);
                 if (response == null) {
                     return;
                 }
@@ -206,6 +215,7 @@ public class CategoryFragment extends BaseFragment {
             public void onError(Request request, Exception e) {
                 // 关闭加载提示
                 dismissProgressDialog();
+                categorygoodslistview.onRefreshComplete();
                 //categorygoodslistview.setRefreshing(false);
                 //categorygoodslistview.onRefreshComplete();
             }
@@ -214,9 +224,10 @@ public class CategoryFragment extends BaseFragment {
             public void onResponse(String response) {
                 // 关闭加载提示
                 dismissProgressDialog();
+                categorygoodslistview.onRefreshComplete();
                 //categorygoodslistview.setRefreshing(false);
                 //categorygoodslistview.onRefreshComplete();
-                TLog.e("分类商品=  " + response);
+                KLog.json("分类商品=  " + response);
                 if (TextUtils.isEmpty(response)){
                     return;
                 }

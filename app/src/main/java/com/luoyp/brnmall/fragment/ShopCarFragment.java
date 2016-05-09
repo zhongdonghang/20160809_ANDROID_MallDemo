@@ -19,7 +19,7 @@ import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.ShopCartModel;
 import com.luoyp.brnmall.model.UserModel;
-import com.luoyp.xlibrary.tools.TLog;
+import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
 
 import org.json.JSONException;
@@ -172,15 +172,15 @@ public class ShopCarFragment extends BaseFragment {
                 // 关闭加载提示
                 dismissProgressDialog();
                 swipe.setRefreshing(false);
-                TLog.d("购物车=  " + response);
+                KLog.json("购物车=  " + response);
                 if (TextUtils.isEmpty(response)){
-                    TLog.e("返回空");
+                    KLog.d("返回空");
                     return;
                 }
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getString("result").equals("false")){
-                        TLog.e("返回false");
+                        KLog.e("返回false");
                         return;
                     }
                     JSONObject dataObject = jsonObject.getJSONObject("data");

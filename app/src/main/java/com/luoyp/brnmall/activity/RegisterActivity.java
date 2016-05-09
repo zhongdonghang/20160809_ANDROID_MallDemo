@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -11,7 +12,7 @@ import com.luoyp.brnmall.BaseActivity;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
-import com.luoyp.xlibrary.tools.TLog;
+import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
 
 import org.json.JSONArray;
@@ -27,6 +28,7 @@ public class RegisterActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_register);
 
         // 实例化
@@ -153,7 +155,7 @@ public class RegisterActivity extends BaseActivity {
             public void onResponse(String response) {
                 // 关闭提示
                 dismissProgressDialog();
-                TLog.e("Register=  " + response);
+                KLog.json("Register=  ", response);
                 if (TextUtils.isEmpty(response)){
                     showToast("注册失败");
                     return;

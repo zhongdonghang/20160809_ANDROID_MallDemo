@@ -8,7 +8,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Environment;
 
-import com.luoyp.xlibrary.tools.TLog;
+import com.socks.library.KLog;
 import com.squareup.picasso.Downloader;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
@@ -108,7 +108,7 @@ public class App extends Application {
     public static Picasso getPicasso() {
         if (picasso == null) {
             File cacheDir = new File(Environment.getExternalStorageDirectory().toString() + "/brnmall/imgcache");
-            TLog.i(cacheDir.toString());
+            //   TLog.i(cacheDir.toString());
             if (!cacheDir.exists()) {
                 cacheDir.mkdir();
             }
@@ -139,9 +139,6 @@ public class App extends Application {
         _resource = _context.getResources();
         // CrashHandler crashHandler = CrashHandler.getInstance();
         //  crashHandler.init(getApplicationContext());
-        if (BuildConfig.DEBUG) {
-            TLog.plant(new TLog.DebugTree());
-        } else {
-        }
+        KLog.init(BuildConfig.DEBUG);
     }
 }

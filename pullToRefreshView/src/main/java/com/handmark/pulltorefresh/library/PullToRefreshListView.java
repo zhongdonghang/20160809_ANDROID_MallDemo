@@ -107,6 +107,7 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 
         // Show the ListView Loading View and set it to refresh.
         listViewLoadingView.setVisibility(View.VISIBLE);
+
         listViewLoadingView.refreshing();
 
         if (doScroll) {

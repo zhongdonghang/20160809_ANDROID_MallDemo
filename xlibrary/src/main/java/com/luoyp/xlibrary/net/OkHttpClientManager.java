@@ -12,7 +12,6 @@ import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.$Gson$Types;
-import com.luoyp.xlibrary.tools.TLog;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -174,7 +173,8 @@ public class OkHttpClientManager {
     }
 
     public static void postAsyn(String url, String bodyStr, final ResultCallback callback, Object tag) {
-        TLog.d(tag.toString() + " URL:" + url);
+        //  TLog.d(tag.toString() + " URL:" + url);
+
         getInstance().getPostDelegate().postAsyn(url, bodyStr, callback, tag);
     }
 
@@ -793,7 +793,7 @@ public class OkHttpClientManager {
                 tempParams.append(param.key + "=" + param.value + "&");
             }
             final Request request = buildGetRequest(url + "?" + tempParams.toString(), tag);
-            TLog.d(url + "?" + tempParams.toString());
+            //TLog.d(url + "?" + tempParams.toString());
             getAsyn(request, callback);
         }
     }

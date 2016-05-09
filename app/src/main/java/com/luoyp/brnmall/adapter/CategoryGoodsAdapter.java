@@ -12,7 +12,7 @@ import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.CategoryGoodsModel;
-import com.luoyp.xlibrary.tools.TLog;
+import com.socks.library.KLog;
 
 /**
  * Created by MnZi on 2016/5/6.
@@ -52,17 +52,19 @@ public class CategoryGoodsAdapter extends BaseAdapter {
             holder.goodsName = (TextView) convertView.findViewById(R.id.tv_goods_name);
             holder.goodsPrice = (TextView) convertView.findViewById(R.id.tv_goods_price);
             holder.goodsIcon = (ImageView) convertView.findViewById(R.id.iv_goods_icon);
+            holder.marketPrice = (TextView) convertView.findViewById(R.id.tv_market_price);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         holder.goodsName.setText(getItem(position).getName());
-        holder.goodsPrice.setText("￥ " + getItem(position).getShopPrice());
+        holder.goodsPrice.setText("本店价 ￥ " + getItem(position).getShopPrice());
+        holder.marketPrice.setText("市场价 ￥ " + getItem(position).getMarketPrice());
         App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreId()
                 +BrnmallAPI.BaseImgUrl2+ getItem(position).getShowImg())
                 .placeholder(R.mipmap.test_goods_icon).error(R.mipmap.ic_launcher).into(holder.goodsIcon);
-        TLog.e(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreId()
+        KLog.d(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreId()
                 +BrnmallAPI.BaseImgUrl2+ getItem(position).getShowImg());
         return convertView;
     }
@@ -70,6 +72,7 @@ public class CategoryGoodsAdapter extends BaseAdapter {
     public static class ViewHolder {
         TextView goodsName;
         TextView goodsPrice;
+        TextView marketPrice;
         ImageView goodsIcon;
     }
 }

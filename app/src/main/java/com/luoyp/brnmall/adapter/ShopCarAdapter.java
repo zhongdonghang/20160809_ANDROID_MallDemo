@@ -72,11 +72,15 @@ public class ShopCarAdapter extends BaseAdapter {
         double price = bPrice.multiply(bBuyCount).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
         holder.goodsPrice.setText("￥"+price);
         holder.goodsNum.setText(getItem(position).getBuyCount() + "");
-
+        if (getItem(position).getBuyCount() == 1) {
+            holder.down.setVisibility(View.GONE);
+        } else {
+            holder.down.setVisibility(View.VISIBLE);
+        }
         holder.down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getItem(position).getBuyCount()>0){
+                if (getItem(position).getBuyCount() > 1) {
                     downGoodsToCart(position,String.valueOf(getItem(position).getPid()),String.valueOf(getItem(position).getUid()),"-1");
                 }
 

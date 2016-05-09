@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,7 +26,7 @@ import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.UserModel;
-import com.luoyp.xlibrary.tools.TLog;
+import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
 
 import org.json.JSONException;
@@ -60,6 +61,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mPhoneView = (EditText) findViewById(R.id.phone);
@@ -245,7 +247,7 @@ public class LoginActivity extends BaseActivity {
             public void onResponse(String response) {
                 // 关闭加载提示
                 dismissProgressDialog();
-                TLog.e("Login=  " + response);
+                KLog.json("login", response);
                 if (response == null) {
                     App.setPref("isLogin", false);
                     showToast("登录失败");
