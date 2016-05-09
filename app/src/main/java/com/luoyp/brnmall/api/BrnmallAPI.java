@@ -10,6 +10,7 @@ public class BrnmallAPI {
     public static String BaseURL = BaseIP + ":8027/app.asmx/";
     public static String BaseImgUrl1 = BaseIP + "/upload/store/";
     public static String BaseImgUrl2 = "/product/show/thumb100_100/";
+    public static String BaseImgUrl3 = "/product/show/thumb800_800/";
 
     /**
      * 获取商品目录
@@ -195,5 +196,18 @@ public class BrnmallAPI {
                 , new OkHttpClientManager.Param("state", state)};
         OkHttpClientManager.postAsyn(BaseURL + "GetMyOrderList", params, callback, "getMyOrderList");
     }
+
+    /**
+     * 商品详情
+     *
+     * @param pid      商品id
+     * @param callback 回调
+     */
+    public static void getProductDetail(String pid, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("pid", pid)};
+        OkHttpClientManager.postAsyn(BaseURL + "Product", params, callback, "getProductDetail");
+    }
+
 
 }
