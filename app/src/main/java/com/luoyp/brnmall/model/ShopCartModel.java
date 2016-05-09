@@ -6,13 +6,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by MnZi on 2016/5/5.
  */
-public class ShopCartModel {
+public class ShopCartModel implements Serializable {
 
     /**
      * TotalCount : 2
@@ -27,6 +28,7 @@ public class ShopCartModel {
     private double OrderAmount;
 
     private List<CartGoodsBean> CartGoodsBeanList;
+    private CartGoodsBean CartGoods;
 
     public List<CartGoodsBean> getCartGoodsBeanList() {
         return CartGoodsBeanList;
@@ -35,8 +37,6 @@ public class ShopCartModel {
     public void setCartGoodsBeanList(List<CartGoodsBean> cartGoodsBeanList) {
         CartGoodsBeanList = cartGoodsBeanList;
     }
-
-    private CartGoodsBean CartGoods;
 
     public CartGoodsBean getCartGoods() {
         return CartGoods;

@@ -1,6 +1,7 @@
 package com.luoyp.brnmall;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.luoyp.brnmall.activity.LoginActivity;
 import com.luoyp.xlibrary.widgets.CustomProgressDialog;
 import com.squareup.picasso.Picasso;
 
@@ -101,10 +103,13 @@ public class BaseActivity extends AppCompatActivity {
         onBackPressed();
     }
 
-
-    public void toLogin() {
-
+    public boolean checkLogin() {
+        boolean isLogin = App.getPref("isLogin", false);
+        if (!isLogin) {
+            startActivity(new Intent(this, LoginActivity.class));
+            return false;
+        }
+        return true;
     }
-
 
 }

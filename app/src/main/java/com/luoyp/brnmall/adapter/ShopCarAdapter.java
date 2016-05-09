@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
@@ -18,8 +20,6 @@ import com.squareup.okhttp.Request;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.simple.eventbus.EventBus;
-
-import java.math.BigDecimal;
 
 /**
  * Created by MnZi on 2016/5/1.
@@ -61,17 +61,18 @@ public class ShopCarAdapter extends BaseAdapter {
             holder.goodsNum = (TextView) convertView.findViewById(R.id.tv_goods_num);
             holder.down = (ImageButton) convertView.findViewById(R.id.iv_down);
             holder.up = (ImageButton) convertView.findViewById(R.id.iv_up);
+            holder.shopcarImg = (ImageView) convertView.findViewById(R.id.shopcarImg);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         holder.goodsName.setText(getItem(position).getName());
-        BigDecimal bPrice = new BigDecimal(Double.toString(getItem(position).getShopPrice()));
-        BigDecimal bBuyCount = new BigDecimal(Double.toString(getItem(position).getBuyCount()));
-        double price = bPrice.multiply(bBuyCount).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
-        holder.goodsPrice.setText("￥"+price);
+        holder.goodsPrice.setText("￥" + getItem(position).getShopPrice());
         holder.goodsNum.setText(getItem(position).getBuyCount() + "");
+        App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreId()
+                + BrnmallAPI.BaseImgUrl2 + getItem(position).getShowImg())
+                .placeholder(R.mipmap.logo).error(R.mipmap.logo).into(holder.shopcarImg);
         if (getItem(position).getBuyCount() == 1) {
             holder.down.setVisibility(View.GONE);
         } else {
@@ -98,72 +99,73 @@ public class ShopCarAdapter extends BaseAdapter {
         return convertView;
     }
 
+    // 增加商品数量
+    private void addGoodsToCart(final int position, String pid, String uid, String count) {
+        BrnmallAPI.addProductToCart(pid, uid, count, new ApiCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+            }
+
+            @Override
+            public void onResponse(String response) {
+                if (TextUtils.isEmpty(response)) {
+                    return;
+                }
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getString("result").equals("true")) {
+                        getItem(position).setBuyCount(getItem(position).getBuyCount() + 1);
+//                        BigDecimal bAmount = new BigDecimal(Double.toString(shopCartModel.getProductAmount()));
+//                        BigDecimal bPrice = new BigDecimal(Double.toString(getItem(position).getShopPrice()));
+//                        double amount = bAmount.add(bPrice).doubleValue();
+//                     //   shopCartModel.setProductAmount(amount);
+//                        notifyDataSetChanged();
+                        // 发布事件，修改总金额
+                        EventBus.getDefault().post("", "CartAdapter_tag");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void downGoodsToCart(final int position, String pid, String uid, String count) {
+        BrnmallAPI.addProductToCart(pid,uid,count, new ApiCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+            }
+
+            @Override
+            public void onResponse(String response) {
+                if (TextUtils.isEmpty(response)){
+                    return;
+                }
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.getString("result").equals("true")){
+                        getItem(position).setBuyCount(getItem(position).getBuyCount() - 1);
+//                        BigDecimal bAmount = new BigDecimal(Double.toString(shopCartModel.getProductAmount()));
+//                        BigDecimal bPrice = new BigDecimal(Double.toString(getItem(position).getShopPrice()));
+//                        double amount = bAmount.subtract(bPrice).doubleValue();
+//                        shopCartModel.setProductAmount(amount);
+//                        notifyDataSetChanged();
+                        // 发布事件，修改总金额
+                        EventBus.getDefault().post("", "CartAdapter_tag");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     public static class ViewHolder {
         TextView goodsName;
         TextView goodsPrice;
         TextView goodsNum;
         ImageButton down;
         ImageButton up;
-    }
-
-    // 增加商品数量
-    private void addGoodsToCart(final int position, String pid, String uid, String count){
-        BrnmallAPI.addProductToCart(pid,uid,count, new ApiCallback<String>() {
-            @Override
-            public void onError(Request request, Exception e) {
-            }
-
-            @Override
-            public void onResponse(String response) {
-                if (TextUtils.isEmpty(response)){
-                    return;
-                }
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    if (jsonObject.getString("result").equals("true")){
-                        getItem(position).setBuyCount(getItem(position).getBuyCount()+1);
-                        BigDecimal bAmount = new BigDecimal(Double.toString(shopCartModel.getProductAmount()));
-                        BigDecimal bPrice = new BigDecimal(Double.toString(getItem(position).getShopPrice()));
-                        double amount = bAmount.add(bPrice).doubleValue();
-                        shopCartModel.setProductAmount(amount);
-                        notifyDataSetChanged();
-                        // 发布事件，修改总金额
-                        EventBus.getDefault().post(shopCartModel.getProductAmount(),"CartAdapter_tag");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    private void downGoodsToCart(final int position, String pid, String uid, String count){
-        BrnmallAPI.addProductToCart(pid,uid,count, new ApiCallback<String>() {
-            @Override
-            public void onError(Request request, Exception e) {
-            }
-
-            @Override
-            public void onResponse(String response) {
-                if (TextUtils.isEmpty(response)){
-                    return;
-                }
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    if (jsonObject.getString("result").equals("true")){
-                        getItem(position).setBuyCount(getItem(position).getBuyCount()-1);
-                        BigDecimal bAmount = new BigDecimal(Double.toString(shopCartModel.getProductAmount()));
-                        BigDecimal bPrice = new BigDecimal(Double.toString(getItem(position).getShopPrice()));
-                        double amount = bAmount.subtract(bPrice).doubleValue();
-                        shopCartModel.setProductAmount(amount);
-                        notifyDataSetChanged();
-                        // 发布事件，修改总金额
-                        EventBus.getDefault().post(shopCartModel.getProductAmount(),"CartAdapter_tag");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        ImageView shopcarImg;
     }
 }

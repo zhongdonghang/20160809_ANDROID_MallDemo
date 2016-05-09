@@ -1,70 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp"
-    android:orientation="horizontal">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:paddingBottom="12dp"
+              android:paddingLeft="5dp"
+              android:paddingRight="5dp"
+              android:paddingTop="12dp">
 
     <ImageView
+        android:id="@+id/shopcarImg"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="center_vertical"
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/sym_def_app_icon" />
+        android:src="@mipmap/logo"/>
 
     <LinearLayout
-        android:layout_gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:orientation="vertical">
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
         <TextView
+            android:id="@+id/tv_goods_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+        <TextView
+            android:id="@+id/tv_goods_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/tv_goods_name" />
+            android:textColor="@android:color/holo_red_dark"/>
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingTop="8dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@android:color/holo_red_dark"
-                android:id="@+id/tv_goods_price"
-                android:layout_gravity="bottom"/>
+            android:layout_gravity="right"
+            android:orientation="horizontal"
+            android:paddingBottom="2dp"
+            android:paddingRight="2dp"
+            android:paddingTop="2dp">
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/iv_down"
-                android:src="@android:drawable/presence_busy"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
                 android:layout_gravity="bottom"
-                android:background="@android:color/transparent"/>
+                android:src="@drawable/v2_reduce"/>
 
             <TextView
+                android:id="@+id/tv_goods_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
+                android:layout_gravity="bottom"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/tv_goods_num"
-                android:layout_gravity="bottom"/>
+                android:textSize="14sp"/>
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/iv_up"
-                android:src="@android:drawable/presence_busy"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
                 android:layout_gravity="bottom"
-                android:background="@android:color/transparent" />
+                android:src="@drawable/v2_increase"/>
         </LinearLayout>
 
 

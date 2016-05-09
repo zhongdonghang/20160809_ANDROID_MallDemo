@@ -63,7 +63,7 @@ public class CategoryGoodsAdapter extends BaseAdapter {
         holder.marketPrice.setText("市场价 ￥ " + getItem(position).getMarketPrice());
         App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreId()
                 +BrnmallAPI.BaseImgUrl2+ getItem(position).getShowImg())
-                .placeholder(R.mipmap.test_goods_icon).error(R.mipmap.ic_launcher).into(holder.goodsIcon);
+                .placeholder(R.mipmap.logo).error(R.mipmap.logo).into(holder.goodsIcon);
         KLog.d(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreId()
                 +BrnmallAPI.BaseImgUrl2+ getItem(position).getShowImg());
         return convertView;

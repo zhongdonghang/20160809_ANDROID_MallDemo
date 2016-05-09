@@ -214,6 +214,7 @@ public class CategoryFragment extends BaseFragment {
             @Override
             public void onError(Request request, Exception e) {
                 // 关闭加载提示
+                showToast("网络异常,请稍后再说吧");
                 dismissProgressDialog();
                 categorygoodslistview.onRefreshComplete();
                 //categorygoodslistview.setRefreshing(false);
@@ -229,14 +230,17 @@ public class CategoryFragment extends BaseFragment {
                 //categorygoodslistview.onRefreshComplete();
                 KLog.json("分类商品=  " + response);
                 if (TextUtils.isEmpty(response)){
+                    showToast("没有找到相关商品");
                     return;
                 }
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    if (jsonObject.getString("result").equals("false")){
+                    JSONObject dataObject = jsonObject.getJSONObject("data");
+                    if (jsonObject.getString("result").equals("false") || dataObject.getJSONArray("ProductList").length() == 0) {
+                        showToast("暂时没有相关商品");
                         return;
                     }
-                    JSONObject dataObject = jsonObject.getJSONObject("data");
+
                     categoryGoodsModel.setPageInfo(categoryGoodsModel.jsonToPageInfoBean(dataObject.getString("PageModel")));
                     categoryGoodsModel.getGoodsBeanList().addAll(categoryGoodsModel.jsonToGoodsBeanList(dataObject.getString("ProductList")));
                     categoryGoodsAdapter.notifyDataSetChanged();

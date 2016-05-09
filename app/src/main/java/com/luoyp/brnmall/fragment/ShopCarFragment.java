@@ -2,18 +2,21 @@ package com.luoyp.brnmall.fragment;
 
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
+import com.luoyp.brnmall.activity.EditOrderActy;
 import com.luoyp.brnmall.adapter.ShopCarAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
@@ -36,8 +39,9 @@ public class ShopCarFragment extends BaseFragment {
 
     private SwipeRefreshLayout swipe;
     private ListView listView;
-    private TextView tvSum, tvJiesuan;
+    private TextView tvSum;
     private ShopCartModel shopCartModel;
+    private Button jiesuanBtn;
     private ShopCarAdapter adapter;
     private String uid;
     private boolean isFirstVisible = true;  // 首次可见标志
@@ -75,15 +79,34 @@ public class ShopCarFragment extends BaseFragment {
 //        TextView tv = (TextView)view.findViewById(R.id.tv_location);
 //        tv.setText(agrs1);
         swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
+        jiesuanBtn = (Button) view.findViewById(R.id.btn_jiesuan);
         listView = (ListView) view.findViewById(R.id.listView);
         tvSum = (TextView) view.findViewById(R.id.tv_sum);
-        tvJiesuan = (TextView) view.findViewById(R.id.tv_action_jiesuan);
 
+        jiesuanBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                jiesuan();
+            }
+        });
         // 设置ListView
         setupListView();
         // 设置SwipeRefreshLayout
         setupSwipe();
         return view;
+    }
+
+    public void jiesuan() {
+        KLog.d("点击结算");
+        if (!checkLogin()) {
+            return;
+        }
+        App.shopCar = shopCartModel;
+
+        Intent intent = new Intent();
+        //   intent.putExtra("shopcar", shopCartModel);
+        intent.setClass(getActivity(), EditOrderActy.class);
+        startActivity(intent);
     }
 
     @Override
@@ -117,13 +140,23 @@ public class ShopCarFragment extends BaseFragment {
 
     /**
      * 接收事件的方法
-     *
-     * @param amount 用户对象
      */
     @Subscriber(tag = "CartAdapter_tag")
-    public void refreshView(double amount) {
-        shopCartModel.setProductAmount(amount);
-        tvSum.setText(amount+"");
+    public void refreshView(String s) {
+        //  tvSum.setText(amount + "");
+        loadShopCartData(uid);
+    }
+
+    public void totalPrice() {
+        double sum = 0.0;
+        int goodsCount = shopCartModel.getCartGoodsBeanList().size();
+        if (goodsCount == 0) {
+            tvSum.setText("");
+        }
+        for (int i = 0; i < goodsCount; i++) {
+            sum += shopCartModel.getCartGoodsBeanList().get(i).getShopPrice() * shopCartModel.getCartGoodsBeanList().get(i).getBuyCount();
+        }
+        tvSum.setText(String.format("%.2f", sum));
     }
 
     /**
@@ -143,6 +176,10 @@ public class ShopCarFragment extends BaseFragment {
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                if (!checkLogin()) {
+                    swipe.setRefreshing(false);
+                    return;
+                }
                 // 清空数据,并刷新适配器
                 shopCartModel.getCartGoodsBeanList().clear();
                 adapter.notifyDataSetChanged();
@@ -165,6 +202,7 @@ public class ShopCarFragment extends BaseFragment {
                 // 关闭加载提示
                 dismissProgressDialog();
                 swipe.setRefreshing(false);
+
             }
 
             @Override
@@ -173,24 +211,27 @@ public class ShopCarFragment extends BaseFragment {
                 dismissProgressDialog();
                 swipe.setRefreshing(false);
                 KLog.json("购物车=  " + response);
-                if (TextUtils.isEmpty(response)){
+                if (TextUtils.isEmpty(response)) {
+
                     KLog.d("返回空");
                     return;
                 }
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    if (jsonObject.getString("result").equals("false")){
-                        KLog.e("返回false");
+                    JSONObject dataObject = jsonObject.getJSONObject("data");
+
+                    if (jsonObject.getString("result").equals("false") || dataObject.getJSONArray("StoreCartList").length() == 0) {
+                        showToast("购物车空了,去逛一逛吧");
+                        jiesuanBtn.setEnabled(false);
                         return;
                     }
-                    JSONObject dataObject = jsonObject.getJSONObject("data");
                     shopCartModel.setTotalCount(dataObject.getInt("TotalCount"));
                     shopCartModel.setProductAmount(dataObject.getDouble("ProductAmount"));
                     shopCartModel.setFullCut(dataObject.getInt("FullCut"));
                     shopCartModel.setOrderAmount(dataObject.getDouble("OrderAmount"));
                     shopCartModel.setCartGoodsBeanList(ShopCartModel.CartGoodsBean.jsonStrToList(dataObject.getString("StoreCartList")));
-
-                    tvSum.setText(shopCartModel.getProductAmount() + "");
+                    totalPrice();
+                    jiesuanBtn.setEnabled(true);
                     adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {

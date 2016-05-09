@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Environment;
 
+import com.luoyp.brnmall.model.ShopCartModel;
 import com.socks.library.KLog;
 import com.squareup.picasso.Downloader;
 import com.squareup.picasso.OkHttpDownloader;
@@ -20,6 +21,8 @@ import java.util.Map;
  * Created by lyp3314@gmail.com on 16/4/13.
  */
 public class App extends Application {
+    //临时保存购物车
+    public static ShopCartModel shopCar;
     public static Picasso picasso;
     static Context _context;
     static Resources _resource;

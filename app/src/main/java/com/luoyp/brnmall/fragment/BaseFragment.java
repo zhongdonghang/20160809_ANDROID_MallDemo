@@ -1,8 +1,13 @@
 package com.luoyp.brnmall.fragment;
 
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
+import android.widget.Toast;
 
+import com.luoyp.brnmall.App;
+import com.luoyp.brnmall.activity.LoginActivity;
 import com.luoyp.xlibrary.widgets.CustomProgressDialog;
 
 /**
@@ -27,5 +32,20 @@ public class BaseFragment extends Fragment {
             progressDialog.dismiss();
             // progressDialog = null;
         }
+    }
+
+    public void showToast(String msg) {
+        Toast toast = Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+    }
+
+    public boolean checkLogin() {
+        boolean isLogin = App.getPref("isLogin", false);
+        if (!isLogin) {
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+            return false;
+        }
+        return true;
     }
 }

@@ -32,16 +32,16 @@
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_gravity="center_horizontal|bottom"
-        android:orientation="horizontal"
+        android:background="#e9e3e3"
         android:gravity="bottom"
-        android:background="#e9e3e3">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="合计:￥"/>
+            android:text="合计:￥"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         <TextView
             android:id="@+id/tv_sum"
@@ -49,12 +49,13 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:paddingLeft="1dp"
+            android:paddingLeft="5dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/holo_red_dark" />
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="15sp"/>
 
         <Button
-            android:id="@+id/tv_action_jiesuan"
+            android:id="@+id/btn_jiesuan"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@android:color/holo_red_light"
@@ -63,7 +64,8 @@
             android:paddingRight="24dp"
             android:text="@string/action_jiesuan"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="16sp"/>
     </LinearLayout>
 
 </FrameLayout>
