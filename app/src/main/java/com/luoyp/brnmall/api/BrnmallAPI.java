@@ -10,6 +10,7 @@ public class BrnmallAPI {
     public static String BaseURL = BaseIP + ":8027/app.asmx/";
     public static String BaseImgUrl1 = BaseIP + "/upload/store/";
     public static String BaseImgUrl2 = "/product/show/thumb100_100/";
+    public static String BaseImgUrl3 = "/product/show/thumb800_800/";
 
     /**
      * 获取商品目录
@@ -194,6 +195,35 @@ public class BrnmallAPI {
                 , new OkHttpClientManager.Param("pageSize", "20")
                 , new OkHttpClientManager.Param("state", state)};
         OkHttpClientManager.postAsyn(BaseURL + "GetMyOrderList", params, callback, "getMyOrderList");
+    }
+
+    public static void createOrder(String uid, String said, String orderList, String payName, String remark, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("uid", uid)
+                , new OkHttpClientManager.Param("saId", said)
+                , new OkHttpClientManager.Param("selectedCartItemKeyList", orderList)
+                , new OkHttpClientManager.Param("buyerRemark", remark)
+                , new OkHttpClientManager.Param("paycreditcount", "")
+                , new OkHttpClientManager.Param("couponidlist", "")
+                , new OkHttpClientManager.Param("couponsnlist", "")
+                , new OkHttpClientManager.Param("fullcut", "")
+                , new OkHttpClientManager.Param("bestTime", "")
+                , new OkHttpClientManager.Param("ip", "")
+                , new OkHttpClientManager.Param("payName", payName)};
+
+        OkHttpClientManager.postAsyn(BaseURL + "OrderCreate", params, callback, "createOrder");
+    }
+
+    /**
+     * 商品详情
+     *
+     * @param pid      商品id
+     * @param callback 回调
+     */
+    public static void getProductDetail(String pid, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("pid", pid)};
+        OkHttpClientManager.postAsyn(BaseURL + "Product", params, callback, "getProductDetail");
     }
 
 }

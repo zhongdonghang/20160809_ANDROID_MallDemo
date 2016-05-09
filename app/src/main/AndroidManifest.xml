@@ -175,6 +175,8 @@
         <activity android:name=".activity.RegisterActivity"/>
         <activity android:name=".activity.EditOrderActy">
         </activity>
+        <activity android:name=".activity.MyOrderActivity"/>
+        <activity android:name=".activity.GoodsDetailActivity"></activity>
     </application>
 
 </manifest>
