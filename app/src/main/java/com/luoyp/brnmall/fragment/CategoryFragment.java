@@ -2,6 +2,7 @@ package com.luoyp.brnmall.fragment;
 
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.luoyp.brnmall.R;
+import com.luoyp.brnmall.activity.GoodsDetailActivity;
 import com.luoyp.brnmall.adapter.CategoryAdapter;
 import com.luoyp.brnmall.adapter.CategoryGoodsAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
@@ -137,6 +139,10 @@ public class CategoryFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 KLog.d("产品id" + categoryGoodsModel.getGoodsBeanList().get(position - 1).getPid());
+                Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+                intent.putExtra("pid",categoryGoodsModel.getGoodsBeanList().get(position - 1).getPid() + "");
+                intent.putExtra("name",categoryGoodsModel.getGoodsBeanList().get(position-1).getName());
+                startActivity(intent);
             }
         });
     }
