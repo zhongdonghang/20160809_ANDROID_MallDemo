@@ -191,7 +191,7 @@ public class BrnmallAPI {
         OkHttpClientManager.Param[] params = {
                 new OkHttpClientManager.Param("uid", uid)
                 , new OkHttpClientManager.Param("pageNumber", pageNumber)
-                , new OkHttpClientManager.Param("pageSize", "20")
+                , new OkHttpClientManager.Param("pageSize", "12")
                 , new OkHttpClientManager.Param("state", state)};
         OkHttpClientManager.postAsyn(BaseURL + "GetMyOrderList", params, callback, "getMyOrderList");
     }

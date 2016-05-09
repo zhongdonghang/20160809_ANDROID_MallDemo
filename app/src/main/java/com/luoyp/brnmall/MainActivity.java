@@ -85,6 +85,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             toolbar.setTitle("精生缘实销");
             return;
         }
+        if (position == 3) {
+            toolbar.setTitle("");
+            return;
+        }
         toolbar.setTitle(mTitle[position]);
 
         if (position == 2) {
@@ -121,7 +125,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         @Override
         public String onTextSelect(int position) {
-
             return mTitle[position];
 
             //  return "";

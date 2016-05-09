@@ -48,6 +48,7 @@
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="true"/>
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -182,6 +183,8 @@
         <activity android:name=".activity.EditOrderActy">
         </activity>
         <activity android:name=".activity.PayActivity">
+        </activity>
+        <activity android:name=".activity.MyOrderActivity">
         </activity>
     </application>
 

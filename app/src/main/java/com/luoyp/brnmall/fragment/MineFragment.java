@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.activity.LoginActivity;
+import com.luoyp.brnmall.activity.MyOrderActivity;
 import com.luoyp.brnmall.model.UserModel;
 
 import org.simple.eventbus.EventBus;
@@ -28,6 +29,12 @@ public class MineFragment extends BaseFragment {
     private ImageView userIcon;
 
     private boolean isLogin = false;
+    private ImageView ivUserIcon;
+    private TextView tvNickName;
+    private TextView actiontoorder;
+    private TextView actiontofavoritegoods;
+    private TextView actiontofavoritestore;
+    private TextView actiontoshipaddress;
 
     public MineFragment() {
         // Required empty public constructor
@@ -55,6 +62,13 @@ public class MineFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mine, container, false);
+        this.actiontoshipaddress = (TextView) view.findViewById(R.id.action_to_ship_address);
+        this.actiontofavoritestore = (TextView) view.findViewById(R.id.action_to_favorite_store);
+        this.actiontofavoritegoods = (TextView) view.findViewById(R.id.action_to_favorite_goods);
+        this.actiontoorder = (TextView) view.findViewById(R.id.action_to_order);
+        this.tvNickName = (TextView) view.findViewById(R.id.tvNickName);
+        this.ivUserIcon = (ImageView) view.findViewById(R.id.ivUserIcon);
+
 //        Bundle bundle = getArguments();
 //        String agrs1 = bundle.getString("agrs1");
 //        TextView tv = (TextView)view.findViewById(R.id.tv_location);
@@ -125,7 +139,10 @@ public class MineFragment extends BaseFragment {
         view.findViewById(R.id.action_to_order).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!checkLogin()) {
+                    return;
+                }
+                startActivity(new Intent(getActivity(), MyOrderActivity.class));
             }
         });
         // 打开收藏的商品页面
