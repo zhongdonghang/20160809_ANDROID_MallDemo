@@ -190,7 +190,7 @@ public class PayActivity extends BaseActivity {
             return;
         }
         String orderInfo = getOrderInfo(osn, "APP购物-Android", price);
-        KLog.d("提交支付宝info" + orderInfo);
+        //  KLog.d("提交支付宝info" + orderInfo);
 
         /**
          * 特别注意，这里的签名逻辑需要放在服务端，切勿将私钥泄露在代码中！
@@ -363,7 +363,7 @@ public class PayActivity extends BaseActivity {
             @Override
             public void onResponse(String response) {
 
-                KLog.d("生成预付返回xml " + response);
+                // KLog.d("生成预付返回xml " + response);
                 if (response == null || TextUtils.isEmpty(response)) {
                     dismissProgressDialog();
                     showToast("支付异常,请稍后再试吧");
@@ -385,8 +385,8 @@ public class PayActivity extends BaseActivity {
 
                 String str = "appid=" + Constants.APP_ID + "&noncestr=" + req.nonceStr + "&package=" + req.packageValue + "&partnerid=" + Constants.MCH_ID + "&prepayid=" + req.prepayId + "&timestamp=" + req.timeStamp + "&key=oJC5nGxuom2e1vJL03EQcH7CloxewnRP";
                 req.sign = MD5.getMessageDigest(str.toString().getBytes()).toUpperCase();
-                KLog.d("wxpay str " + str);
-                KLog.d("wxpay sign " + req.sign);
+                //  KLog.d("wxpay str " + str);
+                //  KLog.d("wxpay sign " + req.sign);
                 msgApi.registerApp(Constants.APP_ID);
                 dismissProgressDialog();
                 msgApi.sendReq(req);
@@ -428,7 +428,7 @@ public class PayActivity extends BaseActivity {
                 "<trade_type>APP</trade_type>" +
                 "</xml>";
 
-        KLog.d("生成预付提交xml " + prepay);
+        // KLog.d("生成预付提交xml " + prepay);
         return prepay;
     }
 
@@ -457,7 +457,7 @@ public class PayActivity extends BaseActivity {
                             //  KLog.d("return_code" + parser.nextText());
                         }
                         if ("return_msg".equals(tagName)) {
-                            KLog.d("return_msg" + parser.nextText());
+                            //  KLog.d("return_msg" + parser.nextText());
                         }
                         if ("prepay_id".equals(tagName)) {
                             prePayModel.setPrepayid(parser.nextText());

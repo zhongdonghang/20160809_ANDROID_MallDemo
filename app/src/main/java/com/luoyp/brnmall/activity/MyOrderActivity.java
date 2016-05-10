@@ -137,7 +137,7 @@ public class MyOrderActivity extends BaseActivity {
                 }
                 try {
                     JSONObject json = new JSONObject(response);
-                    KLog.d("我的订单" + json.toString());
+                    // KLog.d("我的订单" + json.toString());
                     if ("false".equals(json.getString("result"))) {
                         showToast("没有数据返回,请稍后再试吧");
                         return;
