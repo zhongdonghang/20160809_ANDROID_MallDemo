@@ -2,12 +2,13 @@ package com.luoyp.brnmall.wxapi;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.luoyp.brnmall.R;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
@@ -16,6 +17,8 @@ import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
+import org.simple.eventbus.EventBus;
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
@@ -65,13 +68,42 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
 
             if (resp.errCode == 0) {//success
-                Toast.makeText(this, "恭喜您购买成功!", Toast.LENGTH_LONG).show();
+                EventBus.getDefault().post("", "refreshorder");
+                EventBus.getDefault().post("", "wechatpaynotice");
+                AlertDialog.Builder builder = new AlertDialog.Builder(WXPayEntryActivity.this);
+                builder.setMessage("提示:订单状态可能会有延迟,请勿重复支付,在[我的订单]查看最新订单状态");
 
+                builder.setTitle("恭喜!支付成功");
+                builder.setCancelable(false);
+                builder.setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                        WXPayEntryActivity.this.finish();
+                    }
+                });
+                builder.create().show();
 
             } else {
                 //tvResult.setText("支付失败："+resp.errStr +";code=" + String.valueOf(resp.errCode));
 
-                Toast.makeText(this, "支付失败：" + resp.errStr + ";code=" + String.valueOf(resp.errCode), Toast.LENGTH_LONG).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(WXPayEntryActivity.this);
+                builder.setMessage("获取微信支付信息失败,请再次尝试,或者更换支付方式");
+
+                builder.setTitle("支付失败");
+                builder.setCancelable(false);
+                builder.setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        WXPayEntryActivity.this.finish();
+                    }
+                });
+
+                builder.create().show();
 
             }
         }
