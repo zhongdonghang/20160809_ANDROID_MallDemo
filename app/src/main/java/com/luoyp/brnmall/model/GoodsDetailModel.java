@@ -27,12 +27,19 @@ public class GoodsDetailModel {
                 ,GoodsDetailModel.GoodsBean.class));
         model.setBrandInfo(new Gson().fromJson(dataObject.getString("BrandInfo")
                 ,GoodsDetailModel.BrandBean.class));
+//        Type listType = new TypeToken<ArrayList<ImageBean>>(){
+//
+//        }.getType();
+//        List<ImageBean> list = new Gson().fromJson(dataObject.getString("ProductImageList"),listType);
+//        model.setImageBeanList(list);
+        return model;
+    }
+
+    public static List<ImageBean> jsonToImageBeanList(String str) throws JSONException {
         Type listType = new TypeToken<ArrayList<ImageBean>>(){
 
         }.getType();
-        List<ImageBean> list = new Gson().fromJson(dataObject.getString("ProductImageList"),listType);
-        model.setImageBeanList(list);
-        return model;
+        return new Gson().fromJson(str,listType);
     }
 
     public GoodsBean getGoodsInfo() {
