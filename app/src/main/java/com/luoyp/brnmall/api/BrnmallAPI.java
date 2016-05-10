@@ -231,4 +231,18 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn("https://api.mch.weixin.qq.com/pay/unifiedorder", xml, callback, "createWechatPrepay");
     }
 
+    /**
+     * 取消点单
+     *
+     * @param oid      订单号
+     * @param uid      用户id
+     * @param callback 回调
+     */
+    public static void doCancelOrder(String oid, String uid, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("oid", oid),
+                new OkHttpClientManager.Param("uid", uid)};
+        OkHttpClientManager.postAsyn(BaseURL + "OrderCancel", params, callback, "doCancelOrder");
+    }
+
 }

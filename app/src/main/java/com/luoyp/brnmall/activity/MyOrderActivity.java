@@ -18,6 +18,7 @@ import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.adapter.MyOrderAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
+import com.luoyp.brnmall.fragment.CancelOrderDialog;
 import com.luoyp.brnmall.model.Goods;
 import com.luoyp.brnmall.model.MyOrderModel;
 import com.luoyp.brnmall.model.UserModel;
@@ -109,8 +110,8 @@ public class MyOrderActivity extends BaseActivity {
 
     @Subscriber(tag = "cancelorder")
     public void cancelorder(String s) {
-
-        showToast("取消订单 oid=" + s);
+        CancelOrderDialog dialog = CancelOrderDialog.newInstance(s);
+        dialog.show(getSupportFragmentManager(),"cancelOrderDialog");
     }
 
     public void getMyOder() {
