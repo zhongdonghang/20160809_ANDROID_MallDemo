@@ -49,7 +49,7 @@ public class MyOrderAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup container) {
+    public View getView(final int position, View view, ViewGroup container) {
         //  TLog.d("id:" + getItem(position).getCateId());
         ViewHolder holder;
         if (view == null) {
@@ -79,6 +79,8 @@ public class MyOrderAdapter extends BaseAdapter {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(5, 0, 5, 0);
             imageView.setLayoutParams(layoutParams);
+            imageView.setFocusable(false);
+            imageView.setFocusableInTouchMode(false);
             App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreid()
                     + BrnmallAPI.BaseImgUrl2 + getItem(position).getGoodsList().get(i).getImg())
                     .placeholder(R.mipmap.logo).error(R.mipmap.logo).into(imageView);
@@ -94,13 +96,13 @@ public class MyOrderAdapter extends BaseAdapter {
         holder.paynow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post("0", "orderbtn");
+                EventBus.getDefault().post(getItem(position).getOid(), "paynow");
             }
         });
         holder.cancelorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post("1", "orderbtn");
+                EventBus.getDefault().post(getItem(position).getOid(), "cancelorder");
             }
         });
         String state = getItem(position).getOrderstate();

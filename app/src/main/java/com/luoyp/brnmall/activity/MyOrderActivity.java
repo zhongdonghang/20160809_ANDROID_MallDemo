@@ -85,16 +85,17 @@ public class MyOrderActivity extends BaseActivity {
         super.onDestroy();
     }
 
-    @Subscriber(tag = "orderbtn")
-    public void orderAction(String s) {
-        if ("1".equals(s)) {
-            showToast("取消订单");
-        }
-        if ("0".equals(s)) {
-            showToast("现在付款");
-        }
+    @Subscriber(tag = "paynow")
+    public void paynow(String s) {
+
+        showToast("现在付款 oid=" + s);
     }
 
+    @Subscriber(tag = "cancelorder")
+    public void cancelorder(String s) {
+
+        showToast("取消订单 oid=" + s);
+    }
     public void getMyOder() {
         // 获取当前用户的uid
         UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
