@@ -13,18 +13,24 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alipay.sdk.app.PayTask;
 import com.luoyp.brnmall.BaseActivity;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.alipay.PayResult;
 import com.luoyp.brnmall.alipay.SignUtils;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
+import com.luoyp.brnmall.wepay.PrePayModel;
 import com.luoyp.brnmall.wxapi.Constants;
 import com.luoyp.brnmall.wxapi.MD5;
 import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
+import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -47,9 +53,12 @@ public class PayActivity extends BaseActivity {
     // 支付宝公钥
     public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB";
     private static final int SDK_PAY_FLAG = 1;
+    PayReq req;
+    IWXAPI msgApi;
     private String oid = "";
     private String osn = "";
     private String price = "";
+    private PrePayModel prePayModel;
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
@@ -99,8 +108,6 @@ public class PayActivity extends BaseActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
-
-                                    PayActivity.this.finish();
                                 }
                             });
                             builder.create().show();
@@ -118,8 +125,6 @@ public class PayActivity extends BaseActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
-
-                                    PayActivity.this.finish();
                                 }
                             });
                             builder.create().show();
@@ -141,6 +146,11 @@ public class PayActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_pay);
+        EventBus.getDefault().register(this);
+        msgApi = WXAPIFactory.createWXAPI(getApplicationContext(), Constants.APP_ID, true);
+        msgApi.registerApp(Constants.APP_ID);
+        req = new PayReq();
+        prePayModel = new PrePayModel();
 
         // 设置topbar
         TextView topbarTitle = (TextView) findViewById(R.id.topbar_title);
@@ -151,6 +161,18 @@ public class PayActivity extends BaseActivity {
         osn = getIntent().getStringExtra("osn");
         price = getIntent().getStringExtra("price");
         KLog.d("订单信息 oid" + oid + "   osn  " + osn + "   price  " + price);
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+
+        super.onDestroy();
+    }
+
+    @Subscriber(tag = "wechatpaynotice")
+    public void noti(String s) {
+        finish();
     }
 
     /**
@@ -208,6 +230,7 @@ public class PayActivity extends BaseActivity {
         Thread payThread = new Thread(payRunnable);
         payThread.start();
     }
+
 
     /**
      * get the sdk version. 获取SDK版本号
@@ -328,7 +351,7 @@ public class PayActivity extends BaseActivity {
     }
 
     private void loadPrepay() {
-        showProgressDialog("正在提交信息");
+        showProgressDialog("正在请求支付信息");
         String xml = genProductArgs();
         BrnmallAPI.createWechatPrepay(xml, new ApiCallback<String>() {
             @Override
@@ -339,13 +362,34 @@ public class PayActivity extends BaseActivity {
 
             @Override
             public void onResponse(String response) {
-                dismissProgressDialog();
+
                 KLog.d("生成预付返回xml " + response);
                 if (response == null || TextUtils.isEmpty(response)) {
+                    dismissProgressDialog();
                     showToast("支付异常,请稍后再试吧");
                     return;
                 }
-                pasexml(response);
+                pasexml(response.replace(" ", ""));
+                if (!prePayModel.getSuccess()) {
+                    dismissProgressDialog();
+                    showToast("支付异常,请稍后再试吧");
+                    return;
+                }
+
+                req.appId = Constants.APP_ID;
+                req.partnerId = Constants.MCH_ID;
+                req.prepayId = prePayModel.getPrepayid();
+                req.nonceStr = prePayModel.getNoncestr();
+                req.timeStamp = (System.currentTimeMillis() / 1000) + "";
+                req.packageValue = "Sign=WXPay";
+
+                String str = "appid=" + Constants.APP_ID + "&noncestr=" + req.nonceStr + "&package=" + req.packageValue + "&partnerid=" + Constants.MCH_ID + "&prepayid=" + req.prepayId + "&timestamp=" + req.timeStamp + "&key=oJC5nGxuom2e1vJL03EQcH7CloxewnRP";
+                req.sign = MD5.getMessageDigest(str.toString().getBytes()).toUpperCase();
+                KLog.d("wxpay str " + str);
+                KLog.d("wxpay sign " + req.sign);
+                msgApi.registerApp(Constants.APP_ID);
+                dismissProgressDialog();
+                msgApi.sendReq(req);
             }
         });
     }
@@ -364,8 +408,10 @@ public class PayActivity extends BaseActivity {
     //商品信息,用于提交生成预付订单
     private String genProductArgs() {
         String nons = genNonceStr();
-        int p = (int) ((Double.valueOf(String.format("0.2f", price))) * 100);
-        String stringA = "appid=" + Constants.APP_ID + "&body=APP购物-Android&mch_id=" + Constants.MCH_ID + "&nonce_str=" + nons + "&notify_url=" + Constants.WxpayNotifyURL + "&out_trade_no=" + oid + "A" + nons + "&spbill_create_ip=127.0.0.1" + "&total_fee=" + p + "&trade_type=APP&key=oJC5nGxuom2e1vJL03EQcH7CloxewnRP";
+        KLog.d("price origin =" + String.format("%.2f", Double.valueOf(price)));
+
+        int p = (int) ((Double.valueOf(String.format("%.2f", Double.valueOf(price)))) * 100);
+        String stringA = "appid=" + Constants.APP_ID + "&body=" + osn + "&mch_id=" + Constants.MCH_ID + "&nonce_str=" + nons + "&notify_url=" + Constants.WxpayNotifyURL + "&out_trade_no=" + oid + "A" + nons + "&spbill_create_ip=127.0.0.1" + "&total_fee=" + p + "&trade_type=APP&key=oJC5nGxuom2e1vJL03EQcH7CloxewnRP";
 
         String sign = MD5.getMessageDigest(stringA.toString().getBytes()).toUpperCase();
 
@@ -374,7 +420,7 @@ public class PayActivity extends BaseActivity {
                 "<mch_id>" + Constants.MCH_ID + "</mch_id>" +
                 "<nonce_str>" + nons + "</nonce_str>" +
                 "<sign>" + sign + "</sign>" +
-                "<body>APP购物-Android</body>" +
+                "<body>" + osn + "</body>" +
                 "<out_trade_no>" + oid + "A" + nons + "</out_trade_no>" +
                 "<total_fee>" + p + "</total_fee>" +
                 "<spbill_create_ip>127.0.0.1</spbill_create_ip>" +
@@ -382,11 +428,12 @@ public class PayActivity extends BaseActivity {
                 "<trade_type>APP</trade_type>" +
                 "</xml>";
 
-        // KLog.d("生成预付提交xml " + prepay);
+        KLog.d("生成预付提交xml " + prepay);
         return prepay;
     }
 
     public void pasexml(String xml) {
+
         XmlPullParser parser = Xml.newPullParser();
         try {
             parser.setInput(new StringReader(xml));
@@ -401,15 +448,29 @@ public class PayActivity extends BaseActivity {
                     case XmlPullParser.START_TAG:
                         String tagName = parser.getName();
                         if ("return_code".equals(tagName)) {
-                            KLog.d("return_code" + parser.getAttributeValue(0));
+                            String code = parser.nextText();
+                            if ("SUCCESS".equals(code)) {
+                                prePayModel.setSuccess(true);
+                            } else {
+                                prePayModel.setSuccess(false);
+                            }
+                            //  KLog.d("return_code" + parser.nextText());
                         }
                         if ("return_msg".equals(tagName)) {
-                            KLog.d("return_msg" + parser.getAttributeValue(0));
+                            KLog.d("return_msg" + parser.nextText());
                         }
                         if ("prepay_id".equals(tagName)) {
-                            KLog.d("prepay_id" + parser.getAttributeValue(0));
+                            prePayModel.setPrepayid(parser.nextText());
+                            //   KLog.d("prepay_id" + parser.nextText());
                         }
-
+                        if ("sign".equals(tagName)) {
+                            prePayModel.setSign(parser.nextText());
+                            //   KLog.d("prepay_id" + parser.nextText());
+                        }
+                        if ("nonce_str".equals(tagName)) {
+                            prePayModel.setNoncestr(parser.nextText());
+                            //   KLog.d("prepay_id" + parser.nextText());
+                        }
                         break;
                     case XmlPullParser.END_TAG:
 
@@ -425,5 +486,28 @@ public class PayActivity extends BaseActivity {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(PayActivity.this);
+        builder.setMessage("下单后24小时订单将被取消, 请尽快完成支付");
+
+        builder.setTitle("确认要离开收银台？");
+        builder.setCancelable(false);
+        builder.setPositiveButton("继续支付", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("确认离开", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.create().show();
     }
 }
