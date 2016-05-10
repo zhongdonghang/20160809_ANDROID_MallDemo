@@ -96,7 +96,7 @@ public class MyOrderAdapter extends BaseAdapter {
         holder.paynow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(getItem(position).getOid(), "paynow");
+                EventBus.getDefault().post(position, "paynow");
             }
         });
         holder.cancelorder.setOnClickListener(new View.OnClickListener() {

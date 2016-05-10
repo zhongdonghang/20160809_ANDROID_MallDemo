@@ -1,5 +1,6 @@
 package com.luoyp.brnmall.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -85,10 +86,25 @@ public class MyOrderActivity extends BaseActivity {
         super.onDestroy();
     }
 
-    @Subscriber(tag = "paynow")
-    public void paynow(String s) {
+    @Subscriber(tag = "refreshorder")
+    public void payRefresh(String s) {
+        list.clear();
+        pageIndex = 1;
+        getMyOder();
+    }
 
-        showToast("现在付款 oid=" + s);
+    @Subscriber(tag = "paynow")
+    public void paynow(int pos) {
+        pay(pos);
+    }
+
+    public void pay(int pos) {
+        Intent intent = new Intent();
+        intent.putExtra("oid", list.get(pos).getOid());
+        intent.putExtra("osn", list.get(pos).getOsn());
+        intent.putExtra("price", list.get(pos).getOrderamount());
+        intent.setClass(MyOrderActivity.this, PayActivity.class);
+        startActivity(intent);
     }
 
     @Subscriber(tag = "cancelorder")
@@ -96,6 +112,7 @@ public class MyOrderActivity extends BaseActivity {
 
         showToast("取消订单 oid=" + s);
     }
+
     public void getMyOder() {
         // 获取当前用户的uid
         UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);

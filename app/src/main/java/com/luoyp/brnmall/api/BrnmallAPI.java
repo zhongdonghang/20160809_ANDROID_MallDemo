@@ -226,4 +226,9 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "Product", params, callback, "getProductDetail");
     }
 
+    public static void createWechatPrepay(String xml, ApiCallback<String> callback) {
+
+        OkHttpClientManager.postAsyn("https://api.mch.weixin.qq.com/pay/unifiedorder", xml, callback, "createWechatPrepay");
+    }
+
 }

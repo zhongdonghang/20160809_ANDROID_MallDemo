@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Xml;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -17,9 +18,19 @@ import com.luoyp.brnmall.BaseActivity;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.alipay.PayResult;
 import com.luoyp.brnmall.alipay.SignUtils;
+import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
+import com.luoyp.brnmall.wxapi.Constants;
+import com.luoyp.brnmall.wxapi.MD5;
 import com.socks.library.KLog;
+import com.squareup.okhttp.Request;
 
+import org.simple.eventbus.EventBus;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -58,11 +69,11 @@ public class PayActivity extends BaseActivity {
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     if (TextUtils.equals(resultStatus, "9000")) {
                         //  Toast.makeText(PayActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
-
+                        EventBus.getDefault().post("", "refreshorder");
                         AlertDialog.Builder builder = new AlertDialog.Builder(PayActivity.this);
                         builder.setMessage("提示:订单状态可能会有延迟,请勿重复支付,在[我的订单]查看最新订单状态");
 
-                        builder.setTitle("支付成功");
+                        builder.setTitle("恭喜!支付成功");
                         builder.setCancelable(false);
                         builder.setPositiveButton("知道了", new DialogInterface.OnClickListener() {
 
@@ -311,5 +322,109 @@ public class PayActivity extends BaseActivity {
      */
     private String getSignType() {
         return "sign_type=\"RSA\"";
+    }
+
+    public void wechatpay(View view) {
+        loadPrepay();
+    }
+
+    private void loadPrepay() {
+        showProgressDialog("正在提交信息");
+        String xml = genProductArgs();
+        BrnmallAPI.createWechatPrepay(xml, new ApiCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+                dismissProgressDialog();
+                showToast("网络异常,请稍后再试");
+            }
+
+            @Override
+            public void onResponse(String response) {
+                dismissProgressDialog();
+                KLog.d("生成预付返回xml " + response);
+                if (response == null || TextUtils.isEmpty(response)) {
+                    showToast("支付异常,请稍后再试吧");
+                    return;
+                }
+                pasexml(response);
+            }
+        });
+    }
+
+    public String genNonceStr() {
+        SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss", Locale.getDefault());
+        Date date = new Date();
+        String key = format.format(date);
+
+        Random r = new Random();
+        key = key + r.nextInt();
+        key = key.substring(0, 10);
+        return key;
+    }
+
+    //商品信息,用于提交生成预付订单
+    private String genProductArgs() {
+        String nons = genNonceStr();
+        int p = (int) ((Double.valueOf(String.format("0.2f", price))) * 100);
+        String stringA = "appid=" + Constants.APP_ID + "&body=APP购物-Android&mch_id=" + Constants.MCH_ID + "&nonce_str=" + nons + "&notify_url=" + Constants.WxpayNotifyURL + "&out_trade_no=" + oid + "A" + nons + "&spbill_create_ip=127.0.0.1" + "&total_fee=" + p + "&trade_type=APP&key=oJC5nGxuom2e1vJL03EQcH7CloxewnRP";
+
+        String sign = MD5.getMessageDigest(stringA.toString().getBytes()).toUpperCase();
+
+        String prepay = "<xml>" +
+                "<appid>" + Constants.APP_ID + "</appid>" +
+                "<mch_id>" + Constants.MCH_ID + "</mch_id>" +
+                "<nonce_str>" + nons + "</nonce_str>" +
+                "<sign>" + sign + "</sign>" +
+                "<body>APP购物-Android</body>" +
+                "<out_trade_no>" + oid + "A" + nons + "</out_trade_no>" +
+                "<total_fee>" + p + "</total_fee>" +
+                "<spbill_create_ip>127.0.0.1</spbill_create_ip>" +
+                "<notify_url>" + Constants.WxpayNotifyURL + "</notify_url>" +
+                "<trade_type>APP</trade_type>" +
+                "</xml>";
+
+        // KLog.d("生成预付提交xml " + prepay);
+        return prepay;
+    }
+
+    public void pasexml(String xml) {
+        XmlPullParser parser = Xml.newPullParser();
+        try {
+            parser.setInput(new StringReader(xml));
+            //获取事件类型
+            int eventType = parser.getEventType();
+
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                switch (eventType) {
+                    //文档开始
+                    case XmlPullParser.START_DOCUMENT:
+                        break;
+                    case XmlPullParser.START_TAG:
+                        String tagName = parser.getName();
+                        if ("return_code".equals(tagName)) {
+                            KLog.d("return_code" + parser.getAttributeValue(0));
+                        }
+                        if ("return_msg".equals(tagName)) {
+                            KLog.d("return_msg" + parser.getAttributeValue(0));
+                        }
+                        if ("prepay_id".equals(tagName)) {
+                            KLog.d("prepay_id" + parser.getAttributeValue(0));
+                        }
+
+                        break;
+                    case XmlPullParser.END_TAG:
+
+                        break;
+                }
+                eventType = parser.next();
+            }
+
+        } catch (XmlPullParserException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }
