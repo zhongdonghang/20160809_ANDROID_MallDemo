@@ -12,7 +12,6 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alipay.sdk.app.PayTask;
 import com.luoyp.brnmall.BaseActivity;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.alipay.PayResult;
