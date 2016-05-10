@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.luoyp.brnmall.R;
+import com.socks.library.KLog;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -87,7 +88,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
                 builder.create().show();
 
             } else {
-                //tvResult.setText("支付失败："+resp.errStr +";code=" + String.valueOf(resp.errCode));
+                KLog.d("支付失败：" + resp.errStr + ";code=" + String.valueOf(resp.errCode));
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(WXPayEntryActivity.this);
                 builder.setMessage("获取微信支付信息失败,请再次尝试,或者更换支付方式");

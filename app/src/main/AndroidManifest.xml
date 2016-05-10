@@ -181,7 +181,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
-
             </intent-filter>
             <data android:scheme="wxdf532fb158de003e"/>
         </activity>
