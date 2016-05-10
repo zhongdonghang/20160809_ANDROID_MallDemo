@@ -197,6 +197,23 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "GetMyOrderList", params, callback, "getMyOrderList");
     }
 
+    public static void createOrder(String uid, String said, String orderList, String payName, String remark, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("uid", uid)
+                , new OkHttpClientManager.Param("saId", said)
+                , new OkHttpClientManager.Param("selectedCartItemKeyList", orderList)
+                , new OkHttpClientManager.Param("buyerRemark", remark)
+                , new OkHttpClientManager.Param("paycreditcount", "")
+                , new OkHttpClientManager.Param("couponidlist", "")
+                , new OkHttpClientManager.Param("couponsnlist", "")
+                , new OkHttpClientManager.Param("fullcut", "")
+                , new OkHttpClientManager.Param("bestTime", "")
+                , new OkHttpClientManager.Param("ip", "")
+                , new OkHttpClientManager.Param("payName", payName)};
+
+        OkHttpClientManager.postAsyn(BaseURL + "OrderCreate", params, callback, "createOrder");
+    }
+
     /**
      * 商品详情
      *
@@ -208,6 +225,5 @@ public class BrnmallAPI {
                 new OkHttpClientManager.Param("pid", pid)};
         OkHttpClientManager.postAsyn(BaseURL + "Product", params, callback, "getProductDetail");
     }
-
 
 }

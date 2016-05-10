@@ -221,7 +221,10 @@ public class ShopCarFragment extends BaseFragment {
                     JSONObject dataObject = jsonObject.getJSONObject("data");
 
                     if (jsonObject.getString("result").equals("false") || dataObject.getJSONArray("StoreCartList").length() == 0) {
-                        showToast("购物车空了,去逛一逛吧");
+                        shopCartModel.getCartGoodsBeanList().clear();
+                        adapter.notifyDataSetChanged();
+                        tvSum.setText("");
+                        //   showToast("购物车空了,去逛一逛吧");
                         jiesuanBtn.setEnabled(false);
                         return;
                     }
