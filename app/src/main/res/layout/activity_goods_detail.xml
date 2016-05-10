@@ -75,7 +75,7 @@
                 <ListView
                     android:id="@+id/lv_goods_image"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="match_parent"/>
 
 
             </LinearLayout>
@@ -112,7 +112,8 @@
             android:textAppearance="?android:attr/textAppearanceListItemSmall"
             android:text="收藏"
             android:textSize="10sp"
-            android:drawableTop="@drawable/shoucang"/>
+            android:drawableTop="@drawable/shoucang"
+            android:onClick="addFavorite"/>
 
         <TextView
             android:layout_width="0dp"
@@ -127,6 +128,7 @@
             android:gravity="center"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
+            android:onClick="addCart"
             android:text="加入购物车"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/white"
