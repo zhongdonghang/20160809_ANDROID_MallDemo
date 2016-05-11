@@ -27,6 +27,7 @@ public class BrnmallAPI {
      * @param callback   回调
      */
     public static void getProductListByCateId(String cateId, String pageNumber, ApiCallback<String> callback) {
+
         OkHttpClientManager.Param[] params = {
                 new OkHttpClientManager.Param("cateId", cateId)
                 , new OkHttpClientManager.Param("pageNumber", pageNumber)
