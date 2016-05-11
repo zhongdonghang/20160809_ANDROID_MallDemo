@@ -351,6 +351,16 @@ public class PayActivity extends BaseActivity {
     }
 
     private void loadPrepay() {
+        if (!msgApi.isWXAppInstalled()) {
+            dismissProgressDialog();
+            showToast("未检测到微信,请检查是否已安装微信");
+            return;
+        }
+        if (!msgApi.isWXAppSupportAPI()) {
+            dismissProgressDialog();
+            showToast("微信版本不支持,请升级微信到最新版本");
+            return;
+        }
         showProgressDialog("正在请求支付信息");
         String xml = genProductArgs();
         BrnmallAPI.createWechatPrepay(xml, new ApiCallback<String>() {
@@ -375,6 +385,7 @@ public class PayActivity extends BaseActivity {
                     showToast("支付异常,请稍后再试吧");
                     return;
                 }
+
 
                 req.appId = Constants.APP_ID;
                 req.partnerId = Constants.MCH_ID;

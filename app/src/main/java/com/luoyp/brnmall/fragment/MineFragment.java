@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.activity.LoginActivity;
+import com.luoyp.brnmall.activity.MyAddressActivity;
 import com.luoyp.brnmall.activity.MyOrderActivity;
 import com.luoyp.brnmall.model.UserModel;
 
@@ -165,7 +166,10 @@ public class MineFragment extends BaseFragment {
         view.findViewById(R.id.action_to_ship_address).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!checkLogin()) {
+                    return;
+                }
+                startActivity(new Intent(getActivity(), MyAddressActivity.class));
             }
         });
     }

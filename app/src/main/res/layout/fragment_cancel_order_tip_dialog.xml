@@ -6,12 +6,13 @@
 
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
         android:padding="5dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="确定要取消订单？"
-        android:id="@+id/textView"
-        android:layout_gravity="center_horizontal" />
+        android:text="确定要取消订单?"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
 </LinearLayout>

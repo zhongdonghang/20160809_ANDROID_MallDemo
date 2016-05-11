@@ -103,6 +103,10 @@ public class BaseActivity extends AppCompatActivity {
         onBackPressed();
     }
 
+    public void add(View view) {
+        onBackPressed();
+    }
+
     public boolean checkLogin() {
         boolean isLogin = App.getPref("isLogin", false);
         if (!isLogin) {
