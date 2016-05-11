@@ -245,4 +245,13 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "OrderCancel", params, callback, "doCancelOrder");
     }
 
+    /**
+     * @param uid
+     * @param callback
+     */
+    public static void getMyAddress(String uid, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("uid", uid)};
+        OkHttpClientManager.postAsyn(BaseURL + "MyShipAddressList", params, callback, "getMyAddress");
+    }
 }

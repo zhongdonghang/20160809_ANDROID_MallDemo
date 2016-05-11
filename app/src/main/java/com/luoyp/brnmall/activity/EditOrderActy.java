@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -33,12 +34,21 @@ public class EditOrderActy extends BaseActivity {
     private android.widget.ListView shopcarlistview;
     private TextView tvsum;
     private android.widget.Button btntijiandingdan;
+    private String aid = "";
+    private android.widget.RelativeLayout address;
+    private TextView ordername;
+    private TextView orderphone;
+    private TextView orderaddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_edit_order);
+        this.orderaddress = (TextView) findViewById(R.id.orderaddress);
+        this.orderphone = (TextView) findViewById(R.id.orderphone);
+        this.ordername = (TextView) findViewById(R.id.ordername);
+        this.address = (RelativeLayout) findViewById(R.id.address);
         this.btntijiandingdan = (Button) findViewById(R.id.btn_tijiandingdan);
         this.tvsum = (TextView) findViewById(R.id.tv_sum);
         this.shopcarlistview = (ListView) findViewById(R.id.shopcarlistview);
@@ -79,6 +89,10 @@ public class EditOrderActy extends BaseActivity {
         if (!checkLogin()) {
             return;
         }
+        if (TextUtils.isEmpty(aid)) {
+            showToast("请选择收货地址");
+            return;
+        }
         // 获取当前用户的uid
         UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
         String uid = String.valueOf(userModel.getUserInfo().getUid());
@@ -93,7 +107,7 @@ public class EditOrderActy extends BaseActivity {
         }
         KLog.d("提交订单商品list:" + list);
         showProgressDialog("正在提交订单");
-        BrnmallAPI.createOrder(uid, "23", list, "alipay", "", new ApiCallback<String>() {
+        BrnmallAPI.createOrder(uid, aid, list, "alipay", "", new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
                 dismissProgressDialog();
@@ -128,10 +142,25 @@ public class EditOrderActy extends BaseActivity {
                     e.printStackTrace();
                 }
             }
-
-//            vc.order=MyOrder.init(id:json["data"]["Oid"].intValue,title:json["data"]["OSN"].stringValue,content:json["data"]["StoreName"].stringValue,url:"",createdAt:"",price:json["data"]["OrderAmount"].doubleValue,paid:true,productID:json["data"]["Oid"].intValue)
-
-
         });
+    }
+
+    public void getAddress(View view) {
+        Intent intent = new Intent();
+        intent.setClass(this, MyAddressActivity.class);
+        intent.putExtra("isSelect", true);
+
+        startActivityForResult(intent, 101);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 101 && resultCode == RESULT_OK) {
+            aid = data.getExtras().getString("aid");//得到新Activity 关闭后返回的数据
+            orderaddress.setText("收货地址: " + data.getExtras().getString("address"));
+            ordername.setText("收 货 人:" + data.getExtras().getString("name"));
+            orderphone.setText("联系电话: " + data.getExtras().getString("phone"));
+        }
+
     }
 }

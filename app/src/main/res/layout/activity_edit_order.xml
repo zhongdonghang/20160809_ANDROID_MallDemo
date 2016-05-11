@@ -27,18 +27,21 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/ordername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="收货人"
                 android:textSize="15sp"/>
 
             <TextView
+                android:id="@+id/orderphone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="电话"
                 android:textSize="15sp"/>
 
             <TextView
+                android:id="@+id/orderaddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="收货地址"
@@ -55,6 +58,7 @@
             android:layout_marginRight="20dp"
             android:background="@android:color/transparent"
             android:gravity="center_vertical"
+            android:onClick="getAddress"
             android:text="修改"
             android:textSize="14sp"/>
 
