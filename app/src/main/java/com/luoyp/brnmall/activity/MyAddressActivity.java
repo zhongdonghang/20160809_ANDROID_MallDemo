@@ -102,12 +102,15 @@ public class MyAddressActivity extends BaseActivity {
 
     @Subscriber(tag = "editaddress")
     public void editAdderss(int pos) {
-        showToast("地址id = " + addressList.get(pos).getAid());
+        //showToast("地址id = " + addressList.get(pos).getAid());
+        Intent intent = new Intent(this,EditAddressActivity.class);
+        intent.putExtra("address", addressList.get(pos));
+        startActivity(intent);
     }
 
     @Override
     public void add(View view) {
-        showToast("添加收货地址");
+        startActivity(new Intent(this,AddMyAddressActivity.class));
     }
 
     public void getMyAddress() {

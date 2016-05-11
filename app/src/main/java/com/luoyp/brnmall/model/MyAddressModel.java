@@ -1,9 +1,11 @@
 package com.luoyp.brnmall.model;
 
+import java.io.Serializable;
+
 /**
  * Created by lyp3314@gmail.com on 16/5/11.
  */
-public class MyAddressModel {
+public class MyAddressModel implements Serializable {
     private String uid = "";
     private String aid = "";
     private String name = "";

@@ -254,4 +254,29 @@ public class BrnmallAPI {
                 new OkHttpClientManager.Param("uid", uid)};
         OkHttpClientManager.postAsyn(BaseURL + "MyShipAddressList", params, callback, "getMyAddress");
     }
+
+    /**
+     * 添加/修改 收货地址
+     *
+     * @param params   参数
+     * @param callback 回调
+     */
+    public static void addMyAddress(OkHttpClientManager.Param[] params, ApiCallback<String> callback) {
+        OkHttpClientManager.postAsyn(BaseURL + "EditShipAddress", params, callback, "addMyAddress");
+    }
+
+    /**
+     * 删除收货地址
+     *
+     * @param uid      用户地址
+     * @param said     收货地址 id
+     * @param callback 回调
+     */
+    public static void deleteAddress(String uid, String said, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("uid", uid),
+                new OkHttpClientManager.Param("said", said)
+        };
+        OkHttpClientManager.postAsyn(BaseURL + "DeleteShipAddress", params, callback, "deleteAddress");
+    }
 }
