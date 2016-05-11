@@ -2,6 +2,7 @@ package com.luoyp.brnmall.fragment;
 
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,11 +13,13 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.internal.Utils;
 import com.luoyp.brnmall.R;
+import com.luoyp.brnmall.activity.GoodsDetailActivity;
 import com.luoyp.brnmall.adapter.HomeGoodsAdapter;
 import com.luoyp.brnmall.adapter.ImagePagerAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
@@ -46,6 +49,7 @@ public class HomeFragment extends BaseFragment {
     private com.luoyp.brnmall.view.AutoScrollViewPager autoviewpager;
     private com.handmark.pulltorefresh.library.PullToRefreshListView homelistview;
     private android.support.v4.widget.SwipeRefreshLayout swipemessage;
+    private android.widget.TextView tvhot;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -77,6 +81,7 @@ public class HomeFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        this.tvhot = (TextView) view.findViewById(R.id.tv_hot);
 
         this.swipemessage = (SwipeRefreshLayout) view.findViewById(R.id.swipe_message);
         this.homelistview = (PullToRefreshListView) view.findViewById(R.id.home_list_view);
@@ -116,8 +121,11 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                KLog.d(position);
-
+                KLog.d("产品id" + homeGoodsList.get(position - 1).getPid());
+                Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+                intent.putExtra("pid", homeGoodsList.get(position - 1).getPid() + "");
+                intent.putExtra("name", homeGoodsList.get(position - 1).getPname());
+                startActivity(intent);
             }
         });
         //解决listview无法滚动问题
@@ -160,9 +168,14 @@ public class HomeFragment extends BaseFragment {
                 try {
                     JSONObject json = new JSONObject(response);
                     if (json.getJSONArray("data").length() >= 1) {
+                        tvhot.setVisibility(View.VISIBLE);
                         for (int i = 0; i < json.getJSONArray("data").length(); i++) {
                             HomeGoods goods = new HomeGoods();
                             goods.setPname(json.getJSONArray("data").getJSONObject(i).getString("Title"));
+                            goods.setPrice(json.getJSONArray("data").getJSONObject(i).getString("ExtField2"));
+                            goods.setPid(json.getJSONArray("data").getJSONObject(i).getString("ExtField1"));
+                            goods.setImg(BrnmallAPI.adImgUrl + json.getJSONArray("data").getJSONObject(i).getString("Body"));
+
                             homeGoodsList.add(goods);
                         }
                         adapter.notifyDataSetChanged();

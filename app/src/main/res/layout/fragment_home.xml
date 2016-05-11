@@ -9,17 +9,36 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"/>
 
+    <TextView
+        android:id="@+id/tv_hot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/auto_view_pager"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:text="热销商品"
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="gone"/>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/auto_view_pager">
+        android:layout_below="@id/tv_hot"
+        android:layout_marginTop="6dp">
 
         <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/home_list_view"
             android:layout_width="match_parent"
-
             android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+
+            android:layout_marginRight="15dp"
+            android:background="#FFFFFF"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="14dp"
+            android:listSelector="@android:color/transparent"
             android:scrollbars="none"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>

@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.model.HomeGoods;
 
@@ -58,11 +59,9 @@ public class HomeGoodsAdapter extends BaseAdapter {
         }
 
         holder.goodsName.setText(getItem(position).getPname());
-//        holder.goodsPrice.setText("本店价 ￥ " + getItem(position).getShopPrice());
+        holder.goodsPrice.setText("￥ " + getItem(position).getPrice());
 //        holder.marketPrice.setText("市场价 ￥ " + getItem(position).getMarketPrice());
-//        App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreId()
-//                +BrnmallAPI.BaseImgUrl2+ getItem(position).getShowImg())
-//                .placeholder(R.mipmap.logo).error(R.mipmap.logo).into(holder.goodsIcon);
+        App.getPicasso().load(getItem(position).getImg()).placeholder(R.mipmap.logo).error(R.mipmap.logo).into(holder.goodsIcon);
 //        KLog.d(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreId()
 //                +BrnmallAPI.BaseImgUrl2+ getItem(position).getShowImg());
         return convertView;

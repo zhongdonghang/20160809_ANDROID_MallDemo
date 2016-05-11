@@ -7,6 +7,15 @@ public class HomeGoods {
     private String pid = "";
     private String pname = "";
     private String img = "";
+    private String price = "";
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
 
     public String getPid() {
         return pid;
