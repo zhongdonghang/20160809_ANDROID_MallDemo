@@ -12,7 +12,7 @@
         android:id="@+id/address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="56dp"
         android:orientation="horizontal"
         android:paddingBottom="5dp"
         android:paddingLeft="15dp"
@@ -22,15 +22,21 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
+            android:background="@color/colorPrimary"
             android:onClick="alipay"
-            android:text="支付宝"/>
+            android:text="支付宝"
+            android:textColor="@android:color/white"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="80dp"
+            android:background="@color/colorPrimary"
             android:onClick="wechatpay"
-            android:text="微信支付"/>
+            android:text="微信支付"
+            android:textColor="@android:color/white"/>
     </RelativeLayout>
 </RelativeLayout>

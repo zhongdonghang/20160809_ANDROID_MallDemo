@@ -176,8 +176,8 @@ public class ShopCarFragment extends BaseFragment {
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                swipe.setRefreshing(false);
                 if (!checkLogin()) {
-                    swipe.setRefreshing(false);
                     return;
                 }
                 // 清空数据,并刷新适配器
@@ -224,7 +224,7 @@ public class ShopCarFragment extends BaseFragment {
                         shopCartModel.getCartGoodsBeanList().clear();
                         adapter.notifyDataSetChanged();
                         tvSum.setText("");
-                        //   showToast("购物车空了,去逛一逛吧");
+                        showToast("购物车空空,去逛一逛吧");
                         jiesuanBtn.setEnabled(false);
                         return;
                     }

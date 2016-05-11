@@ -9,7 +9,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
         android:background="#faf7f7"
         android:orientation="horizontal"
         android:padding="2dp">
@@ -45,7 +44,7 @@
                 android:paddingTop="5dp"
                 android:textAppearance="?android:attr/textAppearanceListItemSmall"
                 android:textColor="@android:color/holo_red_dark"
-                android:textSize="12sp"/>
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/tv_market_price"
