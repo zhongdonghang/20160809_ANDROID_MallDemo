@@ -28,113 +28,55 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
                 android:orientation="vertical"
-                android:background="@color/white">
+                android:padding="8dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="商品名称"
                     android:id="@+id/tv_goods_name"
-                    android:layout_gravity="center_vertical" />
-
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="￥100"
-                    android:id="@+id/tv_goods_price"
                     android:layout_gravity="center_vertical"
+                    android:text="商品名称"
+                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+                <TextView
+                    android:id="@+id/tv_goods_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="￥100"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@android:color/holo_red_dark" />
 
                 <TextView
+                    android:id="@+id/tv_goods_pinpai"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_gravity="center_vertical"
                     android:text="品牌"
-                    android:id="@+id/tv_goods_pinpai"
-                    android:layout_gravity="center_vertical" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
 
                 <TextView
+                    android:id="@+id/tv_goods_guige"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_gravity="center_vertical"
                     android:text="规格"
-                    android:id="@+id/tv_goods_guige"
-                    android:layout_gravity="center_vertical" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:layout_marginTop="10dp"
                 android:orientation="vertical"
-                android:background="@color/white">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="42dp"
-                        android:layout_height="42dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@mipmap/logo"/>
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                            android:textSize="14sp"
-                            android:text="精生缘店铺"/>
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@mipmap/logo"
-                            android:layout_gravity="center"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                            android:textSize="12sp"
-                            android:text="精生缘店铺"/>
-
-                    </LinearLayout>
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:orientation="vertical">
+                android:padding="5dp">
 
                 <ListView
                     android:id="@+id/lv_goods_image"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:clickable="false"/>
 
 
             </LinearLayout>
@@ -147,32 +89,32 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_horizontal_margin">
 
         <TextView
             android:id="@+id/tv_store"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="30dp"
-            android:padding="2dp"
+            android:drawableTop="@drawable/dianpu"
             android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:padding="2dp"
             android:text="店铺"
-            android:textSize="10sp"
-            android:drawableTop="@drawable/dianpu"/>
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textSize="10sp"/>
 
         <TextView
             android:id="@+id/tv_favorite"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:padding="2dp"
-            android:gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceListItemSmall"
-            android:text="收藏"
-            android:textSize="10sp"
             android:drawableTop="@drawable/shoucang"
-            android:onClick="addFavorite"/>
+            android:gravity="center_vertical"
+            android:onClick="addFavorite"
+            android:padding="2dp"
+            android:text="收藏"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textSize="10sp"/>
 
         <TextView
             android:layout_width="0dp"
@@ -185,9 +127,9 @@
             android:layout_height="match_parent"
             android:background="@android:color/holo_red_light"
             android:gravity="center"
+            android:onClick="addCart"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
-            android:onClick="addCart"
             android:text="加入购物车"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/white"
