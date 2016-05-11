@@ -16,9 +16,11 @@ import java.util.List;
  */
 public class GoodsDetailModel {
 
-    private GoodsBean GoodsInfo;
-    private BrandBean BrandInfo;
-    private List<ImageBean> ImageBeanList;
+    private StoreBean StoreInfo; // 店铺信息
+    private StoreRankBean StoreRankInfo; // 店铺等级
+    private GoodsBean GoodsInfo; // 商品
+    private BrandBean BrandInfo; // 品牌
+    private List<ImageBean> ImageBeanList; // 商品图文
 
     public static GoodsDetailModel jsonToGoodsDetailModel(String str) throws JSONException {
         GoodsDetailModel model = new GoodsDetailModel();
@@ -40,6 +42,22 @@ public class GoodsDetailModel {
 
         }.getType();
         return new Gson().fromJson(str,listType);
+    }
+
+    public StoreBean getStoreInfo() {
+        return StoreInfo;
+    }
+
+    public void setStoreInfo(StoreBean storeInfo) {
+        StoreInfo = storeInfo;
+    }
+
+    public StoreRankBean getStoreRankInfo() {
+        return StoreRankInfo;
+    }
+
+    public void setStoreRankInfo(StoreRankBean storeRankInfo) {
+        StoreRankInfo = storeRankInfo;
     }
 
     public GoodsBean getGoodsInfo() {
@@ -64,6 +82,292 @@ public class GoodsDetailModel {
 
     public void setImageBeanList(List<ImageBean> imageBeanList) {
         ImageBeanList = imageBeanList;
+    }
+
+    // 店铺信息
+    public static class StoreBean{
+
+        /**
+         * StoreId : 2
+         * State : 0
+         * Name : 精生源商铺11
+         * RegionId : 411
+         * StoreRid : 1
+         * StoreIid : 3
+         * Logo :
+         * CreateTime : /Date(1408791002000+0800)/
+         * Mobile : 15556568157
+         * Phone :
+         * QQ :
+         * WW :
+         * DePoint : 10
+         * SePoint : 10
+         * ShPoint : 10
+         * Honesties : 0
+         * StateEndTime : /Date(1551283200000+0800)/
+         * Theme : default
+         * Banner :
+         * Announcement :
+         * Description :
+         */
+
+        private int StoreId;
+        private int State;
+        private String Name;
+        private int RegionId;
+        private int StoreRid;
+        private int StoreIid;
+        private String Logo;
+        private String CreateTime;
+        private String Mobile;
+        private String Phone;
+        private String QQ;
+        private String WW;
+        private int DePoint;
+        private int SePoint;
+        private int ShPoint;
+        private int Honesties;
+        private String StateEndTime;
+        private String Theme;
+        private String Banner;
+        private String Announcement;
+        private String Description;
+
+        public int getStoreId() {
+            return StoreId;
+        }
+
+        public void setStoreId(int StoreId) {
+            this.StoreId = StoreId;
+        }
+
+        public int getState() {
+            return State;
+        }
+
+        public void setState(int State) {
+            this.State = State;
+        }
+
+        public String getName() {
+            return Name;
+        }
+
+        public void setName(String Name) {
+            this.Name = Name;
+        }
+
+        public int getRegionId() {
+            return RegionId;
+        }
+
+        public void setRegionId(int RegionId) {
+            this.RegionId = RegionId;
+        }
+
+        public int getStoreRid() {
+            return StoreRid;
+        }
+
+        public void setStoreRid(int StoreRid) {
+            this.StoreRid = StoreRid;
+        }
+
+        public int getStoreIid() {
+            return StoreIid;
+        }
+
+        public void setStoreIid(int StoreIid) {
+            this.StoreIid = StoreIid;
+        }
+
+        public String getLogo() {
+            return Logo;
+        }
+
+        public void setLogo(String Logo) {
+            this.Logo = Logo;
+        }
+
+        public String getCreateTime() {
+            return CreateTime;
+        }
+
+        public void setCreateTime(String CreateTime) {
+            this.CreateTime = CreateTime;
+        }
+
+        public String getMobile() {
+            return Mobile;
+        }
+
+        public void setMobile(String Mobile) {
+            this.Mobile = Mobile;
+        }
+
+        public String getPhone() {
+            return Phone;
+        }
+
+        public void setPhone(String Phone) {
+            this.Phone = Phone;
+        }
+
+        public String getQQ() {
+            return QQ;
+        }
+
+        public void setQQ(String QQ) {
+            this.QQ = QQ;
+        }
+
+        public String getWW() {
+            return WW;
+        }
+
+        public void setWW(String WW) {
+            this.WW = WW;
+        }
+
+        public int getDePoint() {
+            return DePoint;
+        }
+
+        public void setDePoint(int DePoint) {
+            this.DePoint = DePoint;
+        }
+
+        public int getSePoint() {
+            return SePoint;
+        }
+
+        public void setSePoint(int SePoint) {
+            this.SePoint = SePoint;
+        }
+
+        public int getShPoint() {
+            return ShPoint;
+        }
+
+        public void setShPoint(int ShPoint) {
+            this.ShPoint = ShPoint;
+        }
+
+        public int getHonesties() {
+            return Honesties;
+        }
+
+        public void setHonesties(int Honesties) {
+            this.Honesties = Honesties;
+        }
+
+        public String getStateEndTime() {
+            return StateEndTime;
+        }
+
+        public void setStateEndTime(String StateEndTime) {
+            this.StateEndTime = StateEndTime;
+        }
+
+        public String getTheme() {
+            return Theme;
+        }
+
+        public void setTheme(String Theme) {
+            this.Theme = Theme;
+        }
+
+        public String getBanner() {
+            return Banner;
+        }
+
+        public void setBanner(String Banner) {
+            this.Banner = Banner;
+        }
+
+        public String getAnnouncement() {
+            return Announcement;
+        }
+
+        public void setAnnouncement(String Announcement) {
+            this.Announcement = Announcement;
+        }
+
+        public String getDescription() {
+            return Description;
+        }
+
+        public void setDescription(String Description) {
+            this.Description = Description;
+        }
+    }
+
+    // 店铺等级
+    public static class StoreRankBean{
+
+        /**
+         * StoreRid : 1
+         * Title : 铁钻店铺
+         * Avatar : sra_1409022223128677013.jpg
+         * HonestiesLower : 0
+         * HonestiesUpper : 500
+         * ProductCount : 60
+         */
+
+        private int StoreRid;
+        private String Title;
+        private String Avatar;
+        private int HonestiesLower;
+        private int HonestiesUpper;
+        private int ProductCount;
+
+        public int getStoreRid() {
+            return StoreRid;
+        }
+
+        public void setStoreRid(int StoreRid) {
+            this.StoreRid = StoreRid;
+        }
+
+        public String getTitle() {
+            return Title;
+        }
+
+        public void setTitle(String Title) {
+            this.Title = Title;
+        }
+
+        public String getAvatar() {
+            return Avatar;
+        }
+
+        public void setAvatar(String Avatar) {
+            this.Avatar = Avatar;
+        }
+
+        public int getHonestiesLower() {
+            return HonestiesLower;
+        }
+
+        public void setHonestiesLower(int HonestiesLower) {
+            this.HonestiesLower = HonestiesLower;
+        }
+
+        public int getHonestiesUpper() {
+            return HonestiesUpper;
+        }
+
+        public void setHonestiesUpper(int HonestiesUpper) {
+            this.HonestiesUpper = HonestiesUpper;
+        }
+
+        public int getProductCount() {
+            return ProductCount;
+        }
+
+        public void setProductCount(int ProductCount) {
+            this.ProductCount = ProductCount;
+        }
     }
 
     // 商品信息
