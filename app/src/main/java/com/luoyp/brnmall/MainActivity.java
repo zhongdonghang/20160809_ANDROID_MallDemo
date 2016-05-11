@@ -22,8 +22,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     // PushManager.getInstance().initialize(this.getApplicationContext());
 
     private String[] mTitle = {"首页", "分类", "购物车", "我的"};
-    private int[] mIconSelect = {R.drawable.home_s, R.drawable.order_s, R.drawable.shopcar_s, R.drawable.mine};
-    private int[] mIconNormal = {R.drawable.home, R.drawable.order, R.drawable.shopcar, R.drawable.mine_s};
+    private int[] mIconSelect = {R.drawable.home_s, R.drawable.order_s, R.drawable.shopcar_s, R.drawable.mine_s};
+    private int[] mIconNormal = {R.drawable.home, R.drawable.order, R.drawable.shopcar, R.drawable.mine};
     private ViewPager mViewPager;
     private TabView mTabView;
     private Map<Integer, Fragment> mFragmentMap;

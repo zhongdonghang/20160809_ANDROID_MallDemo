@@ -2,6 +2,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@android:color/white"
                 tools:context="com.luoyp.brnmall.fragment.HomeFragment">
 
     <com.luoyp.brnmall.view.AutoScrollViewPager
@@ -28,14 +29,14 @@
         android:layout_below="@id/tv_hot"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="6dp">
+        android:layout_marginTop="6dp"
+        android:background="@android:color/white">
 
         <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/home_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
-            android:background="#FFFFFF"
+            android:background="@android:color/white"
             android:cacheColorHint="@android:color/transparent"
             android:divider="@android:color/transparent"
             android:dividerHeight="10dp"

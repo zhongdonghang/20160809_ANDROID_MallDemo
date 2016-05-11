@@ -29,13 +29,13 @@ import java.util.ArrayList;
 public class GoodsDetailActivity extends BaseActivity {
 
     private ImageView goodsIcon;
-    private TextView goodsName,goodsPrice,goodsPinPai,goodsGuiGe;
+    private TextView goodsName, goodsPrice, goodsPinPai, goodsGuiGe;
     private ListView listView;
     private GoodsImageAdapter adapter;
 
     private GoodsDetailModel goodsDetailModel;
 
-    private String pid,uid;
+    private String pid, uid;
     private boolean isLogin = false;
     private boolean isFavorite = false;
 
@@ -62,7 +62,7 @@ public class GoodsDetailActivity extends BaseActivity {
         // 设置topbar
         TextView topbarTitle = (TextView) findViewById(R.id.topbar_title);
         if (topbarTitle != null) {
-            topbarTitle.setText("商品详情");
+            topbarTitle.setText(name);
         }
 
         setupListView();
@@ -79,29 +79,29 @@ public class GoodsDetailActivity extends BaseActivity {
     }
 
     // 点击加入购物车
-    public void addCart(View view){
+    public void addCart(View view) {
         if (!isLogin) return;
-        addGoodsToCart(pid,uid,"1");
+        addGoodsToCart(pid, uid, "1");
     }
 
     // 点击加入收藏，或取消收藏
-    public void addFavorite(View view){
+    public void addFavorite(View view) {
         if (!isLogin) return;
-        if (isFavorite){
-            deleteFavorite(pid,uid);
+        if (isFavorite) {
+            deleteFavorite(pid, uid);
         } else {
-            addGoodsToFavorite(pid,uid);
+            addGoodsToFavorite(pid, uid);
         }
     }
 
 
-    private void setupListView(){
+    private void setupListView() {
         goodsDetailModel.setImageBeanList(new ArrayList<GoodsDetailModel.ImageBean>());
         adapter = new GoodsImageAdapter(this, goodsDetailModel);
         listView.setAdapter(adapter);
     }
 
-    private void getGoodsData(String pid){
+    private void getGoodsData(String pid) {
         showProgressDialog("正在加载");
         BrnmallAPI.getProductDetail(pid, new ApiCallback<String>() {
             @Override
@@ -114,28 +114,28 @@ public class GoodsDetailActivity extends BaseActivity {
             public void onResponse(String response) {
                 dismissProgressDialog();
                 KLog.json("商品详情=  " + response);
-                if (TextUtils.isEmpty(response)){
+                if (TextUtils.isEmpty(response)) {
                     return;
                 }
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    if ("false".equals(jsonObject.getString("result"))){
+                    if ("false".equals(jsonObject.getString("result"))) {
                         return;
                     }
                     JSONObject dataObject = jsonObject.getJSONObject("data");
                     goodsDetailModel.setGoodsInfo(new Gson().fromJson(dataObject.getString("ProductInfo")
-                            ,GoodsDetailModel.GoodsBean.class));
+                            , GoodsDetailModel.GoodsBean.class));
                     goodsDetailModel.setBrandInfo(new Gson().fromJson(dataObject.getString("BrandInfo")
-                            ,GoodsDetailModel.BrandBean.class));
+                            , GoodsDetailModel.BrandBean.class));
                     goodsDetailModel.getImageBeanList().addAll(goodsDetailModel.jsonToImageBeanList(dataObject.getString("ProductImageList")));
 
                     App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + goodsDetailModel.getGoodsInfo().getStoreId()
-                            +BrnmallAPI.BaseImgUrl3+ goodsDetailModel.getGoodsInfo().getShowImg())
+                            + BrnmallAPI.BaseImgUrl3 + goodsDetailModel.getGoodsInfo().getShowImg())
                             .placeholder(R.mipmap.logo).error(R.mipmap.logo).into(goodsIcon);
 
                     goodsName.setText(goodsDetailModel.getGoodsInfo().getName());
-                    goodsPrice.setText("￥"+goodsDetailModel.getGoodsInfo().getShopPrice());
+                    goodsPrice.setText("￥" + goodsDetailModel.getGoodsInfo().getShopPrice());
                     goodsPinPai.setText(goodsDetailModel.getBrandInfo().getName());
 
                     adapter.notifyDataSetChanged();
@@ -151,58 +151,96 @@ public class GoodsDetailActivity extends BaseActivity {
     /**
      * 加入购物车
      *
-     * @param pid 商品id
-     * @param uid 用户id
+     * @param pid   商品id
+     * @param uid   用户id
      * @param count 数量
      */
-    private void addGoodsToCart(String pid,String uid,String count){
+    private void addGoodsToCart(String pid, String uid, String count) {
+        showProgressDialog("正在添加到购物车");
         BrnmallAPI.addProductToCart(pid, uid, count, new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
-
+                dismissProgressDialog();
+                showToast("网络异常,请稍后再试吧");
             }
 
             @Override
             public void onResponse(String response) {
-                KLog.json(response);
+                //  KLog.json(response);
+                dismissProgressDialog();
+                if (response != null && !TextUtils.isEmpty(response)) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        showToast(jsonObject.getJSONArray("data").getJSONObject(0).getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }
 
     /**
      * 加入收藏
+     *
      * @param pid 商品id
      * @param uid 用户id
      */
-    private void addGoodsToFavorite(String pid,String uid){
+    private void addGoodsToFavorite(String pid, String uid) {
+        showProgressDialog("正在收藏商品");
         BrnmallAPI.addProductToFavorite(pid, uid, new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
-
+                dismissProgressDialog();
+                showToast("网络异常,请稍后再试吧");
             }
 
             @Override
             public void onResponse(String response) {
-                KLog.json(response);
+                //     KLog.json(response);
+                dismissProgressDialog();
+                if (response != null && !TextUtils.isEmpty(response)) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        showToast(jsonObject.getJSONArray("data").getJSONObject(0).getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }
 
     /**
      * 取消收藏
+     *
      * @param pid 商品id
      * @param uid 用户id
      */
-    private void deleteFavorite(String pid,String uid){
+    private void deleteFavorite(String pid, String uid) {
+        showProgressDialog("正在取消收藏");
         BrnmallAPI.deleteFavoriteProduct(pid, uid, new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
-
+                dismissProgressDialog();
+                showToast("网络异常,请稍后再试吧");
             }
 
             @Override
             public void onResponse(String response) {
-                KLog.json(response);
+                //   KLog.json(response);
+                dismissProgressDialog();
+                if (response != null && !TextUtils.isEmpty(response)) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        showToast(jsonObject.getJSONArray("data").getJSONObject(0).getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }

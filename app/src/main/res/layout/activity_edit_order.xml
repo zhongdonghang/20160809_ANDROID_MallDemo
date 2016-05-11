@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F0F0F0"
     android:focusable="true"
     android:focusableInTouchMode="true"
     tools:context="com.luoyp.brnmall.activity.EditOrderActy">
@@ -14,10 +15,12 @@
         android:id="@+id/address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="68dp"
+        android:background="@android:color/white"
         android:orientation="horizontal"
         android:paddingBottom="5dp"
-        android:paddingLeft="15dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:paddingTop="5dp"
         >
 
@@ -27,22 +30,40 @@
             android:orientation="vertical">
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="地址信息"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="#F2F2F2"/>
+
+            <TextView
                 android:id="@+id/ordername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"/>
+                android:padding="5dp"
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/orderphone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"/>
+                android:padding="5dp"
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/orderaddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"/>
+                android:padding="5dp"
+                android:textSize="14sp"/>
 
         </LinearLayout>
 
@@ -72,12 +93,40 @@
             />
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/llll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/address"
+        android:layout_marginTop="12dp"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="商品信息"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="#F2F2F2"/>
+    </LinearLayout>
+
     <ListView
         android:id="@+id/shopcarlistview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bb"
-        android:layout_below="@id/address">
+        android:layout_below="@id/llll"
+        android:background="@android:color/white">
     </ListView>
 
     <LinearLayout
@@ -92,6 +141,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:paddingLeft="5dp"
             android:text="合计:￥"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
 
