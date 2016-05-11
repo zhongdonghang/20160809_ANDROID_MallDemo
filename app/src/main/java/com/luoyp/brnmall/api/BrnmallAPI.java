@@ -11,7 +11,7 @@ public class BrnmallAPI {
     public static String BaseImgUrl1 = BaseIP + "/upload/store/";
     public static String BaseImgUrl2 = "/product/show/thumb100_100/";
     public static String BaseImgUrl3 = "/product/show/thumb800_800/";
-
+    public static String adImgUrl = BaseIP + "/upload/advert/";
     /**
      * 获取商品目录
      */
@@ -253,5 +253,11 @@ public class BrnmallAPI {
         OkHttpClientManager.Param[] params = {
                 new OkHttpClientManager.Param("uid", uid)};
         OkHttpClientManager.postAsyn(BaseURL + "MyShipAddressList", params, callback, "getMyAddress");
+    }
+
+    public static void GetAdvertList(String adPosId, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("adPosId", adPosId)};
+        OkHttpClientManager.postAsyn(BaseURL + "GetAdvertList", params, callback, "GetAdvertList");
     }
 }

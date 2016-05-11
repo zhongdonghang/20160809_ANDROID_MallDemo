@@ -158,7 +158,7 @@ public class EditOrderActy extends BaseActivity {
         if (requestCode == 101 && resultCode == RESULT_OK) {
             aid = data.getExtras().getString("aid");//得到新Activity 关闭后返回的数据
             orderaddress.setText("收货地址: " + data.getExtras().getString("address"));
-            ordername.setText("收 货 人:" + data.getExtras().getString("name"));
+            ordername.setText("收 货 人: " + data.getExtras().getString("name"));
             orderphone.setText("联系电话: " + data.getExtras().getString("phone"));
         }
 
