@@ -108,6 +108,11 @@ public class MyAddressActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    @Subscriber(tag = "refreshAdderss")
+    public void refreshAdderss(String s) {
+        addressList.clear();
+        getMyAddress();
+    }
     @Override
     public void add(View view) {
         startActivity(new Intent(this,AddMyAddressActivity.class));

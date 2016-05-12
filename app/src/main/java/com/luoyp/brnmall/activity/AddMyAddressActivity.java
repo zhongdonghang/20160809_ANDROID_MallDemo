@@ -3,6 +3,7 @@ package com.luoyp.brnmall.activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -22,6 +23,7 @@ import com.squareup.okhttp.Request;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.simple.eventbus.EventBus;
 
 public class AddMyAddressActivity extends BaseActivity {
 
@@ -31,6 +33,7 @@ public class AddMyAddressActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_add_my_address);
 
         mNameView = (EditText) findViewById(R.id.my_name);
@@ -147,6 +150,7 @@ public class AddMyAddressActivity extends BaseActivity {
                     if ("false".equals(jsonObject.getString("result"))){
                         return;
                     }
+                    EventBus.getDefault().post("", "refreshAdderss");
                     JSONArray dataArray = jsonObject.getJSONArray("data");
                     showToast(dataArray.getJSONObject(0).getString("msg"));
                     finish();
