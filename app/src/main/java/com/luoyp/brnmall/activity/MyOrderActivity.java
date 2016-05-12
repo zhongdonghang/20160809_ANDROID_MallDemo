@@ -178,6 +178,7 @@ public class MyOrderActivity extends BaseActivity {
 
                         pageIndex++;
                         adapter.notifyDataSetChanged();
+                        myorderlistview.invalidate();
                     }
 
                 } catch (JSONException e) {

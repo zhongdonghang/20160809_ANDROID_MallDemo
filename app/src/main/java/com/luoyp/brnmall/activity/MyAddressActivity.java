@@ -170,6 +170,7 @@ public class MyAddressActivity extends BaseActivity {
                             addressList.add(model);
                         }
                         adapter.notifyDataSetChanged();
+                        myaddresslistview.invalidate();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

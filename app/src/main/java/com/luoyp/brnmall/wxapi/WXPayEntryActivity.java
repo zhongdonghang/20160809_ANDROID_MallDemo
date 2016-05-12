@@ -70,7 +70,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
             if (resp.errCode == 0) {//success
                 EventBus.getDefault().post("", "refreshorder");
-                EventBus.getDefault().post("", "wechatpaynotice");
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(WXPayEntryActivity.this);
                 builder.setMessage("提示:订单状态可能会有延迟,请勿重复支付,在[我的订单]查看最新订单状态");
 
@@ -86,6 +86,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
                     }
                 });
                 builder.create().show();
+                EventBus.getDefault().post("", "wechatpaynotice");
 
             } else {
                 KLog.d("支付失败：" + resp.errStr + ";code=" + String.valueOf(resp.errCode));
