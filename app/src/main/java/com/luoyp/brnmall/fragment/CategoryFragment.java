@@ -171,6 +171,7 @@ public class CategoryFragment extends BaseFragment {
     }
 
     public void getCategoty() {
+        refreshBtn.setVisibility(View.GONE);
         BrnmallAPI.getCategory("", new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {

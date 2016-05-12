@@ -169,8 +169,9 @@ public class MyAddressActivity extends BaseActivity {
                             model.setIsDefault(object.getString("IsDefault"));
                             addressList.add(model);
                         }
+                        //    myaddresslistview.invalidate();
                         adapter.notifyDataSetChanged();
-                        myaddresslistview.invalidate();
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
