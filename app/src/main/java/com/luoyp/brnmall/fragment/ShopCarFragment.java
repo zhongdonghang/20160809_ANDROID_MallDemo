@@ -224,10 +224,11 @@ public class ShopCarFragment extends BaseFragment {
                         shopCartModel.getCartGoodsBeanList().clear();
                         adapter.notifyDataSetChanged();
                         tvSum.setText("");
-                        showToast("购物车空空,去逛一逛吧");
+                        // showToast("购物车空空,去逛一逛吧");
                         jiesuanBtn.setEnabled(false);
                         return;
                     }
+
                     shopCartModel.setTotalCount(dataObject.getInt("TotalCount"));
                     shopCartModel.setProductAmount(dataObject.getDouble("ProductAmount"));
                     shopCartModel.setFullCut(dataObject.getInt("FullCut"));

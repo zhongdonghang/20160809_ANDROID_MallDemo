@@ -80,13 +80,24 @@ public class GoodsDetailActivity extends BaseActivity {
 
     // 点击加入购物车
     public void addCart(View view) {
-        if (!isLogin) return;
+        if (!checkLogin()) {
+            return;
+        }
+        // 获取当前用户的uid
+        UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
+        uid = String.valueOf(userModel.getUserInfo().getUid());
+
         addGoodsToCart(pid, uid, "1");
     }
 
     // 点击加入收藏，或取消收藏
     public void addFavorite(View view) {
-        if (!isLogin) return;
+        if (!checkLogin()) {
+            return;
+        }
+        // 获取当前用户的uid
+        UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
+        uid = String.valueOf(userModel.getUserInfo().getUid());
         if (isFavorite) {
             deleteFavorite(pid, uid);
         } else {
