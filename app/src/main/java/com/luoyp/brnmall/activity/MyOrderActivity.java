@@ -75,6 +75,9 @@ public class MyOrderActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 KLog.d("订单id " + list.get(position - 1).getOid());
+                Intent intent = new Intent(MyOrderActivity.this,OrderDetailActivity.class);
+                intent.putExtra("oid",list.get(position - 1).getOid());
+                startActivity(intent);
             }
         });
         showProgressDialog("正在加载数据");
@@ -131,7 +134,7 @@ public class MyOrderActivity extends BaseActivity {
             public void onResponse(String response) {
                 dismissProgressDialog();
                 myorderlistview.onRefreshComplete();
-
+                KLog.e(response);
                 if (response == null || TextUtils.isEmpty(response)) {
                     showToast("没有数据返回,请稍后再试吧");
                     return;
