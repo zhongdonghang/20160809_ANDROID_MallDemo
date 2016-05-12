@@ -1,7 +1,9 @@
 package com.luoyp.brnmall.fragment;
 
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -122,9 +124,32 @@ public class MineFragment extends BaseFragment {
         userIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isLogin){
+                isLogin = App.getPref("isLogin", false);
+                if (!isLogin) {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("确定注销当前用户?");
+
+                    builder.setTitle("退出登录");
+                    builder.setCancelable(false);
+                    builder.setPositiveButton("我点错了", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setNegativeButton("注销用户", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            App.setPref("isLogin", false);
+                            nickName.setText("点击登录");
+                        }
+                    });
+                    builder.create().show();
+
                 }
             }
         });

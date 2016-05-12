@@ -108,6 +108,11 @@ public class MyAddressActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    @Subscriber(tag = "refreshAdderss")
+    public void refreshAdderss(String s) {
+        addressList.clear();
+        getMyAddress();
+    }
     @Override
     public void add(View view) {
         startActivity(new Intent(this,AddMyAddressActivity.class));
@@ -164,7 +169,9 @@ public class MyAddressActivity extends BaseActivity {
                             model.setIsDefault(object.getString("IsDefault"));
                             addressList.add(model);
                         }
+                        //    myaddresslistview.invalidate();
                         adapter.notifyDataSetChanged();
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

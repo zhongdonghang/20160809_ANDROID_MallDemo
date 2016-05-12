@@ -38,9 +38,9 @@ public class MyOrderActivity extends BaseActivity {
 
     MyOrderAdapter adapter;
     List<MyOrderModel> list;
+    boolean iswechatpay = false;
     private com.handmark.pulltorefresh.library.PullToRefreshListView myorderlistview;
     private int pageIndex = 1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +102,18 @@ public class MyOrderActivity extends BaseActivity {
         pay(pos);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (iswechatpay) {
+            iswechatpay = false;
+            list.clear();
+            pageIndex = 1;
+            getMyOder();
+
+        }
+    }
+
     public void pay(int pos) {
         Intent intent = new Intent();
         intent.putExtra("oid", list.get(pos).getOid());
@@ -117,6 +129,10 @@ public class MyOrderActivity extends BaseActivity {
         dialog.show(getSupportFragmentManager(),"cancelOrderDialog");
     }
 
+    @Subscriber(tag = "wechatrefreshorder")
+    public void wechatrefreshorder(String s) {
+        iswechatpay = true;
+    }
     public void getMyOder() {
         // 获取当前用户的uid
         UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
@@ -132,6 +148,7 @@ public class MyOrderActivity extends BaseActivity {
 
             @Override
             public void onResponse(String response) {
+                KLog.d("返回订单列表");
                 dismissProgressDialog();
                 myorderlistview.onRefreshComplete();
                 KLog.e(response);
@@ -180,7 +197,10 @@ public class MyOrderActivity extends BaseActivity {
                         }
 
                         pageIndex++;
+                        // myorderlistview.invalidate();
                         adapter.notifyDataSetChanged();
+
+
                     }
 
                 } catch (JSONException e) {

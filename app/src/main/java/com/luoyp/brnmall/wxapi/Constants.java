@@ -12,7 +12,7 @@ public class Constants {
 
     //商户号
     public static final String MCH_ID = "1341572401";
-    public static final String WxpayNotifyURL = BrnmallAPI.BaseIP + "/weixin/payresult";
+    public static final String WxpayNotifyURL = BrnmallAPI.BaseIP + "/weixin/AndroidPayResult";
 
     //  API密钥，在商户平台设置
     public static final String API_KEY = "oJC5nGxuom2e1vJL03EQcH7CloxewnRP";

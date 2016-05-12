@@ -12,7 +12,6 @@ public class BrnmallAPI {
     public static String BaseImgUrl2 = "/product/show/thumb100_100/";
     public static String BaseImgUrl3 = "/product/show/thumb800_800/";
     public static String adImgUrl = BaseIP + "/upload/advert/";
-
     /**
      * 获取商品目录
      */
@@ -302,4 +301,5 @@ public class BrnmallAPI {
         };
         OkHttpClientManager.postAsyn(BaseURL + "OrderDetail", params, callback, "getOrderDetail");
     }
+
 }

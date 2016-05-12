@@ -1,7 +1,9 @@
 package com.luoyp.brnmall.fragment;
 
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,6 +11,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -93,6 +96,33 @@ public class ShopCarFragment extends BaseFragment {
         setupListView();
         // 设置SwipeRefreshLayout
         setupSwipe();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final int pos = position;
+                KLog.d("删除购物车position " + pos);
+                KLog.d("删除购物车id " + shopCartModel.getCartGoodsBeanList().get(pos).getPid());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("确定删除商品 [" + shopCartModel.getCartGoodsBeanList().get(pos).getName() + "] 吗?");
+
+                builder.setTitle("删除提示");
+                builder.setCancelable(false);
+                builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("删除", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteFromShopcar(shopCartModel.getCartGoodsBeanList().get(pos).getPid() + "");
+                    }
+                });
+                builder.create().show();
+            }
+        });
         return view;
     }
 
@@ -107,6 +137,38 @@ public class ShopCarFragment extends BaseFragment {
         //   intent.putExtra("shopcar", shopCartModel);
         intent.setClass(getActivity(), EditOrderActy.class);
         startActivity(intent);
+    }
+
+    public void deleteFromShopcar(String id) {
+        // 获取当前用户的uid
+        final UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
+        uid = String.valueOf(userModel.getUserInfo().getUid());
+
+        BrnmallAPI.deleteCartProduct(id, uid, new ApiCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                KLog.d("删除购物车返回json " + response);
+                if (response != null && !TextUtils.isEmpty(response)) {
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(response);
+                        if ("true".equals(jsonObject.getString("result"))) {
+                            loadShopCartData(uid);
+
+                        }
+                        showToast(jsonObject.getJSONArray("data").getJSONObject(0).getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -224,10 +286,11 @@ public class ShopCarFragment extends BaseFragment {
                         shopCartModel.getCartGoodsBeanList().clear();
                         adapter.notifyDataSetChanged();
                         tvSum.setText("");
-                        showToast("购物车空空,去逛一逛吧");
+                        // showToast("购物车空空,去逛一逛吧");
                         jiesuanBtn.setEnabled(false);
                         return;
                     }
+
                     shopCartModel.setTotalCount(dataObject.getInt("TotalCount"));
                     shopCartModel.setProductAmount(dataObject.getDouble("ProductAmount"));
                     shopCartModel.setFullCut(dataObject.getInt("FullCut"));
