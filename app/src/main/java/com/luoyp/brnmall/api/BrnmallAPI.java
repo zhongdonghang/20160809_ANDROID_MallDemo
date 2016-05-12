@@ -286,4 +286,5 @@ public class BrnmallAPI {
         };
         OkHttpClientManager.postAsyn(BaseURL + "DeleteShipAddress", params, callback, "deleteAddress");
     }
+
 }
