@@ -11,6 +11,7 @@ import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.model.OrderDetailModel;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by MnZi on 2016/5/12.
@@ -18,22 +19,22 @@ import java.math.BigDecimal;
 public class OrderGoodsAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater mInflater;
-    private OrderDetailModel model;
+    private List<OrderDetailModel.OrderGoodsBean> mList;
 
-    public OrderGoodsAdapter(Context context,OrderDetailModel orderDetailModel) {
+    public OrderGoodsAdapter(Context context, List<OrderDetailModel.OrderGoodsBean> list) {
         mContext = context;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        model = orderDetailModel;
+        mList = list;
     }
 
     @Override
     public int getCount() {
-        return model.getOrderGoodsList().size();
+        return mList.size();
     }
 
     @Override
     public OrderDetailModel.OrderGoodsBean getItem(int position) {
-        return model.getOrderGoodsList().get(position);
+        return mList.get(position);
     }
 
     @Override

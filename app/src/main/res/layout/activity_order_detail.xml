@@ -16,12 +16,60 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!--配送信息-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="8dp"
+                android:background="@color/white">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="30dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:layout_gravity="center_vertical"
+                        android:text="小流氓"
+                        android:id="@+id/tv_order_user_name" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:layout_gravity="center_vertical"
+                        android:text="18377102233"
+                        android:id="@+id/tv_order_user_phone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:layout_gravity="center_vertical"
+                        android:text="广西南宁市西乡塘区西大"
+                        android:drawableLeft="@drawable/weizhi"
+                        android:id="@+id/tv_order_address" />
+                </LinearLayout>
+            </LinearLayout>
+
 
             <!-- 购买的商品 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginTop="10dp"
                 android:paddingBottom="8dp"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
@@ -59,7 +107,10 @@
                     <ListView
                         android:id="@+id/lv_order_goods"
                         android:layout_width="match_parent"
-                        android:layout_height="160dp"/>
+                        android:layout_height="120dp"
+                        android:clickable="false"
+                        android:divider="@android:color/transparent"
+                        android:listSelector="@android:color/transparent"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -105,56 +156,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-
-            <!--配送信息-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
-                android:paddingBottom="8dp"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="8dp"
-                android:background="@color/white">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingRight="30dp"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_gravity="center_vertical"
-                        android:text="小流氓"
-                        android:id="@+id/tv_order_user_name" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_gravity="center_vertical"
-                        android:text="18377102233"
-                        android:id="@+id/tv_order_user_phone" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_gravity="center_vertical"
-                        android:text="广西南宁市西乡塘区西大"
-                        android:drawableLeft="@drawable/weizhi"
-                        android:id="@+id/tv_order_address" />
-                </LinearLayout>
-            </LinearLayout>
-
 
 
         </LinearLayout>

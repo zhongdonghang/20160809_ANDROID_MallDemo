@@ -33,6 +33,13 @@ public class OrderDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
+
+        // 设置topbar
+        TextView topbarTitle = (TextView) findViewById(R.id.topbar_title);
+        if (topbarTitle != null) {
+            topbarTitle.setText("订单详情");
+        }
+
         orderModel = new OrderDetailModel();
         orderModel.setOrdrGoodsList(new ArrayList<OrderDetailModel.OrderGoodsBean>());
 
@@ -45,7 +52,7 @@ public class OrderDetailActivity extends BaseActivity {
         address = (TextView) findViewById(R.id.tv_order_address);
         listViewGoods = (ListView) findViewById(R.id.lv_order_goods);
 
-        adapterGoods = new OrderGoodsAdapter(OrderDetailActivity.this,orderModel);
+        adapterGoods = new OrderGoodsAdapter(OrderDetailActivity.this,orderModel.getOrderGoodsList());
         listViewGoods.setAdapter(adapterGoods);
 
         String oid = getIntent().getStringExtra("oid");
@@ -53,6 +60,8 @@ public class OrderDetailActivity extends BaseActivity {
         UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
         String uid = String.valueOf(userModel.getUserInfo().getUid());
         getOrderDetail(uid, oid);
+
+
 
     }
 
@@ -84,7 +93,8 @@ public class OrderDetailActivity extends BaseActivity {
                     JSONObject dataObject = jsonObject.getJSONObject("data");
                     orderModel.setOrderInfo(new Gson().fromJson(dataObject.getString("OrderInfo"), OrderDetailModel.OrderBean.class));
                     orderModel.setRegionInfo(new Gson().fromJson(dataObject.getString("RegionInfo"), OrderDetailModel.RegionBean.class));
-                    orderModel.setOrdrGoodsList(OrderDetailModel.jsonToOrderGoodsList(dataObject.getString("OrderProductList")));
+                    //orderModel.setOrdrGoodsList(OrderDetailModel.jsonToOrderGoodsList(dataObject.getString("OrderProductList")));
+                    orderModel.getOrderGoodsList().addAll(orderModel.jsonToOrderGoodsList(dataObject.getString("OrderProductList")));
                     orderModel.setOrderActionList(OrderDetailModel.jsonToOrderActionList(dataObject.getString("OrderActionList")));
 
                     adapterGoods.notifyDataSetChanged();
