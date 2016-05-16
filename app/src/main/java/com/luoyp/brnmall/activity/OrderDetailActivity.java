@@ -2,6 +2,7 @@ package com.luoyp.brnmall.activity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Window;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -32,6 +33,7 @@ public class OrderDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_order_detail);
 
         // 设置topbar
