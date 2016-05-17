@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
+import com.luoyp.brnmall.SysUtils;
 import com.luoyp.brnmall.activity.EditOrderActy;
 import com.luoyp.brnmall.adapter.ShopCarAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
@@ -218,7 +219,13 @@ public class ShopCarFragment extends BaseFragment {
         for (int i = 0; i < goodsCount; i++) {
             sum += shopCartModel.getCartGoodsBeanList().get(i).getShopPrice() * shopCartModel.getCartGoodsBeanList().get(i).getBuyCount();
         }
-        tvSum.setText(String.format("%.2f", sum));
+        if (App.getPref("isLogin", false)) {
+            tvSum.setText(SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * sum * 10 / 100)) + " (" + App.getPref("zhekoutitle", "") + ")");
+        } else {
+            tvSum.setText(SysUtils.formatDouble(sum) + " (" + App.getPref("zhekoutitle", "") + ")");
+        }
+
+
     }
 
     /**

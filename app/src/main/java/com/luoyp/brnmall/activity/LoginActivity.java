@@ -52,7 +52,8 @@ public class LoginActivity extends BaseActivity {
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
-
+    public String zhekou = "100";
+    public String zhekoutitle = "普通会员";
     // UI references.
     private EditText mPhoneView;
     private EditText mPasswordView;
@@ -98,7 +99,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     //打开注册页面
-    public void toRegister(View view){
+    public void toRegister(View view) {
         startActivity(new Intent(this, RegisterActivity.class));
     }
 
@@ -147,7 +148,6 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
@@ -167,7 +167,7 @@ public class LoginActivity extends BaseActivity {
 
         // 检查密码不能为空
         if (TextUtils.isEmpty(password)) {
-            mPasswordView.setError( getString(R.string.error_field_required));
+            mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
         }
@@ -265,15 +265,15 @@ public class LoginActivity extends BaseActivity {
                         JSONObject msgObj = jsonObject.getJSONArray("data").getJSONObject(0);
                         showToast(msgObj.getString("msg"));
 
-                    }else {
+                    } else {
                         App.setPref("isLogin", true);
                         UserModel userModel = new Gson().fromJson(jsonObject.getJSONObject("data").toString(), UserModel.class);
                         // 保存登录信息
+                        getUserLevel(userModel.getUserInfo().getUid() + "");
                         App.setPref("LoginResult", jsonObject.getJSONObject("data").toString());
                         // 发布事件 ，刷新 我的 界面
-                        EventBus.getDefault().post(userModel,"LoginUser_tag");
-                        // 关闭登录窗口
-                        finish();
+                        EventBus.getDefault().post(userModel, "LoginUser_tag");
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -282,5 +282,35 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
+    public void getUserLevel(String uid) {
+        BrnmallAPI.GetUserRank(uid, new ApiCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+                App.setPref("zhekou", zhekou);
+                App.setPref("zhekoutitle", zhekoutitle);
+// 关闭登录窗口
+                finish();
+            }
+
+            @Override
+            public void onResponse(String response) {
+                KLog.d("user levelt=" + response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if ("true".equals(jsonObject.getString("result"))) {
+                        App.setPref("zhekou", jsonObject.getJSONObject("data").getString("Discount").toString());
+                        App.setPref("zhekoutitle", jsonObject.getJSONObject("data").getString("Title"));
+                    }
+
+                } catch (JSONException e) {
+                    finish();
+                    e.printStackTrace();
+                }
+
+// 关闭登录窗口
+                finish();
+            }
+        });
+    }
 }
 

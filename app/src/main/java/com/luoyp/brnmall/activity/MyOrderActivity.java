@@ -15,6 +15,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.BaseActivity;
 import com.luoyp.brnmall.R;
+import com.luoyp.brnmall.SysUtils;
 import com.luoyp.brnmall.adapter.MyOrderAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
@@ -118,7 +119,13 @@ public class MyOrderActivity extends BaseActivity {
         Intent intent = new Intent();
         intent.putExtra("oid", list.get(pos).getOid());
         intent.putExtra("osn", list.get(pos).getOsn());
-        intent.putExtra("price", list.get(pos).getOrderamount());
+        if (App.getPref("isLogin", false)) {
+            intent.putExtra("price", SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * Double.valueOf(list.get(pos).getOrderamount()) * 10 / 100)));
+
+        } else {
+            intent.putExtra("price", list.get(pos).getOrderamount());
+        }
+
         intent.setClass(MyOrderActivity.this, PayActivity.class);
         startActivity(intent);
     }

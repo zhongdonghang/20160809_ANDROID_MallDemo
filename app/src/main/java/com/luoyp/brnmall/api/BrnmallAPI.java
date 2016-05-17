@@ -303,6 +303,12 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "OrderDetail", params, callback, "getOrderDetail");
     }
 
+    public static void GetUserRank(String uid, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("uid", uid)
+        };
+        OkHttpClientManager.postAsyn(BaseURL + "GetUserRank", params, callback, "GetUserRank");
+    }
     /**
      * 发送验证码到手机
      *

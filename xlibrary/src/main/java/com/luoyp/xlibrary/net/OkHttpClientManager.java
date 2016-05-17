@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.$Gson$Types;
+import com.socks.library.KLog;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -583,6 +584,7 @@ public class OkHttpClientManager {
          */
         public void postAsyn(String url, Param[] params, final ResultCallback callback, Object tag) {
             Request request = buildPostFormRequest(url, params, tag);
+            KLog.d("url = " + url);
             deliveryResult(callback, request);
         }
 
