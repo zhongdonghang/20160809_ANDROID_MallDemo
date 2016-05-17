@@ -102,6 +102,10 @@ public class LoginActivity extends BaseActivity {
         startActivity(new Intent(this, RegisterActivity.class));
     }
 
+    // 找回密码
+    public void toFindPwd(View view){
+        startActivity(new Intent(this,ResetPasswordActivity.class));
+    }
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;

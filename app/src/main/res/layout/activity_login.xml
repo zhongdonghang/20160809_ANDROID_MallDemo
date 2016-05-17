@@ -95,7 +95,8 @@
             android:id="@+id/tv_forget_pwd"
             android:gravity="left"
             android:textColor="@android:color/secondary_text_dark"
-            android:textSize="@dimen/abc_text_size_caption_material" />
+            android:textSize="@dimen/abc_text_size_caption_material"
+            android:onClick="toFindPwd"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

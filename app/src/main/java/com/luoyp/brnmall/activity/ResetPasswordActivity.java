@@ -20,37 +20,36 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * 注册
+ * 重置密码
  *
  * @author MnZi
  */
-public class RegisterActivity extends BaseActivity {
+public class ResetPasswordActivity extends BaseActivity {
 
     // 声明
-    private TextInputEditText mAccountView, mPwdView, mConfirmPwdView, mIntroducePhoneView, mCodeView;
-    private Button mRegisterBtn, mGetCodeBtn;
+    private TextInputEditText mAccountView, mPwdView, mConfirmPwdView, mCodeView;
+    private Button mResetBtn, mGetCodeBtn;
     private String verifyCode;// 验证码
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_reset_password);
 
         // 实例化
         mAccountView = (TextInputEditText) findViewById(R.id.reg_account);
         mPwdView = (TextInputEditText) findViewById(R.id.reg_pwd);
         mConfirmPwdView = (TextInputEditText) findViewById(R.id.reg_confirmpwd);
-        mIntroducePhoneView = (TextInputEditText) findViewById(R.id.reg_introduce_phone);
         mCodeView = (TextInputEditText) findViewById(R.id.reg_code);
-        mRegisterBtn = (Button) findViewById(R.id.btn_register);
+        mResetBtn = (Button) findViewById(R.id.btn_reset);
         mGetCodeBtn = (Button) findViewById(R.id.btn_get_code);
 
         // 按钮添加点击监听
-        mRegisterBtn.setOnClickListener(new View.OnClickListener() {
+        mResetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                attemptRegister();
+                attemptResetPassword();
             }
         });
 
@@ -74,20 +73,19 @@ public class RegisterActivity extends BaseActivity {
         // 设置topbar
         TextView topbarTitle = (TextView) findViewById(R.id.topbar_title);
         if (topbarTitle != null) {
-            topbarTitle.setText(getString(R.string.action_register));
+            topbarTitle.setText("重置密码");
         }
     }
 
     /**
      * 校验用户输入，并执行注册
      */
-    private void attemptRegister() {
+    private void attemptResetPassword() {
         // 重置
         mAccountView.setError(null);
         mCodeView.setError(null);
         mPwdView.setError(null);
         mConfirmPwdView.setError(null);
-        mIntroducePhoneView.setError(null);
         boolean canel = false;
         View focusView = null;
 
@@ -96,18 +94,6 @@ public class RegisterActivity extends BaseActivity {
         String code = mCodeView.getText().toString();
         String pwd = mPwdView.getText().toString().trim();
         String confirmPwd = mConfirmPwdView.getText().toString().trim();
-        String introducePhone = mIntroducePhoneView.getText().toString().trim();
-
-        // 检查推荐人手机
-        if (TextUtils.isEmpty(introducePhone)) {
-            mIntroducePhoneView.setError(getString(R.string.error_field_required));
-            focusView = mIntroducePhoneView;
-            canel = true;
-        } else if (!isPhoneValid(introducePhone)) {
-            mIntroducePhoneView.setError(getString(R.string.error_invalid_phone));
-            focusView = mIntroducePhoneView;
-            canel = true;
-        }
 
         // 检查确认密码
         if (TextUtils.isEmpty(confirmPwd)) {
@@ -158,8 +144,8 @@ public class RegisterActivity extends BaseActivity {
             focusView.requestFocus();
         } else {
             // 打开提示，并执行注册
-            showProgressDialog("注册中");
-            doRegister(account, pwd, introducePhone);
+            showProgressDialog("");
+            doReset(account, pwd);
         }
     }
 
@@ -178,24 +164,23 @@ public class RegisterActivity extends BaseActivity {
      *
      * @param account        手机
      * @param pwd            密码
-     * @param introducePhone 推荐人手机
      */
-    private void doRegister(String account, String pwd, String introducePhone) {
-        BrnmallAPI.doRegister(account, pwd, introducePhone, new ApiCallback<String>() {
+    private void doReset(String account, String pwd) {
+        BrnmallAPI.resetPassword(account, pwd, new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
                 // 关闭提示
                 dismissProgressDialog();
-                showToast("注册失败");
+                showToast("请检查你的网络情况");
             }
 
             @Override
             public void onResponse(String response) {
                 // 关闭提示
                 dismissProgressDialog();
-                KLog.json("Register=  ", response);
+                KLog.json("重置密码=  ", response);
                 if (TextUtils.isEmpty(response)) {
-                    showToast("注册失败");
+                    showToast("重置密码失败");
                     return;
                 }
                 try {
@@ -204,7 +189,8 @@ public class RegisterActivity extends BaseActivity {
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
                         showToast(jsonArray.getJSONObject(0).getString("msg"));
                     } else {
-                        showToast("注册成功");
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
+                        showToast(jsonArray.getJSONObject(0).getString("msg"));
                         finish();
                     }
                 } catch (JSONException e) {

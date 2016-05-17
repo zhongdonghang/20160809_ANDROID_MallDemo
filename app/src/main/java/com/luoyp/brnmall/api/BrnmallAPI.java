@@ -7,11 +7,12 @@ import com.luoyp.xlibrary.net.OkHttpClientManager;
  */
 public class BrnmallAPI {
     public static String BaseIP = "http://jsy.nnbetter.com";
-    public static String BaseURL = BaseIP + ":8027/app.asmx/";
+    public static String BaseURL = BaseIP + "/api/app.asmx/";
     public static String BaseImgUrl1 = BaseIP + "/upload/store/";
     public static String BaseImgUrl2 = "/product/show/thumb100_100/";
     public static String BaseImgUrl3 = "/product/show/thumb800_800/";
     public static String adImgUrl = BaseIP + "/upload/advert/";
+
     /**
      * 获取商品目录
      */
@@ -300,6 +301,37 @@ public class BrnmallAPI {
                 new OkHttpClientManager.Param("oid", oid)
         };
         OkHttpClientManager.postAsyn(BaseURL + "OrderDetail", params, callback, "getOrderDetail");
+    }
+
+    /**
+     * 发送验证码到手机
+     *
+     * @param phone    手机号
+     * @param type     类型
+     * @param callback 回调
+     */
+    public static void sendVerifyCodeToPhone(String phone, String type, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("phoneNumber", phone),
+                new OkHttpClientManager.Param("type", type)
+        };
+        OkHttpClientManager.postAsyn(BaseURL + "SendPhoneVerifyCode", params, callback, "sendVerifyCodeToPhone");
+    }
+
+    /**
+     * 设置新密码
+     *
+     * @param phone    手机号
+     * @param pwd      新密码
+     * @param callback 回调
+     */
+    public static void resetPassword(String phone, String pwd, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("userName", phone),
+                new OkHttpClientManager.Param("password", pwd),
+                new OkHttpClientManager.Param("confirmPwd", pwd)
+        };
+        OkHttpClientManager.postAsyn(BaseURL + "ReSetPassword", params, callback, "resetPassword");
     }
 
 }
