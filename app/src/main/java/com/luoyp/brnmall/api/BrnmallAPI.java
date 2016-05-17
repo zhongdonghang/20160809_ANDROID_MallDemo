@@ -7,7 +7,7 @@ import com.luoyp.xlibrary.net.OkHttpClientManager;
  */
 public class BrnmallAPI {
     public static String BaseIP = "http://jsy.nnbetter.com";
-    public static String BaseURL = BaseIP + ":8027/app.asmx/";
+    public static String BaseURL = BaseIP + "/api/app.asmx/";
     public static String BaseImgUrl1 = BaseIP + "/upload/store/";
     public static String BaseImgUrl2 = "/product/show/thumb100_100/";
     public static String BaseImgUrl3 = "/product/show/thumb800_800/";
@@ -302,4 +302,10 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "OrderDetail", params, callback, "getOrderDetail");
     }
 
+    public static void GetUserRank(String uid, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("uid", uid)
+        };
+        OkHttpClientManager.postAsyn(BaseURL + "GetUserRank", params, callback, "GetUserRank");
+    }
 }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
+import com.luoyp.brnmall.SysUtils;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.ShopCartModel;
@@ -68,7 +69,14 @@ public class ShopCarAdapter extends BaseAdapter {
         }
 
         holder.goodsName.setText(getItem(position).getName());
-        holder.goodsPrice.setText("￥" + getItem(position).getShopPrice());
+
+        if (App.getPref("isLogin", false)) {
+            holder.goodsPrice.setText("￥" + SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * Double.valueOf(getItem(position).getShopPrice()) * 10 / 100)) + " (" + App.getPref("zhekoutitle", "") + ")");
+        } else {
+            holder.goodsPrice.setText("￥" + getItem(position).getShopPrice());
+        }
+
+
         holder.goodsNum.setText(getItem(position).getBuyCount() + "");
         App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreId()
                 + BrnmallAPI.BaseImgUrl2 + getItem(position).getShowImg())

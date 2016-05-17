@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.BaseActivity;
 import com.luoyp.brnmall.R;
+import com.luoyp.brnmall.SysUtils;
 import com.luoyp.brnmall.adapter.EditOrderGoodsListAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
@@ -82,7 +83,11 @@ public class EditOrderActy extends BaseActivity {
         for (int i = 0; i < goodsCount; i++) {
             sum += shopCartModel.getCartGoodsBeanList().get(i).getShopPrice() * shopCartModel.getCartGoodsBeanList().get(i).getBuyCount();
         }
-        tvsum.setText(String.format("%.2f", sum));
+        if (App.getPref("isLogin", false)) {
+            tvsum.setText(SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * sum * 10 / 100)) + " (" + App.getPref("zhekoutitle", "") + ")");
+        } else {
+            tvsum.setText(SysUtils.formatDouble(sum) + " (" + App.getPref("zhekoutitle", "") + ")");
+        }
     }
 
     public void postOrder() {
@@ -134,7 +139,12 @@ public class EditOrderActy extends BaseActivity {
                     Intent intent = new Intent();
                     intent.putExtra("oid", json.getJSONObject("data").getString("Oid"));
                     intent.putExtra("osn", json.getJSONObject("data").getString("OSN"));
-                    intent.putExtra("price", json.getJSONObject("data").getString("OrderAmount"));
+                    if (App.getPref("isLogin", false)) {
+                        tvsum.setText(SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * Double.valueOf(json.getJSONObject("data").getString("OrderAmount")) * 10 / 100)) + " (" + App.getPref("zhekoutitle", "") + ")");
+                    } else {
+                        intent.putExtra("price", json.getJSONObject("data").getString("OrderAmount"));
+                    }
+
                     intent.setClass(EditOrderActy.this, PayActivity.class);
                     startActivity(intent);
                     finish();
