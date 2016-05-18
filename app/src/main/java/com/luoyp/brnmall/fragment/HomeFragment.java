@@ -2,19 +2,27 @@ package com.luoyp.brnmall.fragment;
 
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.baidu.autoupdatesdk.AppUpdateInfo;
+import com.baidu.autoupdatesdk.AppUpdateInfoForInstall;
+import com.baidu.autoupdatesdk.BDAutoUpdateSDK;
+import com.baidu.autoupdatesdk.CPCheckUpdateCallback;
+import com.baidu.autoupdatesdk.CPUpdateDownloadCallback;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.internal.Utils;
@@ -40,12 +48,12 @@ import java.util.List;
  */
 public class HomeFragment extends BaseFragment {
 
+    AlertDialog newversionDialog = null;
+    ProgressDialog progressBar;
     private List<String> imageIdList;
     private List<HomeGoods> homeGoodsList;
     private HomeGoodsAdapter adapter;
     private ImagePagerAdapter homeAdAdapter;
-
-
     private com.luoyp.brnmall.view.AutoScrollViewPager autoviewpager;
     private com.handmark.pulltorefresh.library.PullToRefreshListView homelistview;
     private android.support.v4.widget.SwipeRefreshLayout swipemessage;
@@ -54,7 +62,6 @@ public class HomeFragment extends BaseFragment {
     public HomeFragment() {
         // Required empty public constructor
     }
-
 
     public static HomeFragment newInstance(String param1) {
         HomeFragment fragment = new HomeFragment();
@@ -67,6 +74,8 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BDAutoUpdateSDK.cpUpdateCheck(getActivity(), new MyCPCheckUpdateCallback());
+
         imageIdList = new ArrayList<String>();
         imageIdList.add("1");
         imageIdList.add("2");
@@ -229,5 +238,81 @@ public class HomeFragment extends BaseFragment {
         @Override
         public void onPageScrollStateChanged(int arg0) {
         }
+    }
+
+    private class MyCPCheckUpdateCallback implements CPCheckUpdateCallback {
+
+        @Override
+        public void onCheckUpdateCallback(final AppUpdateInfo info, AppUpdateInfoForInstall infoForInstall) {
+            if (infoForInstall != null && !TextUtils.isEmpty(infoForInstall.getInstallPath())) {
+                KLog.d("install info:" + infoForInstall.getAppSName() + ", \nverion=" + infoForInstall.getAppVersionName() + ", \nchange log=" + infoForInstall.getAppChangeLog());
+                KLog.d("install path:", infoForInstall.getInstallPath());
+                BDAutoUpdateSDK.cpUpdateInstall(getActivity().getApplicationContext(), infoForInstall.getInstallPath());
+            } else if (info != null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                View view = getActivity().getLayoutInflater().inflate(R.layout.alert_new_version, null);
+                builder.setView(view);
+                final Button btnDownload = (Button) view.findViewById(R.id.downnewapk);
+                final TextView log = (TextView) view.findViewById(R.id.appChangeLog);
+                final TextView version = (TextView) view.findViewById(R.id.versioninfo);
+                version.setText("发现新版本(" + info.getAppVersionName() + info.getAppVersionCode() + ")");
+                log.setText("更新:" + "\n" + info.getAppChangeLog());
+                if (newversionDialog == null) {
+                    newversionDialog = builder.create();
+                }
+                newversionDialog.setCanceledOnTouchOutside(false);
+                newversionDialog.show();
+                btnDownload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        newversionDialog.dismiss();
+                        progressBar = new ProgressDialog(getActivity());
+                        progressBar.setCancelable(true);
+                        progressBar.setMessage("正在下载 ...");
+                        progressBar.setCanceledOnTouchOutside(false);
+                        progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                        progressBar.setProgress(0);
+                        progressBar.setMax(100);
+                        progressBar.show();
+                        BDAutoUpdateSDK.cpUpdateDownload(getActivity(), info, new UpdateDownloadCallback());
+                    }
+                });
+            } else {
+                //  showToast("no update");
+            }
+        }
+    }
+
+    private class UpdateDownloadCallback implements CPUpdateDownloadCallback {
+
+        @Override
+        public void onDownloadComplete(String apkPath) {
+            showToast("下载完成");
+            progressBar.dismiss();
+            BDAutoUpdateSDK.cpUpdateInstall(getActivity().getApplicationContext(), apkPath);
+        }
+
+        @Override
+        public void onStart() {
+            showToast("开始下载...");
+        }
+
+        @Override
+        public void onPercent(int percent, long rcvLen, long fileSize) {
+            KLog.d("onPercent:" + percent + " % ");
+            progressBar.setProgress(percent);
+        }
+
+        @Override
+        public void onFail(Throwable error, String content) {
+            progressBar.dismiss();
+            // showToast("下载失败，稍后再试...");
+        }
+
+        @Override
+        public void onStop() {
+            progressBar.dismiss();
+        }
+
     }
 }
