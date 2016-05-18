@@ -1,12 +1,14 @@
 package com.luoyp.brnmall.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -14,6 +16,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
+import com.luoyp.brnmall.activity.GoodsDetailActivity;
 import com.luoyp.brnmall.adapter.MyFavoriteAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
@@ -93,6 +96,21 @@ public class MyFavoriteFragment extends BaseFragment {
                     getGoodsData(uid);
                 } else if (mParam1.equals("2")){
                     getStoreData(uid);
+                }
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (mParam1.equals("1")){
+                    MyFavoriteModel.GoodsBean goodsBean = (MyFavoriteModel.GoodsBean) mList.get(position-1);
+                    Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+                    intent.putExtra("pid",goodsBean.getPid());
+                    intent.putExtra("name",goodsBean.getName());
+                    startActivity(intent);
+                } else if (mParam1.equals("2")){
+                    MyFavoriteModel.StoreBean storeBean = (MyFavoriteModel.StoreBean) mList.get(position-1);
+                    KLog.e("店铺id===" + storeBean.getStoreid());
                 }
             }
         });

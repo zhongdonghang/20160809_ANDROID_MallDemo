@@ -62,7 +62,7 @@ public class MyFavoriteAdapter extends BaseAdapter {
         if (mType.equals("1")){
             MyFavoriteModel.GoodsBean goodsBean = (MyFavoriteModel.GoodsBean) getItem(position);
             holder.name.setText(goodsBean.getName());
-            holder.price.setText(goodsBean.getShopprice());
+            holder.price.setText("￥"+goodsBean.getShopprice());
             App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + goodsBean.getStoreid()
                     + BrnmallAPI.BaseImgUrl2 + goodsBean.getShowimg())
                     .placeholder(R.mipmap.logo).error(R.mipmap.logo).into(holder.icon);
