@@ -17,6 +17,7 @@ import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.activity.LoginActivity;
 import com.luoyp.brnmall.activity.MyAddressActivity;
+import com.luoyp.brnmall.activity.MyFavoriteActivity;
 import com.luoyp.brnmall.activity.MyOrderActivity;
 import com.luoyp.brnmall.model.UserModel;
 
@@ -171,11 +172,14 @@ public class MineFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), MyOrderActivity.class));
             }
         });
-        // 打开收藏的商品页面
+        // 打开收藏的页面
         view.findViewById(R.id.action_to_favorite_goods).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!checkLogin()) {
+                    return;
+                }
+                startActivity(new Intent(getActivity(), MyFavoriteActivity.class));
             }
         });
 

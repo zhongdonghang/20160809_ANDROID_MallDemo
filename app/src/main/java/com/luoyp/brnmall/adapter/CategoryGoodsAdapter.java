@@ -1,6 +1,7 @@
 package com.luoyp.brnmall.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,7 @@ public class CategoryGoodsAdapter extends BaseAdapter {
         holder.goodsName.setText(getItem(position).getName());
         holder.goodsPrice.setText("本店价 ￥ " + getItem(position).getShopPrice());
         holder.marketPrice.setText("市场价 ￥ " + getItem(position).getMarketPrice());
+        holder.marketPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);// 添加中划线
 
         if (App.getPref("isLogin", false)) {
             holder.memberPrice.setText("会员价 ￥" + SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * Double.valueOf(getItem(position).getShopPrice()) * 10 / 100)) + " (" + App.getPref("zhekoutitle", "") + ")");
