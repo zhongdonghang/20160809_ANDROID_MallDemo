@@ -137,15 +137,15 @@ public class EditOrderActy extends BaseActivity {
                     EventBus.getDefault().post("", "CartAdapter_tag");
                     showToast("提交订单成功");
                     Intent intent = new Intent();
-                    intent.putExtra("oid", json.getJSONObject("data").getString("Oid"));
-                    intent.putExtra("osn", json.getJSONObject("data").getString("OSN"));
-                    if (App.getPref("isLogin", false)) {
-                        tvsum.setText(SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * Double.valueOf(json.getJSONObject("data").getString("OrderAmount")) * 10 / 100)) + " (" + App.getPref("zhekoutitle", "") + ")");
-                    } else {
-                        intent.putExtra("price", json.getJSONObject("data").getString("OrderAmount"));
-                    }
+//                    intent.putExtra("oid", json.getJSONObject("data").getString("Oid"));
+//                    intent.putExtra("osn", json.getJSONObject("data").getString("OSN"));
+//                    if (App.getPref("isLogin", false)) {
+//                        tvsum.setText(SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * Double.valueOf(json.getJSONObject("data").getString("OrderAmount")) * 10 / 100)) + " (" + App.getPref("zhekoutitle", "") + ")");
+//                    } else {
+//                        intent.putExtra("price", json.getJSONObject("data").getString("OrderAmount"));
+//                    }
 
-                    intent.setClass(EditOrderActy.this, PayActivity.class);
+                    intent.setClass(EditOrderActy.this, MyOrderActivity.class);
                     startActivity(intent);
                     finish();
                 } catch (JSONException e) {

@@ -18,6 +18,15 @@ public class MyOrderModel {
     private String payfriendname = "";
     private String storename = "";
     private String osn = "";
+    private String realpay = "";
+
+    public String getRealpay() {
+        return realpay;
+    }
+
+    public void setRealpay(String realpay) {
+        this.realpay = realpay;
+    }
 
     public String getOid() {
         return oid;

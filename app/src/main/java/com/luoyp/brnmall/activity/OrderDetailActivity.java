@@ -54,7 +54,7 @@ public class OrderDetailActivity extends BaseActivity {
         address = (TextView) findViewById(R.id.tv_order_address);
         listViewGoods = (ListView) findViewById(R.id.lv_order_goods);
 
-        adapterGoods = new OrderGoodsAdapter(OrderDetailActivity.this,orderModel.getOrderGoodsList());
+        adapterGoods = new OrderGoodsAdapter(OrderDetailActivity.this, orderModel.getOrderGoodsList());
         listViewGoods.setAdapter(adapterGoods);
 
         String oid = getIntent().getStringExtra("oid");
@@ -62,7 +62,6 @@ public class OrderDetailActivity extends BaseActivity {
         UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
         String uid = String.valueOf(userModel.getUserInfo().getUid());
         getOrderDetail(uid, oid);
-
 
 
     }
@@ -133,12 +132,11 @@ public class OrderDetailActivity extends BaseActivity {
                     if ("200".equals(state)) {
                         stateName.setText("已取消");
                     }
-                    shipfee.setText("￥"+orderModel.getOrderInfo().getShipFee());
-                    amount.setText("￥"+orderModel.getOrderInfo().getOrderAmount());
+                    shipfee.setText("￥" + orderModel.getOrderInfo().getShipFee());
+                    amount.setText("￥" + orderModel.getOrderInfo().getSurplusMoney() + " (" + App.getPref("zhekoutitle", "") + ")");
                     userName.setText(orderModel.getOrderInfo().getConsignee());
                     userPhone.setText(orderModel.getOrderInfo().getMobile());
                     address.setText(orderModel.getOrderInfo().getAddress());
-
 
 
                 } catch (JSONException e) {
