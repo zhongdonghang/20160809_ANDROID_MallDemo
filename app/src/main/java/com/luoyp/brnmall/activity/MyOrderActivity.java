@@ -15,7 +15,6 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.BaseActivity;
 import com.luoyp.brnmall.R;
-import com.luoyp.brnmall.SysUtils;
 import com.luoyp.brnmall.adapter.MyOrderAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
@@ -76,8 +75,8 @@ public class MyOrderActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 KLog.d("订单id " + list.get(position - 1).getOid());
-                Intent intent = new Intent(MyOrderActivity.this,OrderDetailActivity.class);
-                intent.putExtra("oid",list.get(position - 1).getOid());
+                Intent intent = new Intent(MyOrderActivity.this, OrderDetailActivity.class);
+                intent.putExtra("oid", list.get(position - 1).getOid());
                 startActivity(intent);
             }
         });
@@ -119,12 +118,8 @@ public class MyOrderActivity extends BaseActivity {
         Intent intent = new Intent();
         intent.putExtra("oid", list.get(pos).getOid());
         intent.putExtra("osn", list.get(pos).getOsn());
-        if (App.getPref("isLogin", false)) {
-            intent.putExtra("price", SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * Double.valueOf(list.get(pos).getOrderamount()) * 10 / 100)));
 
-        } else {
-            intent.putExtra("price", list.get(pos).getOrderamount());
-        }
+        intent.putExtra("price", list.get(pos).getRealpay());
 
         intent.setClass(MyOrderActivity.this, PayActivity.class);
         startActivity(intent);
@@ -133,13 +128,14 @@ public class MyOrderActivity extends BaseActivity {
     @Subscriber(tag = "cancelorder")
     public void cancelorder(String s) {
         CancelOrderDialog dialog = CancelOrderDialog.newInstance(s);
-        dialog.show(getSupportFragmentManager(),"cancelOrderDialog");
+        dialog.show(getSupportFragmentManager(), "cancelOrderDialog");
     }
 
     @Subscriber(tag = "wechatrefreshorder")
     public void wechatrefreshorder(String s) {
         iswechatpay = true;
     }
+
     public void getMyOder() {
         // 获取当前用户的uid
         UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
@@ -196,6 +192,7 @@ public class MyOrderActivity extends BaseActivity {
                             myOrderModel.setOid(orderlist.getJSONObject(i).getString("OId"));
                             myOrderModel.setOrderstate(orderlist.getJSONObject(i).getString("OrderState"));
                             myOrderModel.setOrderamount(orderlist.getJSONObject(i).getString("OrderAmount"));
+                            myOrderModel.setRealpay(orderlist.getJSONObject(i).getString("Surplusmoney"));
                             myOrderModel.setStoreid(orderlist.getJSONObject(i).getString("StoreId"));
                             myOrderModel.setStorename(orderlist.getJSONObject(i).getString("StoreName"));
                             myOrderModel.setPayfriendname(orderlist.getJSONObject(i).getString("PayFriendName"));

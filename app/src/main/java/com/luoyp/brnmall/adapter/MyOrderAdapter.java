@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
-import com.luoyp.brnmall.SysUtils;
 import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.MyOrderModel;
 
@@ -88,12 +87,8 @@ public class MyOrderAdapter extends BaseAdapter {
             holder.imgll.addView(imageView);
         }
         holder.time.setText(getItem(position).getAddtime());
-        if (App.getPref("isLogin", false)) {
-            holder.price.setText("实付: ￥" + SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * Double.valueOf(getItem(position).getOrderamount()) * 10 / 100)) + "  (共" + getItem(position).getGoodsList().size() + "件)");
 
-        } else {
-            holder.price.setText("实付: ￥" + getItem(position).getOrderamount() + "  (共" + getItem(position).getGoodsList().size() + "件)");
-        }
+        holder.price.setText("实付: ￥" + getItem(position).getRealpay() + "  (共" + getItem(position).getGoodsList().size() + "件)");
 
 
         holder.payname.setText("支付方式: " + getItem(position).getPayfriendname());
