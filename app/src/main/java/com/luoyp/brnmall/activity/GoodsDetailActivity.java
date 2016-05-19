@@ -3,6 +3,7 @@ package com.luoyp.brnmall.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import com.google.gson.Gson;
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.BaseActivity;
 import com.luoyp.brnmall.R;
+import com.luoyp.brnmall.SysUtils;
 import com.luoyp.brnmall.adapter.GoodsImageAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
@@ -45,12 +47,16 @@ public class GoodsDetailActivity extends BaseActivity {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_goods_detail);
 
-        goodsIcon = (ImageView) findViewById(R.id.iv_goods_icon);
-        goodsName = (TextView) findViewById(R.id.tv_goods_name);
-        goodsPrice = (TextView) findViewById(R.id.tv_goods_price);
-        goodsPinPai = (TextView) findViewById(R.id.tv_goods_pinpai);
-        goodsGuiGe = (TextView) findViewById(R.id.tv_goods_guige);
         listView = (ListView) findViewById(R.id.lv_goods_image);
+
+        LayoutInflater mInflater = LayoutInflater.from(this);
+        View view = mInflater.inflate(R.layout.goods_detail_head_view,null);
+        goodsIcon = (ImageView) view.findViewById(R.id.iv_goods_icon);
+        goodsName = (TextView) view.findViewById(R.id.tv_goods_name);
+        goodsPrice = (TextView) view.findViewById(R.id.tv_goods_price);
+        goodsPinPai = (TextView) view.findViewById(R.id.tv_goods_pinpai);
+        goodsGuiGe = (TextView) view.findViewById(R.id.tv_goods_guige);
+        listView.addHeaderView(view);
 
         goodsDetailModel = new GoodsDetailModel();
 
@@ -146,8 +152,13 @@ public class GoodsDetailActivity extends BaseActivity {
                             .placeholder(R.mipmap.logo).error(R.mipmap.logo).into(goodsIcon);
 
                     goodsName.setText(goodsDetailModel.getGoodsInfo().getName());
-                    goodsPrice.setText("￥" + goodsDetailModel.getGoodsInfo().getShopPrice());
-                    goodsPinPai.setText(goodsDetailModel.getBrandInfo().getName());
+                    if (isLogin){
+                        String price = SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * goodsDetailModel.getGoodsInfo().getShopPrice()) * 10 / 100);
+                        goodsPrice.setText("会员价￥ " + price+ " (" + App.getPref("zhekoutitle", "") + ")");
+                    } else{
+                        goodsPrice.setText("本店价￥ " + goodsDetailModel.getGoodsInfo().getShopPrice());
+                    }
+                    goodsPinPai.setText("品牌  " + goodsDetailModel.getBrandInfo().getName());
 
                     adapter.notifyDataSetChanged();
 
