@@ -1,6 +1,7 @@
 package com.luoyp.brnmall.fragment;
 
 
+import android.Manifest;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -33,6 +34,7 @@ import com.luoyp.brnmall.adapter.ImagePagerAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.HomeGoods;
+import com.luoyp.brnmall.utils.PermissionUtil;
 import com.luoyp.brnmall.view.AutoScrollViewPager;
 import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
@@ -74,7 +76,12 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BDAutoUpdateSDK.cpUpdateCheck(getActivity(), new MyCPCheckUpdateCallback());
+        //判断权限
+        if (PermissionUtil.hasSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            BDAutoUpdateSDK.cpUpdateCheck(getActivity(), new MyCPCheckUpdateCallback());
+        } else {
+            PermissionUtil.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
 
         imageIdList = new ArrayList<String>();
         imageIdList.add("1");
