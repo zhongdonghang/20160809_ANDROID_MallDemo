@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.baidu.autoupdatesdk.AppUpdateInfo;
@@ -25,7 +24,7 @@ import com.baidu.autoupdatesdk.BDAutoUpdateSDK;
 import com.baidu.autoupdatesdk.CPCheckUpdateCallback;
 import com.baidu.autoupdatesdk.CPUpdateDownloadCallback;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshGridView;
 import com.handmark.pulltorefresh.library.internal.Utils;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.activity.GoodsDetailActivity;
@@ -57,7 +56,8 @@ public class HomeFragment extends BaseFragment {
     private HomeGoodsAdapter adapter;
     private ImagePagerAdapter homeAdAdapter;
     private com.luoyp.brnmall.view.AutoScrollViewPager autoviewpager;
-    private com.handmark.pulltorefresh.library.PullToRefreshListView homelistview;
+    //private com.handmark.pulltorefresh.library.PullToRefreshListView homelistview;
+    private PullToRefreshGridView homelistview;
     private android.support.v4.widget.SwipeRefreshLayout swipemessage;
     private android.widget.TextView tvhot;
 
@@ -100,7 +100,7 @@ public class HomeFragment extends BaseFragment {
         this.tvhot = (TextView) view.findViewById(R.id.tv_hot);
 
         this.swipemessage = (SwipeRefreshLayout) view.findViewById(R.id.swipe_message);
-        this.homelistview = (PullToRefreshListView) view.findViewById(R.id.home_list_view);
+        this.homelistview = (PullToRefreshGridView) view.findViewById(R.id.home_list_view);
         this.autoviewpager = (AutoScrollViewPager) view.findViewById(R.id.auto_view_pager);
 
         autoviewpager.setAdapter(homeAdAdapter.setInfiniteLoop(true));
@@ -118,20 +118,9 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
+        homelistview.getRefreshableView().setNumColumns(2);
         homelistview.setMode(PullToRefreshBase.Mode.DISABLED);
-        homelistview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                //   getHomeGoods();
-//                homelistview.onRefreshComplete();
-//                homelistview.setRefreshing(false);
-            }
-        });
 
         homelistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
