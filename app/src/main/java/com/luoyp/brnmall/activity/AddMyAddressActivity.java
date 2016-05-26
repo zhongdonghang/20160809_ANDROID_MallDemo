@@ -142,6 +142,7 @@ public class AddMyAddressActivity extends BaseActivity {
             @Override
             public void onResponse(String response) {
                 KLog.json(response);
+
                 if (TextUtils.isEmpty(response)){
                     return;
                 }
