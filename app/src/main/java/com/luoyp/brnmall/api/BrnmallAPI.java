@@ -18,6 +18,7 @@ public class BrnmallAPI {
     public static String BaseImgUrl2 = "/product/show/thumb100_100/";
     public static String BaseImgUrl3 = "/product/show/thumb800_800/";
     public static String adImgUrl = BaseIP + "/upload/advert/";
+    public static String brandImgUrl = BaseIP + "/upload/brand/thumb100_100/";
 
     /**
      * 获取商品目录
@@ -48,6 +49,27 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "GetProductListByCateId", params, callback, "getProductListByCateId");
     }
 
+    /**
+     * 根据分类Id获取商品列表
+     *
+     * @param cateId     分类id
+     * @param pageNumber 页码
+     * @param callback   回调
+     */
+    public static void getProductListByBrandId(String cateId, String brandId, String pageNumber, ApiCallback<String> callback) {
+
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("cateId", cateId)
+                , new OkHttpClientManager.Param("pageNumber", pageNumber)
+                , new OkHttpClientManager.Param("pageSize", "20")
+                , new OkHttpClientManager.Param("brandid", brandId)
+                , new OkHttpClientManager.Param("filterprice", "")
+                , new OkHttpClientManager.Param("onlystock", "")
+                , new OkHttpClientManager.Param("sortcolumn", "")
+                , new OkHttpClientManager.Param("sortdirection", "")};
+
+        OkHttpClientManager.postAsyn(BaseURL + "GetProductListByCateId", params, callback, "getProductListByBrandId");
+    }
     /**
      * 用户登录
      *
@@ -316,6 +338,12 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "GetUserRank", params, callback, "GetUserRank");
     }
 
+    public static void GetCateBrandList(String cateId, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("cateId", cateId)
+        };
+        OkHttpClientManager.postAsyn(BaseURL + "GetCateBrandList", params, callback, "GetCateBrandList");
+    }
     /**
      * 发送验证码到手机
      *

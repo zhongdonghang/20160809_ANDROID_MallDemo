@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Window;
 
+import com.luoyp.brnmall.fragment.BrandFragment;
 import com.luoyp.brnmall.fragment.CategoryFragment;
 import com.luoyp.brnmall.fragment.HomeFragment;
 import com.luoyp.brnmall.fragment.MineFragment;
@@ -21,9 +22,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     // PushManager.getInstance().initialize(this.getApplicationContext());
 
-    private String[] mTitle = {"首页", "分类", "购物车", "我的"};
-    private int[] mIconSelect = {R.drawable.home_s, R.drawable.order_s, R.drawable.shopcar_s, R.drawable.mine_s};
-    private int[] mIconNormal = {R.drawable.home, R.drawable.order, R.drawable.shopcar, R.drawable.mine};
+    private String[] mTitle = {"首页", "品牌", "分类", "购物车", "我的"};
+    private int[] mIconSelect = {R.drawable.home_s, R.drawable.brand_s, R.drawable.order_s, R.drawable.shopcar_s, R.drawable.mine_s};
+    private int[] mIconNormal = {R.drawable.home, R.drawable.brand, R.drawable.order, R.drawable.shopcar, R.drawable.mine};
     private ViewPager mViewPager;
     private TabView mTabView;
     private Map<Integer, Fragment> mFragmentMap;
@@ -43,7 +44,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         mFragmentMap = new HashMap<>();
         mViewPager = (ViewPager) findViewById(R.id.id_view_pager);
-        mViewPager.setOffscreenPageLimit(4);
+        mViewPager.setOffscreenPageLimit(5);
         mViewPager.addOnPageChangeListener(this);
         mViewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
         mTabView = (TabView) findViewById(R.id.id_tab);
@@ -59,12 +60,15 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     fragment = new HomeFragment();
                     break;
                 case 1:
-                    fragment = new CategoryFragment();
+                    fragment = new BrandFragment();
                     break;
                 case 2:
-                    fragment = new ShopCarFragment();
+                    fragment = new CategoryFragment();
                     break;
                 case 3:
+                    fragment = new ShopCarFragment();
+                    break;
+                case 4:
                     fragment = new MineFragment();
                     break;
             }
@@ -85,13 +89,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             toolbar.setTitle("精生缘实销");
             return;
         }
-        if (position == 3) {
+        if (position == 4) {
             toolbar.setTitle("");
             return;
         }
         toolbar.setTitle(mTitle[position]);
 
-        if (position == 2) {
+        if (position == 3) {
             if (checkLogin()) {
 
             }

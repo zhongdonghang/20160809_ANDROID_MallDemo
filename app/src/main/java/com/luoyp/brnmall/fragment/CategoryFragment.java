@@ -224,8 +224,7 @@ public class CategoryFragment extends BaseFragment {
                 showToast("网络异常,请稍后再说吧");
                 dismissProgressDialog();
                 categorygoodslistview.onRefreshComplete();
-                //categorygoodslistview.setRefreshing(false);
-                //categorygoodslistview.onRefreshComplete();
+
             }
 
             @Override
@@ -233,8 +232,7 @@ public class CategoryFragment extends BaseFragment {
                 // 关闭加载提示
                 dismissProgressDialog();
                 categorygoodslistview.onRefreshComplete();
-                //categorygoodslistview.setRefreshing(false);
-                //categorygoodslistview.onRefreshComplete();
+
                 KLog.json("分类商品=  " + response);
                 if (TextUtils.isEmpty(response)){
                     showToast("没有找到相关商品");

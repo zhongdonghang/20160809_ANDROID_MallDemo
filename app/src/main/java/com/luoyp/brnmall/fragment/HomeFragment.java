@@ -126,10 +126,10 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                KLog.d("产品id" + homeGoodsList.get(position - 1).getPid());
+                KLog.d("产品id" + homeGoodsList.get(position).getPid());
                 Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
-                intent.putExtra("pid", homeGoodsList.get(position - 1).getPid() + "");
-                intent.putExtra("name", homeGoodsList.get(position - 1).getPname());
+                intent.putExtra("pid", homeGoodsList.get(position).getPid() + "");
+                intent.putExtra("name", homeGoodsList.get(position).getPname());
                 startActivity(intent);
             }
         });
