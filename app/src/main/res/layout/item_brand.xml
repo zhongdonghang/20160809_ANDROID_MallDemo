@@ -35,7 +35,6 @@
                 android:maxLines="1"
                 android:paddingLeft="2dp"
                 android:paddingTop="2dp"
-                android:textAppearance="?android:attr/textAppearanceListItemSmall"
                 android:textSize="15sp"/>
 
         </LinearLayout>

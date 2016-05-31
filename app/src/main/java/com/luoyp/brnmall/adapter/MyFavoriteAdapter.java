@@ -71,7 +71,7 @@ public class MyFavoriteAdapter extends BaseAdapter {
             holder.name.setText(storeBean.getName());
             App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + storeBean.getStoreid()
                     + BrnmallAPI.BaseImgUrl2 + storeBean.getLogo())
-                    .placeholder(R.mipmap.logo).error(R.mipmap.logo).into(holder.icon);
+                    .placeholder(R.drawable.goodsdefaulimg).error(R.drawable.goodsdefaulimg).into(holder.icon);
         }
         return view;
     }

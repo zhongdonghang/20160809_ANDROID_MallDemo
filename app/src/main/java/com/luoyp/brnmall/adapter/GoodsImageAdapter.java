@@ -57,7 +57,7 @@ public class GoodsImageAdapter extends BaseAdapter {
 
         GoodsDetailModel.ImageBean imageBean = getItem(position);
         App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + imageBean.getStoreId() + BrnmallAPI.BaseImgUrl3 + imageBean.getShowImg())
-                .placeholder(R.mipmap.logo).error(R.mipmap.logo).into(holder.imageView);
+                .placeholder(R.drawable.goodsdefaulimg).error(R.drawable.goodsdefaulimg).into(holder.imageView);
         return convertView;
     }
 

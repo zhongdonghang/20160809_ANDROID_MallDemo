@@ -3,12 +3,13 @@ package com.luoyp.brnmall.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -45,12 +46,14 @@ public class BrandFragment extends BaseFragment {
 
     private boolean isFirstLoad = true;  // 首次可见标志
     private String curCateID = "";
+    private android.support.v4.widget.SwipeRefreshLayout swipemessage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_brand, container, false);
+        this.swipemessage = (SwipeRefreshLayout) v.findViewById(R.id.swipe_message);
         this.brandlistview = (PullToRefreshGridView) v.findViewById(R.id.brand_list_view);
         this.brandcategorylistview = (ListView) v.findViewById(R.id.brandcategory_list_view);
         this.emptybtn = (ImageButton) v.findViewById(R.id.emptybtn);
@@ -58,7 +61,7 @@ public class BrandFragment extends BaseFragment {
         categoryListData = new ArrayList<>();
         adapter = new CategoryAdapter(getActivity(), categoryListData);
         brandcategorylistview.setAdapter(adapter);
-
+        brandlistview.setMode(PullToRefreshBase.Mode.DISABLED);
         brandcategorylistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -72,19 +75,19 @@ public class BrandFragment extends BaseFragment {
             }
         });
 
-        brandlistview.getRefreshableView().setNumColumns(2);
-        brandlistview.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-        brandListData = new ArrayList<>();
-        brandAdapter = new BrandAdapter(getActivity(), brandListData);
-        brandlistview.setAdapter(brandAdapter);
-        brandlistview.setOnPullEventListener(new PullToRefreshBase.OnPullEventListener<GridView>() {
+        swipemessage.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onPullEvent(PullToRefreshBase<GridView> refreshView, PullToRefreshBase.State state, PullToRefreshBase.Mode direction) {
-
+            public void onRefresh() {
                 brandListData.clear();
                 getBrandList(curCateID);
             }
         });
+
+        brandlistview.getRefreshableView().setNumColumns(2);
+        brandListData = new ArrayList<>();
+        brandAdapter = new BrandAdapter(getActivity(), brandListData);
+        brandlistview.setAdapter(brandAdapter);
+
         brandlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -99,6 +102,21 @@ public class BrandFragment extends BaseFragment {
             }
         });
 
+        //解决listview无法滚动问题
+        brandlistview.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int topRowVerticalPosition =
+                        (brandListData == null || brandlistview.getChildCount() == 0) ?
+                                0 : brandlistview.getChildAt(0).getTop();
+                swipemessage.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
+            }
+        });
         emptybtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,14 +145,16 @@ public class BrandFragment extends BaseFragment {
         BrnmallAPI.GetCateBrandList(id, new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
-                brandlistview.onRefreshComplete();
+                swipemessage.setRefreshing(false);
                 brandAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onResponse(String response) {
-                brandlistview.onRefreshComplete();
+                swipemessage.setRefreshing(false);
                 if (response == null || TextUtils.isEmpty(response)) {
+                    brandAdapter.notifyDataSetChanged();
+                    showToast("暂时没有相关品牌");
                     return;
                 }
                 try {
@@ -149,6 +169,9 @@ public class BrandFragment extends BaseFragment {
                             brand.setBrandName(json.getJSONObject("data").getJSONArray("BrandList").getJSONObject(i).getString("Name"));
                             brandListData.add(brand);
                         }
+                        brandAdapter.notifyDataSetChanged();
+                    } else {
+                        showToast("暂时没有相关品牌");
                         brandAdapter.notifyDataSetChanged();
                     }
                 } catch (JSONException e) {

@@ -149,14 +149,14 @@ public class GoodsDetailActivity extends BaseActivity {
 
                     App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + goodsDetailModel.getGoodsInfo().getStoreId()
                             + BrnmallAPI.BaseImgUrl3 + goodsDetailModel.getGoodsInfo().getShowImg())
-                            .placeholder(R.mipmap.logo).error(R.mipmap.logo).into(goodsIcon);
+                            .placeholder(R.drawable.goodsdefaulimg).error(R.drawable.goodsdefaulimg).into(goodsIcon);
 
                     goodsName.setText(goodsDetailModel.getGoodsInfo().getName());
                     if (isLogin){
                         String price = SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * goodsDetailModel.getGoodsInfo().getShopPrice()) * 10 / 100);
-                        goodsPrice.setText("会员价￥ " + price+ " (" + App.getPref("zhekoutitle", "") + ")");
+                        goodsPrice.setText(" ￥ " + price + " (" + App.getPref("zhekoutitle", "") + ")");
                     } else{
-                        goodsPrice.setText("本店价￥ " + goodsDetailModel.getGoodsInfo().getShopPrice());
+                        goodsPrice.setText(" ￥ " + goodsDetailModel.getGoodsInfo().getShopPrice());
                     }
                     goodsPinPai.setText("品牌  " + goodsDetailModel.getBrandInfo().getName());
 

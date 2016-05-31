@@ -80,7 +80,7 @@ public class ShopCarAdapter extends BaseAdapter {
         holder.goodsNum.setText(getItem(position).getBuyCount() + "");
         App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreId()
                 + BrnmallAPI.BaseImgUrl2 + getItem(position).getShowImg())
-                .placeholder(R.mipmap.logo).error(R.mipmap.logo).into(holder.shopcarImg);
+                .placeholder(R.drawable.goodsdefaulimg).error(R.drawable.goodsdefaulimg).into(holder.shopcarImg);
         if (getItem(position).getBuyCount() == 1) {
             holder.down.setVisibility(View.GONE);
         } else {

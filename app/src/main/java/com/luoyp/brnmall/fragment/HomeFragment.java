@@ -151,9 +151,9 @@ public class HomeFragment extends BaseFragment {
 
         adapter = new HomeGoodsAdapter(getActivity(), homeGoodsList);
         homelistview.setAdapter(adapter);
-
-        getHomeAds();
         getHomeGoods();
+        getHomeAds();
+
         return view;
     }
 

@@ -83,7 +83,7 @@ public class MyOrderAdapter extends BaseAdapter {
             imageView.setFocusableInTouchMode(false);
             App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreid()
                     + BrnmallAPI.BaseImgUrl2 + getItem(position).getGoodsList().get(i).getImg())
-                    .placeholder(R.mipmap.logo).error(R.mipmap.logo).into(imageView);
+                    .placeholder(R.drawable.goodsdefaulimg).error(R.drawable.goodsdefaulimg).into(imageView);
             holder.imgll.addView(imageView);
         }
         holder.time.setText(getItem(position).getAddtime());

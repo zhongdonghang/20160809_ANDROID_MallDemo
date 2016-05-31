@@ -61,7 +61,7 @@ public class HomeGoodsAdapter extends BaseAdapter {
         holder.goodsName.setText(getItem(position).getPname());
         holder.goodsPrice.setText("￥ " + getItem(position).getPrice());
 //        holder.marketPrice.setText("市场价 ￥ " + getItem(position).getMarketPrice());
-        App.getPicasso().load(getItem(position).getImg()).placeholder(R.mipmap.logo).error(R.mipmap.logo).into(holder.goodsIcon);
+        App.getPicasso().load(getItem(position).getImg()).placeholder(R.drawable.goodsdefaulimg).error(R.drawable.goodsdefaulimg).into(holder.goodsIcon);
 //        KLog.d(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreId()
 //                +BrnmallAPI.BaseImgUrl2+ getItem(position).getShowImg());
         return convertView;

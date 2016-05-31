@@ -62,19 +62,19 @@ public class CategoryGoodsAdapter extends BaseAdapter {
         }
 
         holder.goodsName.setText(getItem(position).getName());
-        holder.goodsPrice.setText("本店价 ￥ " + getItem(position).getShopPrice());
-        holder.marketPrice.setText("市场价 ￥ " + getItem(position).getMarketPrice());
+        holder.goodsPrice.setText("￥ " + getItem(position).getShopPrice());
+        holder.marketPrice.setText(" ￥ " + getItem(position).getMarketPrice());
         holder.marketPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);// 添加中划线
 
         if (App.getPref("isLogin", false)) {
-            holder.memberPrice.setText("会员价 ￥" + SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * Double.valueOf(getItem(position).getShopPrice()) * 10 / 100)) + " (" + App.getPref("zhekoutitle", "") + ")");
+            holder.memberPrice.setText("  ￥" + SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * Double.valueOf(getItem(position).getShopPrice()) * 10 / 100)) + " (" + App.getPref("zhekoutitle", "") + ")");
         } else {
-            holder.memberPrice.setText("会员价 ￥ (未登陆)");
+            holder.memberPrice.setText("  ￥ (未登陆)");
         }
 
         App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreId()
                 + BrnmallAPI.BaseImgUrl2 + getItem(position).getShowImg())
-                .placeholder(R.mipmap.logo).error(R.mipmap.logo).into(holder.goodsIcon);
+                .placeholder(R.drawable.goodsdefaulimg).error(R.drawable.goodsdefaulimg).into(holder.goodsIcon);
         KLog.d(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreId()
                 + BrnmallAPI.BaseImgUrl2 + getItem(position).getShowImg());
         return convertView;

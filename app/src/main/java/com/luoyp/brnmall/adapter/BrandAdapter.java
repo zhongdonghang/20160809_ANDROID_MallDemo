@@ -57,7 +57,7 @@ public class BrandAdapter extends BaseAdapter {
         }
 
         holder.brandName.setText(getItem(position).getBrandName());
-        App.getPicasso().load(getItem(position).getBrandImg()).placeholder(R.mipmap.logo).error(R.mipmap.logo).into(holder.brandIcon);
+        App.getPicasso().load(getItem(position).getBrandImg()).placeholder(R.drawable.goodsdefaulimg).error(R.drawable.goodsdefaulimg).into(holder.brandIcon);
 
         return convertView;
     }

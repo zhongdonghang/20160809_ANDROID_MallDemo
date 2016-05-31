@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="#ff000000"
-        android:textSize="18sp"/>
+        android:textSize="16sp"/>
 
     <Button
         android:id="@+id/btn_return"
@@ -23,7 +23,7 @@
         android:background="@color/white"
         android:text="返回APP"
         android:textColor="#71B900"
-        android:textSize="18sp"/>
+        android:textSize="16sp"/>
 
 
 </LinearLayout>
