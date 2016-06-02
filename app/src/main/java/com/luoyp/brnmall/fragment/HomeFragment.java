@@ -158,7 +158,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     public void getHomeGoods() {
-        BrnmallAPI.GetAdvertList("41", new ApiCallback<String>() {
+        BrnmallAPI.GetAdvertList("34", new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
                 swipemessage.setRefreshing(false);
@@ -176,9 +176,9 @@ public class HomeFragment extends BaseFragment {
                         tvhot.setVisibility(View.VISIBLE);
                         for (int i = 0; i < json.getJSONArray("data").length(); i++) {
                             HomeGoods goods = new HomeGoods();
-                            goods.setPname(json.getJSONArray("data").getJSONObject(i).getString("Title"));
+                            goods.setPname(json.getJSONArray("data").getJSONObject(i).getString("ExtField1"));
                             goods.setPrice(json.getJSONArray("data").getJSONObject(i).getString("ExtField2"));
-                            goods.setPid(json.getJSONArray("data").getJSONObject(i).getString("ExtField1"));
+                            goods.setPid(json.getJSONArray("data").getJSONObject(i).getString("ExtField4"));
                             goods.setImg(BrnmallAPI.adImgUrl + json.getJSONArray("data").getJSONObject(i).getString("Body"));
 
                             homeGoodsList.add(goods);

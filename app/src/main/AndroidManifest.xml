@@ -61,10 +61,10 @@
         <!-- 配置的第三方参数属性 -->
         <meta-data
             android:name="BDAPPID"
-            android:value="8161215"/>
+            android:value="6991828"/>
         <meta-data
             android:name="BDAPPKEY"
-            android:value="BIQ5IGV2Qc2WCKCYBOZgIet9ycMB8MKK"/>
+            android:value="nl58FRF6wHsxYCftXpY0aM4GQX8cB7W6"/>
         <meta-data
             android:name="PUSH_APPID"
             android:value="Fotr476ZIE7moaX94k4LQ2"/>
