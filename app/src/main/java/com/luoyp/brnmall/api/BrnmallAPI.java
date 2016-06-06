@@ -27,6 +27,13 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "GetCategoryLay1", "", callback, "getCategory");
     }
 
+    public static void getCity(String id, ApiCallback<String> callback) {
+        OkHttpClientManager.postAsyn(BaseIP + "/tool/citylist?provinceId=" + id, "", callback, "getCity");
+    }
+
+    public static void getDiqu(String id, ApiCallback<String> callback) {
+        OkHttpClientManager.postAsyn(BaseIP + "/tool/countylist?cityId=" + id, "", callback, "getDiqu");
+    }
     /**
      * 根据分类Id获取商品列表
      *

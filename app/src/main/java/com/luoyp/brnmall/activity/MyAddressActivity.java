@@ -82,7 +82,7 @@ public class MyAddressActivity extends BaseActivity {
                     intent.putExtra("aid", addressList.get(position - 1).getAid());
                     intent.putExtra("name", addressList.get(position - 1).getName());
                     intent.putExtra("phone", addressList.get(position - 1).getMobile());
-                    intent.putExtra("address", addressList.get(position - 1).getAddress());
+                    intent.putExtra("address", addressList.get(position - 1).getProvinceName() + addressList.get(position - 1).getCityName() + addressList.get(position - 1).getCountyName() + addressList.get(position - 1).getAddress());
                     //设置返回数据
                     MyAddressActivity.this.setResult(RESULT_OK, intent);
                     //关闭Activity
@@ -103,7 +103,7 @@ public class MyAddressActivity extends BaseActivity {
     @Subscriber(tag = "editaddress")
     public void editAdderss(int pos) {
         //showToast("地址id = " + addressList.get(pos).getAid());
-        Intent intent = new Intent(this,EditAddressActivity.class);
+        Intent intent = new Intent(this, EditAddressActivity.class);
         intent.putExtra("address", addressList.get(pos));
         startActivity(intent);
     }
@@ -113,9 +113,10 @@ public class MyAddressActivity extends BaseActivity {
         addressList.clear();
         getMyAddress();
     }
+
     @Override
     public void add(View view) {
-        startActivity(new Intent(this,AddMyAddressActivity.class));
+        startActivity(new Intent(this, AddMyAddressActivity.class));
     }
 
     public void getMyAddress() {
@@ -133,6 +134,7 @@ public class MyAddressActivity extends BaseActivity {
             @Override
             public void onResponse(String response) {
                 dismissProgressDialog();
+                //  KLog.d("地址json " + response);
                 myaddresslistview.onRefreshComplete();
 
                 if (response == null || TextUtils.isEmpty(response)) {
@@ -167,6 +169,13 @@ public class MyAddressActivity extends BaseActivity {
                             model.setZipcode(object.getString("ZipCode"));
                             model.setEmail(object.getString("Email"));
                             model.setIsDefault(object.getString("IsDefault"));
+                            model.setProvinceName(object.getString("ProvinceName"));
+
+                            model.setProvinceId(object.getString("ProvinceId"));
+                            model.setCityId(object.getString("CityId"));
+                            model.setCityName(object.getString("CityName"));
+                            model.setCountyId(object.getString("CountyId"));
+                            model.setCountyName(object.getString("CountyName"));
                             addressList.add(model);
                         }
                         //    myaddresslistview.invalidate();

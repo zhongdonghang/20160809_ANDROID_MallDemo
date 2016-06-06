@@ -17,6 +17,61 @@ public class MyAddressModel implements Serializable {
     private String email = "";
     private String isDefault = "";
 
+    private String ProvinceId = "1";
+    private String ProvinceName = "";
+    private String CityId = "";
+    private String CityName = "";
+    private String CountyId = "";
+    private String CountyName = "";
+
+    public String getCityId() {
+        return CityId;
+    }
+
+    public void setCityId(String cityId) {
+        CityId = cityId;
+    }
+
+    public String getProvinceId() {
+        return ProvinceId;
+    }
+
+    public void setProvinceId(String provinceId) {
+        ProvinceId = provinceId;
+    }
+
+    public String getProvinceName() {
+        return ProvinceName;
+    }
+
+    public void setProvinceName(String provinceName) {
+        ProvinceName = provinceName;
+    }
+
+    public String getCityName() {
+        return CityName;
+    }
+
+    public void setCityName(String cityName) {
+        CityName = cityName;
+    }
+
+    public String getCountyId() {
+        return CountyId;
+    }
+
+    public void setCountyId(String countyId) {
+        CountyId = countyId;
+    }
+
+    public String getCountyName() {
+        return CountyName;
+    }
+
+    public void setCountyName(String countyName) {
+        CountyName = countyName;
+    }
+
     public String getPhone() {
         return phone;
     }
