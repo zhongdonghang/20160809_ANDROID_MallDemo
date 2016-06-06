@@ -8,6 +8,15 @@ public class HomeGoods {
     private String pname = "";
     private String img = "";
     private String price = "";
+    private String markiprice = "";
+
+    public String getMarkiprice() {
+        return markiprice;
+    }
+
+    public void setMarkiprice(String markiprice) {
+        this.markiprice = markiprice;
+    }
 
     public String getPrice() {
         return price;
