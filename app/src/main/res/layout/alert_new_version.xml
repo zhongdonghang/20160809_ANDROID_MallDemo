@@ -34,9 +34,11 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
         android:text="下   载"
         android:textColor="@android:color/white"
-        android:textSize="18sp"/>
+        android:textSize="16sp"/>
 
     <TextView
         android:layout_width="match_parent"

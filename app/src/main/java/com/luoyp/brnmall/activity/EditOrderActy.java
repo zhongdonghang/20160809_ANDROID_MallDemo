@@ -1,10 +1,13 @@
 package com.luoyp.brnmall.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -39,7 +42,9 @@ public class EditOrderActy extends BaseActivity {
     private android.widget.RelativeLayout address;
     private TextView ordername;
     private TextView orderphone;
-    private TextView orderaddress;
+    private TextView orderaddress, txtPay;
+    private String pay = "";
+    private String[] payname = {"在线支付", "货到付款",};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,7 @@ public class EditOrderActy extends BaseActivity {
         this.tvsum = (TextView) findViewById(R.id.tv_sum);
         this.shopcarlistview = (ListView) findViewById(R.id.shopcarlistview);
         this.getAddress = (Button) findViewById(R.id.getAddress);
+        txtPay = (TextView) findViewById(R.id.txtpay);
         shopCartModel = App.shopCar;
 
         KLog.d(shopCartModel);
@@ -98,6 +104,10 @@ public class EditOrderActy extends BaseActivity {
             showToast("请选择收货地址");
             return;
         }
+        if (pay.isEmpty()) {
+            showToast("请选择支付方式");
+            return;
+        }
         // 获取当前用户的uid
         UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
         String uid = String.valueOf(userModel.getUserInfo().getUid());
@@ -112,7 +122,7 @@ public class EditOrderActy extends BaseActivity {
         }
         KLog.d("提交订单商品list:" + list);
         showProgressDialog("正在提交订单");
-        BrnmallAPI.createOrder(uid, aid, list, "alipay", "", new ApiCallback<String>() {
+        BrnmallAPI.createOrder(uid, aid, list, pay, "", new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
                 dismissProgressDialog();
@@ -136,6 +146,10 @@ public class EditOrderActy extends BaseActivity {
 
                     EventBus.getDefault().post("", "CartAdapter_tag");
                     showToast("提交订单成功");
+                    if ("cod".equals(pay)) {
+                        finish();
+                        return;
+                    }
                     Intent intent = new Intent();
 //                    intent.putExtra("oid", json.getJSONObject("data").getString("Oid"));
 //                    intent.putExtra("osn", json.getJSONObject("data").getString("OSN"));
@@ -172,5 +186,55 @@ public class EditOrderActy extends BaseActivity {
             orderphone.setText("联系电话: " + data.getExtras().getString("phone"));
         }
 
+    }
+
+    public void getPayway(View view) {
+        KLog.d("选择支付方式");
+        showDialog("支付方式", payname, "0");
+    }
+
+    public void showDialog(String name, String[] data, final String type) {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(EditOrderActy.this);
+        builderSingle.setIcon(R.mipmap.logo);
+        builderSingle.setTitle(name);
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                EditOrderActy.this,
+                android.R.layout.select_dialog_singlechoice);
+        arrayAdapter.addAll(data);
+
+        builderSingle.setNegativeButton(
+                "取消",
+                new DialogInterface.OnClickListener()
+
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }
+        );
+
+        builderSingle.setAdapter(
+                arrayAdapter,
+                new DialogInterface.OnClickListener()
+
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        txtPay.setText("支付方式: " + payname[which]);
+                        if (which == 1) {
+                            KLog.d(payname[which]);
+                            pay = "cod";
+                            return;
+                        } else {
+                            KLog.d("alipay = " + payname[which]);
+                            pay = "alipay";
+                        }
+                    }
+                }
+
+        );
+        builderSingle.show();
     }
 }
