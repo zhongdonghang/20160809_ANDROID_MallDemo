@@ -99,15 +99,14 @@ public class RegisterActivity extends BaseActivity {
         String introducePhone = mIntroducePhoneView.getText().toString().trim();
 
         // 检查推荐人手机
-        if (TextUtils.isEmpty(introducePhone)) {
-            mIntroducePhoneView.setError(getString(R.string.error_field_required));
-            focusView = mIntroducePhoneView;
-            canel = true;
-        } else if (!isPhoneValid(introducePhone)) {
-            mIntroducePhoneView.setError(getString(R.string.error_invalid_phone));
-            focusView = mIntroducePhoneView;
-            canel = true;
+        if (!TextUtils.isEmpty(introducePhone)) {
+            if (!isPhoneValid(introducePhone)) {
+                mIntroducePhoneView.setError(getString(R.string.error_invalid_phone));
+                focusView = mIntroducePhoneView;
+                canel = true;
+            }
         }
+
 
         // 检查确认密码
         if (TextUtils.isEmpty(confirmPwd)) {
@@ -220,7 +219,7 @@ public class RegisterActivity extends BaseActivity {
      * @param phone 手机号
      */
     private void getVerifyCode(String phone) {
-        BrnmallAPI.sendVerifyCodeToPhone(phone, "1", new ApiCallback<String>() {
+        BrnmallAPI.sendVerifyCodeToPhone(phone, "0", new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
                 showToast("请检查你的网络情况");
