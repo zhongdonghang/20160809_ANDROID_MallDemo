@@ -32,14 +32,14 @@
         android:layout_marginTop="6dp"
         android:background="@android:color/white">
 
-        <com.handmark.pulltorefresh.library.PullToRefreshGridView
+        <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/home_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/white"
             android:cacheColorHint="@android:color/transparent"
             android:divider="@android:color/transparent"
-            android:horizontalSpacing="8dp"
+            android:dividerHeight="8dp"
             android:listSelector="@android:color/transparent"
             android:scrollbars="none"
             android:stretchMode="columnWidth"

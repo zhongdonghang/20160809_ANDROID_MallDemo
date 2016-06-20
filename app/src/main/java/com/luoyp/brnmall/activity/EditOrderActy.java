@@ -226,6 +226,7 @@ public class EditOrderActy extends BaseActivity {
                         if (which == 1) {
                             KLog.d(payname[which]);
                             pay = "cod";
+
                             return;
                         } else {
                             KLog.d("alipay = " + payname[which]);

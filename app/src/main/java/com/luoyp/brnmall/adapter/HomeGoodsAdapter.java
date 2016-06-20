@@ -1,6 +1,7 @@
 package com.luoyp.brnmall.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,25 +46,64 @@ public class HomeGoodsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_home_goods, null);
-            holder = new ViewHolder();
-            holder.goodsName = (TextView) convertView.findViewById(R.id.tv_goods_name);
-            holder.goodsPrice = (TextView) convertView.findViewById(R.id.tv_goods_price);
-            holder.goodsIcon = (ImageView) convertView.findViewById(R.id.iv_goods_icon);
-            holder.marketPrice = (TextView) convertView.findViewById(R.id.tv_market_price);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
+        CategoryGoodsAdapter.ViewHolder holder = null;
+        TextView textView = new TextView(mContext);
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 120);
+        textView.setLayoutParams(params);
+        textView.setTextSize(16);
+        textView.setBackgroundResource(R.color.colorAccent);
+        textView.setTextColor(mContext.getResources().getColorStateList(R.color.white));
+        if ("33".equals(getItem(position).getItemType())) {
+            textView.setText("情趣用品");
+            return textView;
         }
+        if ("34".equals(getItem(position).getItemType())) {
+            textView.setText("保健品");
+            return textView;
+        }
+        if ("35".equals(getItem(position).getItemType())) {
+            textView.setText("保健食品");
+            return textView;
+        }
+        if ("36".equals(getItem(position).getItemType())) {
+            textView.setText("保健器材");
+            return textView;
+        }
+        if ("37".equals(getItem(position).getItemType())) {
+            textView.setText("化妆品");
+            return textView;
+        }
+        if ("38".equals(getItem(position).getItemType())) {
+            textView.setText("洗护用品");
+            return textView;
+        }
+        if ("39".equals(getItem(position).getItemType())) {
+
+            textView.setText("保健礼品");
+            return textView;
+        }
+        convertView = mInflater.inflate(R.layout.item_home_goods, null);
+        holder = new CategoryGoodsAdapter.ViewHolder();
+        holder.goodsName = (TextView) convertView.findViewById(R.id.tv_goods_name);
+        holder.goodsPrice = (TextView) convertView.findViewById(R.id.tv_goods_price);
+        holder.goodsIcon = (ImageView) convertView.findViewById(R.id.iv_goods_icon);
+        holder.marketPrice = (TextView) convertView.findViewById(R.id.tv_market_price);
+        holder.memberPrice = (TextView) convertView.findViewById(R.id.tv_member_price);
+        convertView.setTag(holder);
 
         holder.goodsName.setText(getItem(position).getPname());
         holder.goodsPrice.setText("￥ " + getItem(position).getPrice());
-//        holder.marketPrice.setText("市场价 ￥ " + getItem(position).getMarketPrice());
+        holder.marketPrice.setText(" ￥ " + getItem(position).getMarkiprice());
+        holder.marketPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);// 添加中划线
+
+//        if (App.getPref("isLogin", false)) {
+//            holder.memberPrice.setText("  ￥" + SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * Double.valueOf(getItem(position).getShopPrice()) * 10 / 100)) + " (" + App.getPref("zhekoutitle", "") + ")");
+//        } else {
+//            holder.memberPrice.setText("  ￥ (未登陆)");
+//        }
         App.getPicasso().load(getItem(position).getImg()).placeholder(R.drawable.goodsdefaulimg).error(R.drawable.goodsdefaulimg).into(holder.goodsIcon);
-//        KLog.d(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreId()
-//                +BrnmallAPI.BaseImgUrl2+ getItem(position).getShowImg());
+
+
         return convertView;
     }
 
@@ -71,6 +111,7 @@ public class HomeGoodsAdapter extends BaseAdapter {
         TextView goodsName;
         TextView goodsPrice;
         TextView marketPrice;
+        TextView memberPrice;
         ImageView goodsIcon;
     }
 }

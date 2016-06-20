@@ -9,6 +9,96 @@ public class HomeGoods {
     private String img = "";
     private String price = "";
     private String markiprice = "";
+    private String itemType = "";
+    private String adId = "";
+    private String adPosId = "";
+    private String title = "";
+    private String url = "";
+    private String state = "";
+    private String type = "";
+    private String extField3 = "";
+    private String extField4 = "";
+    private String extField5 = "";
+
+    public String getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
+    }
+
+    public String getAdId() {
+        return adId;
+    }
+
+    public void setAdId(String adId) {
+        this.adId = adId;
+    }
+
+    public String getAdPosId() {
+        return adPosId;
+    }
+
+    public void setAdPosId(String adPosId) {
+        this.adPosId = adPosId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getExtField3() {
+        return extField3;
+    }
+
+    public void setExtField3(String extField3) {
+        this.extField3 = extField3;
+    }
+
+    public String getExtField4() {
+        return extField4;
+    }
+
+    public void setExtField4(String extField4) {
+        this.extField4 = extField4;
+    }
+
+    public String getExtField5() {
+        return extField5;
+    }
+
+    public void setExtField5(String extField5) {
+        this.extField5 = extField5;
+    }
 
     public String getMarkiprice() {
         return markiprice;

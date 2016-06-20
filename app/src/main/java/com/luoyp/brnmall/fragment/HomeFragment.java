@@ -24,7 +24,7 @@ import com.baidu.autoupdatesdk.BDAutoUpdateSDK;
 import com.baidu.autoupdatesdk.CPCheckUpdateCallback;
 import com.baidu.autoupdatesdk.CPUpdateDownloadCallback;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshGridView;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.internal.Utils;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.activity.GoodsDetailActivity;
@@ -33,6 +33,7 @@ import com.luoyp.brnmall.adapter.ImagePagerAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.HomeGoods;
+import com.luoyp.brnmall.task.Task;
 import com.luoyp.brnmall.utils.PermissionUtil;
 import com.luoyp.brnmall.view.AutoScrollViewPager;
 import com.socks.library.KLog;
@@ -53,11 +54,18 @@ public class HomeFragment extends BaseFragment {
     ProgressDialog progressBar;
     private List<String> imageIdList;
     private List<HomeGoods> homeGoodsList;
+    private List<HomeGoods> homeGoodsList1;
+    private List<HomeGoods> homeGoodsList2;
+    private List<HomeGoods> homeGoodsList3;
+    private List<HomeGoods> homeGoodsList4;
+    private List<HomeGoods> homeGoodsList5;
+    private List<HomeGoods> homeGoodsList6;
+    private List<HomeGoods> homeGoodsList7;
     private HomeGoodsAdapter adapter;
     private ImagePagerAdapter homeAdAdapter;
     private com.luoyp.brnmall.view.AutoScrollViewPager autoviewpager;
-    //private com.handmark.pulltorefresh.library.PullToRefreshListView homelistview;
-    private PullToRefreshGridView homelistview;
+    private com.handmark.pulltorefresh.library.PullToRefreshListView homelistview;
+    //    private PullToRefreshGridView homelistview;
     private android.support.v4.widget.SwipeRefreshLayout swipemessage;
     private android.widget.TextView tvhot;
 
@@ -77,7 +85,7 @@ public class HomeFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //判断权限
-        if (PermissionUtil.hasSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+        if (PermissionUtil.hasSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             BDAutoUpdateSDK.cpUpdateCheck(getActivity(), new MyCPCheckUpdateCallback());
         } else {
             PermissionUtil.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -90,6 +98,13 @@ public class HomeFragment extends BaseFragment {
         imageIdList.add("4");
 
         homeGoodsList = new ArrayList<>();
+        homeGoodsList1 = new ArrayList<>();
+        homeGoodsList2 = new ArrayList<>();
+        homeGoodsList3 = new ArrayList<>();
+        homeGoodsList4 = new ArrayList<>();
+        homeGoodsList5 = new ArrayList<>();
+        homeGoodsList6 = new ArrayList<>();
+        homeGoodsList7 = new ArrayList<>();
         homeAdAdapter = new ImagePagerAdapter(getActivity(), imageIdList);
     }
 
@@ -100,7 +115,7 @@ public class HomeFragment extends BaseFragment {
         this.tvhot = (TextView) view.findViewById(R.id.tv_hot);
 
         this.swipemessage = (SwipeRefreshLayout) view.findViewById(R.id.swipe_message);
-        this.homelistview = (PullToRefreshGridView) view.findViewById(R.id.home_list_view);
+        this.homelistview = (PullToRefreshListView) view.findViewById(R.id.home_list_view);
         this.autoviewpager = (AutoScrollViewPager) view.findViewById(R.id.auto_view_pager);
 
         autoviewpager.setAdapter(homeAdAdapter.setInfiniteLoop(true));
@@ -113,23 +128,22 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 homeGoodsList.clear();
-                getHomeGoods();
+                doGetHomeGoodsTask();
                 getHomeAds();
             }
         });
 
-        homelistview.getRefreshableView().setNumColumns(2);
+        // homelistview.getRefreshableView().setNumColumns(2);
         homelistview.setMode(PullToRefreshBase.Mode.DISABLED);
 
 
         homelistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                KLog.d("产品id" + homeGoodsList.get(position).getPid());
+                KLog.d("产品id" + homeGoodsList.get(position - 1).getPid());
                 Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
-                intent.putExtra("pid", homeGoodsList.get(position).getPid() + "");
-                intent.putExtra("name", homeGoodsList.get(position).getPname());
+                intent.putExtra("pid", homeGoodsList.get(position - 1).getPid() + "");
+                intent.putExtra("name", homeGoodsList.get(position - 1).getPname());
                 startActivity(intent);
             }
         });
@@ -151,14 +165,47 @@ public class HomeFragment extends BaseFragment {
 
         adapter = new HomeGoodsAdapter(getActivity(), homeGoodsList);
         homelistview.setAdapter(adapter);
-        getHomeGoods();
+
         getHomeAds();
 
+        doGetHomeGoodsTask();
         return view;
     }
 
-    public void getHomeGoods() {
-        BrnmallAPI.GetAdvertList("34", new ApiCallback<String>() {
+    public void doGetHomeGoodsTask() {
+        Task.setThreadMaxNum(5);
+
+        for (int i = 0; i < 7; i++) {
+            final int aid = 33 + i;
+            KLog.d("aid= " + aid);
+            new Task() {
+
+                @Override
+                public Object obtainData(Task task, Object parameter)
+                        throws Exception {
+                    // TODO Auto-generated method stub
+                    getHomeGoods(aid + "");
+
+                    return task.taskID;
+                }
+
+            }
+                    .setOnFinishListen(new Task.OnFinishListen() {
+
+                        @Override
+                        public void onFinish(Task task, Object data) {
+
+                            // TODO Auto-generated method stub
+                            //  System.err.println("任务编号" + task.taskID + "任务完成");
+                        }
+                    })
+                    .setTaskID(i)
+                    .start();
+        }
+    }
+
+    public void getHomeGoods(final String id) {
+        BrnmallAPI.GetAdvertList(id, new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
                 swipemessage.setRefreshing(false);
@@ -173,14 +220,67 @@ public class HomeFragment extends BaseFragment {
                 try {
                     JSONObject json = new JSONObject(response);
                     if (json.getJSONArray("data").length() >= 1) {
-                        tvhot.setVisibility(View.VISIBLE);
+                        //   tvhot.setVisibility(View.VISIBLE);
+//                        let AdId = obj["AdId"].stringValue
+//                        let AdPosId = obj["AdPosId"].stringValue
+//                        let Title = obj["Title"].stringValue
+//                        let Url = obj["Url"].stringValue
+//                        let Body = obj["Body"].stringValue
+//                        let ExtField1 = obj["ExtField1"].stringValue
+//                        let ExtField2 = obj["ExtField2"].stringValue
+//                        let ExtField3 = obj["ExtField3"].stringValue
+//                        let ExtField4 = obj["ExtField4"].stringValue
+//                        let ExtField5 = obj["ExtField5"].stringValue
+//                        let State = obj[""].stringValue
+//                        let Type = obj[""].stringValue
+//                        let img = obj["Body"].stringValue
                         for (int i = 0; i < json.getJSONArray("data").length(); i++) {
                             HomeGoods goods = new HomeGoods();
+                            if ("33".equals(id) && i == 0) {
+                                goods.setItemType(id);
+                                homeGoodsList.add(goods);
+
+                            }
+                            if ("34".equals(id) && i == 0) {
+                                goods.setItemType(id);
+                                homeGoodsList.add(goods);
+
+                            }
+                            if ("35".equals(id) && i == 0) {
+                                goods.setItemType(id);
+                                homeGoodsList.add(goods);
+
+                            }
+                            if ("36".equals(id) && i == 0) {
+                                goods.setItemType(id);
+                                homeGoodsList.add(goods);
+
+                            }
+                            if ("37".equals(id) && i == 0) {
+                                goods.setItemType(id);
+                                homeGoodsList.add(goods);
+
+                            }
+                            if ("38".equals(id) && i == 0) {
+                                goods.setItemType(id);
+                                homeGoodsList.add(goods);
+
+                            }
+                            if ("39".equals(id) && i == 0) {
+                                goods.setItemType(id);
+                                homeGoodsList.add(goods);
+
+                            }
+
+                            goods = new HomeGoods();
+                            goods.setState(json.getJSONArray("data").getJSONObject(i).getString("State"));
+                            goods.setType(json.getJSONArray("data").getJSONObject(i).getString("Type"));
                             goods.setPname(json.getJSONArray("data").getJSONObject(i).getString("ExtField1"));
                             goods.setPrice(json.getJSONArray("data").getJSONObject(i).getString("ExtField2"));
-                            goods.setMarkiprice(json.getJSONArray("data").getJSONObject(i).getString("ExtField2"));
+                            goods.setMarkiprice(json.getJSONArray("data").getJSONObject(i).getString("ExtField3"));
                             goods.setPid(json.getJSONArray("data").getJSONObject(i).getString("ExtField4"));
                             goods.setImg(BrnmallAPI.adImgUrl + json.getJSONArray("data").getJSONObject(i).getString("Body"));
+
 
                             homeGoodsList.add(goods);
                         }
