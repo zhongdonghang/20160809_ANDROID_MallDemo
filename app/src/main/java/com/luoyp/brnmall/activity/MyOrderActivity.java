@@ -168,7 +168,7 @@ public class MyOrderActivity extends BaseActivity {
                     }
                     JSONArray orderlist = json.getJSONObject("data").getJSONArray("OrderList");
                     if (orderlist.length() == 0) {
-                        showToast("您还没有订单,去逛一逛吧");
+                        showToast("没有订单了,去逛一逛吧");
                         return;
                     }
                     if (orderlist.length() >= 1) {

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -63,13 +64,23 @@ public class ShopCarAdapter extends BaseAdapter {
             holder.down = (ImageButton) convertView.findViewById(R.id.iv_down);
             holder.up = (ImageButton) convertView.findViewById(R.id.iv_up);
             holder.shopcarImg = (ImageView) convertView.findViewById(R.id.shopcarImg);
+            holder.checkGoods = (CheckBox) convertView.findViewById(R.id.checkgoods);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         holder.goodsName.setText(getItem(position).getName());
+        if (getItem(position).isCheck()) {
+            holder.checkGoods.setChecked(true);
 
+        }
+        holder.checkGoods.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(position, "onCheckedChanged");
+            }
+        });
         if (App.getPref("isLogin", false)) {
             holder.goodsPrice.setText("￥" + SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * Double.valueOf(getItem(position).getShopPrice()) * 10 / 100)) + " (" + App.getPref("zhekoutitle", "") + ")");
         } else {
@@ -90,7 +101,7 @@ public class ShopCarAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (getItem(position).getBuyCount() > 1) {
-                    downGoodsToCart(position,String.valueOf(getItem(position).getPid()),String.valueOf(getItem(position).getUid()),"-1");
+                    downGoodsToCart(position, String.valueOf(getItem(position).getPid()), String.valueOf(getItem(position).getUid()), "-1");
                 }
 
             }
@@ -100,7 +111,7 @@ public class ShopCarAdapter extends BaseAdapter {
         holder.up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addGoodsToCart(position,String.valueOf(getItem(position).getPid()),String.valueOf(getItem(position).getUid()),"1");
+                addGoodsToCart(position, String.valueOf(getItem(position).getPid()), String.valueOf(getItem(position).getUid()), "1");
             }
         });
 
@@ -139,19 +150,19 @@ public class ShopCarAdapter extends BaseAdapter {
     }
 
     private void downGoodsToCart(final int position, String pid, String uid, String count) {
-        BrnmallAPI.addProductToCart(pid,uid,count, new ApiCallback<String>() {
+        BrnmallAPI.addProductToCart(pid, uid, count, new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
             }
 
             @Override
             public void onResponse(String response) {
-                if (TextUtils.isEmpty(response)){
+                if (TextUtils.isEmpty(response)) {
                     return;
                 }
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    if (jsonObject.getString("result").equals("true")){
+                    if (jsonObject.getString("result").equals("true")) {
                         getItem(position).setBuyCount(getItem(position).getBuyCount() - 1);
 //                        BigDecimal bAmount = new BigDecimal(Double.toString(shopCartModel.getProductAmount()));
 //                        BigDecimal bPrice = new BigDecimal(Double.toString(getItem(position).getShopPrice()));
@@ -175,5 +186,6 @@ public class ShopCarAdapter extends BaseAdapter {
         ImageButton down;
         ImageButton up;
         ImageView shopcarImg;
+        CheckBox checkGoods;
     }
 }

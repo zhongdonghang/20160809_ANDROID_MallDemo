@@ -2,6 +2,7 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:descendantFocusability="blocksDescendants"
               android:orientation="horizontal"
               tools:context="com.luoyp.brnmall.fragment.CategoryFragment">
 
@@ -33,14 +34,14 @@
         android:id="@+id/category_goods_list_view"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:padding="3dp"
         android:layout_gravity="right"
+        android:layout_weight="3"
         android:background="#FFFFFF"
-        android:scrollbars="none"
-        android:dividerHeight="8dp"
-        android:divider="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent"
-        android:listSelector="@android:color/transparent"/>
+        android:divider="@android:color/transparent"
+        android:dividerHeight="8dp"
+        android:listSelector="@android:color/transparent"
+        android:padding="3dp"
+        android:scrollbars="none"/>
 
 </LinearLayout>

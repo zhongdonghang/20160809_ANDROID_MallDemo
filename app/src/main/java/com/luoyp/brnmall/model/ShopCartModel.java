@@ -80,40 +80,6 @@ public class ShopCartModel implements Serializable {
 
     public static class CartGoodsBean {
 
-        /**
-         * RecordId : 285
-         * Oid : 0
-         * Uid : 29
-         * Sid :
-         * Pid : 88
-         * PSN : 35545
-         * CateId : 85
-         * BrandId : 32
-         * StoreId : 2
-         * StoreCid : 1
-         * StoreSTid : 3
-         * Name : 碧生源牌减肥茶 2.5g/袋*15袋/盒*4盒
-         * ShowImg : ps_1603280928582176397.png
-         * DiscountPrice : 0.37
-         * ShopPrice : 0.37
-         * CostPrice : 0.5
-         * MarketPrice : 0.4
-         * Weight : 0
-         * IsReview : 0
-         * RealCount : 1
-         * BuyCount : 1
-         * SendCount : 0
-         * Type : 0
-         * PayCredits : 0
-         * CouponTypeId : 0
-         * ExtCode1 : 0
-         * ExtCode2 : 0
-         * ExtCode3 : 0
-         * ExtCode4 : 0
-         * ExtCode5 : 0
-         * AddTime : /Date(1462409575000+0800)/
-         */
-
         private int RecordId;
         private int Oid;
         private int Uid;
@@ -145,6 +111,7 @@ public class ShopCartModel implements Serializable {
         private int ExtCode4;
         private int ExtCode5;
         private String AddTime;
+        private boolean isCheck = false;
 
         public static List<CartGoodsBean> jsonStrToList(String str) throws JSONException {
             List<CartGoodsBean> list = new ArrayList<>();
@@ -164,6 +131,14 @@ public class ShopCartModel implements Serializable {
                 }
                 return list;
             }
+        }
+
+        public boolean isCheck() {
+            return isCheck;
+        }
+
+        public void setCheck(boolean check) {
+            isCheck = check;
         }
 
         public int getRecordId() {

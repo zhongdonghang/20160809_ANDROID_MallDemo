@@ -94,7 +94,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:maxLines="1"
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <TextView

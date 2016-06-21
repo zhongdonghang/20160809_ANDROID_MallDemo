@@ -3,6 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/white"
+                android:descendantFocusability="blocksDescendants"
                 tools:context="com.luoyp.brnmall.fragment.HomeFragment">
 
     <com.luoyp.brnmall.view.AutoScrollViewPager

@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
-import com.luoyp.brnmall.SysUtils;
 import com.luoyp.brnmall.activity.EditOrderActy;
 import com.luoyp.brnmall.adapter.ShopCarAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
@@ -100,6 +99,13 @@ public class ShopCarFragment extends BaseFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                shopCartModel.getCartGoodsBeanList().get(position).setCheck(!shopCartModel.getCartGoodsBeanList().get(position).isCheck());
+                adapter.notifyDataSetChanged();
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 final int pos = position;
                 KLog.d("删除购物车position " + pos);
                 KLog.d("删除购物车id " + shopCartModel.getCartGoodsBeanList().get(pos).getPid());
@@ -122,7 +128,9 @@ public class ShopCarFragment extends BaseFragment {
                     }
                 });
                 builder.create().show();
+                return false;
             }
+
         });
         return view;
     }
@@ -130,6 +138,18 @@ public class ShopCarFragment extends BaseFragment {
     public void jiesuan() {
         KLog.d("点击结算");
         if (!checkLogin()) {
+            return;
+        }
+        boolean isEmpty = true;
+
+        for (int i = 0; i < shopCartModel.getCartGoodsBeanList().size(); i++) {
+            if (shopCartModel.getCartGoodsBeanList().get(i).isCheck()) {
+                isEmpty = false;
+                break;
+            }
+        }
+        if (isEmpty) {
+            showToast("请选择需要购物的商品");
             return;
         }
         App.shopCar = shopCartModel;
@@ -191,6 +211,8 @@ public class ShopCarFragment extends BaseFragment {
             // 获取当前用户的uid
             UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
             uid = String.valueOf(userModel.getUserInfo().getUid());
+
+            loadShopCartData(uid);
         }
     }
 
@@ -201,29 +223,32 @@ public class ShopCarFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    /**
-     * 接收事件的方法
-     */
+    @Subscriber(tag = "onCheckedChanged")
+    public void onCheckedChanged(int position) {
+        KLog.d(position);
+        shopCartModel.getCartGoodsBeanList().get(position).setCheck(!shopCartModel.getCartGoodsBeanList().get(position).isCheck());
+    }
+
     @Subscriber(tag = "CartAdapter_tag")
     public void refreshView(String s) {
         //  tvSum.setText(amount + "");
-        loadShopCartData(uid);
+
     }
 
     public void totalPrice() {
-        double sum = 0.0;
-        int goodsCount = shopCartModel.getCartGoodsBeanList().size();
-        if (goodsCount == 0) {
-            tvSum.setText("");
-        }
-        for (int i = 0; i < goodsCount; i++) {
-            sum += shopCartModel.getCartGoodsBeanList().get(i).getShopPrice() * shopCartModel.getCartGoodsBeanList().get(i).getBuyCount();
-        }
-        if (App.getPref("isLogin", false)) {
-            tvSum.setText(SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * sum * 10 / 100)) + " (" + App.getPref("zhekoutitle", "") + ")");
-        } else {
-            tvSum.setText(SysUtils.formatDouble(sum) + " (" + App.getPref("zhekoutitle", "") + ")");
-        }
+//        double sum = 0.0;
+//        int goodsCount = shopCartModel.getCartGoodsBeanList().size();
+//        if (goodsCount == 0) {
+//            tvSum.setText("");
+//        }
+//        for (int i = 0; i < goodsCount; i++) {
+//            sum += shopCartModel.getCartGoodsBeanList().get(i).getShopPrice() * shopCartModel.getCartGoodsBeanList().get(i).getBuyCount();
+//        }
+//        if (App.getPref("isLogin", false)) {
+//            tvSum.setText(SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * sum * 10 / 100)) + " (" + App.getPref("zhekoutitle", "") + ")");
+//        } else {
+//            tvSum.setText(SysUtils.formatDouble(sum) + " (" + App.getPref("zhekoutitle", "") + ")");
+//        }
 
 
     }
@@ -265,6 +290,8 @@ public class ShopCarFragment extends BaseFragment {
      * @param uid 用户id
      */
     private void loadShopCartData(String uid) {
+        shopCartModel.getCartGoodsBeanList().clear();
+        adapter.notifyDataSetInvalidated();
         BrnmallAPI.getMyCart(uid, new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {

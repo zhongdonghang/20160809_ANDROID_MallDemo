@@ -30,6 +30,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.simple.eventbus.EventBus;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EditOrderActy extends BaseActivity {
 
     ShopCartModel shopCartModel;
@@ -60,8 +63,24 @@ public class EditOrderActy extends BaseActivity {
         this.shopcarlistview = (ListView) findViewById(R.id.shopcarlistview);
         this.getAddress = (Button) findViewById(R.id.getAddress);
         txtPay = (TextView) findViewById(R.id.txtpay);
-        shopCartModel = App.shopCar;
+        shopCartModel = new ShopCartModel();
+//        private int TotalCount;
+//        private double ProductAmount;
+//        private int FullCut;
+//        private double OrderAmount;
+//
+//        private List<ShopCartModel.CartGoodsBean> CartGoodsBeanList;
+//        private ShopCartModel.CartGoodsBean CartGoods;
+        List<ShopCartModel.CartGoodsBean> cartGoodsBeanList = new ArrayList<>();
 
+
+        for (int i = 0; i < App.shopCar.getCartGoodsBeanList().size(); i++) {
+            if (App.shopCar.getCartGoodsBeanList().get(i).isCheck()) {
+                cartGoodsBeanList.add(App.shopCar.getCartGoodsBeanList().get(i));
+
+            }
+        }
+        shopCartModel.setCartGoodsBeanList(cartGoodsBeanList);
         KLog.d(shopCartModel);
         // 设置topbar
         TextView topbarTitle = (TextView) findViewById(R.id.topbar_title);
