@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#faf7f7"
+        android:background="@android:color/white"
         android:orientation="horizontal"
         android:padding="2dp">
 
@@ -19,6 +19,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
             android:scaleType="fitXY"/>
 
         <LinearLayout

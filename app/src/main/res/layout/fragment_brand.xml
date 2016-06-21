@@ -41,14 +41,14 @@
             android:id="@+id/brand_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FFFFFF"
+            android:background="@android:color/white"
             android:cacheColorHint="@android:color/transparent"
             android:divider="@android:color/transparent"
-            android:horizontalSpacing="8dp"
+            android:horizontalSpacing="5dp"
             android:listSelector="@android:color/transparent"
             android:scrollbars="none"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="8dp"/>
+            android:verticalSpacing="5dp"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

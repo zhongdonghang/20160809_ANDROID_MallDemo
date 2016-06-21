@@ -2,14 +2,14 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="#faf7f7"
+                                    android:background="@android:color/white"
                                     android:descendantFocusability="blocksDescendants">
     <!--app:cardCornerRadius="0dp"-->
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#faf7f7"
+        android:background="@android:color/white"
         android:orientation="horizontal"
         android:padding="5dp">
 
@@ -23,7 +23,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="85dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/iv_goods_icon"
             android:orientation="vertical">
 

@@ -254,7 +254,7 @@ public class CategoryFragment extends BaseFragment {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONObject dataObject = jsonObject.getJSONObject("data");
                     if (jsonObject.getString("result").equals("false") || dataObject.getJSONArray("ProductList").length() == 0) {
-                        showToast("暂时没有相关商品");
+                        showToast("没有商品了");
                         return;
                     }
 

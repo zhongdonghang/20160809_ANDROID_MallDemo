@@ -52,12 +52,12 @@ public class HomeGoodsAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
         TextView textView = new TextView(mContext);
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 120);
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 130);
         textView.setLayoutParams(params);
-        textView.setTextSize(16);
+        textView.setTextSize(15);
         textView.setBackgroundResource(R.color.colorAccent);
         textView.setGravity(Gravity.CENTER_VERTICAL);
-        textView.setPadding(10, 5, 5, 5);
+        textView.setPadding(25, 5, 5, 5);
         textView.setTextColor(mContext.getResources().getColorStateList(R.color.white));
         if ("33".equals(getItem(position).getItemType())) {
             textView.setText("情趣用品");
