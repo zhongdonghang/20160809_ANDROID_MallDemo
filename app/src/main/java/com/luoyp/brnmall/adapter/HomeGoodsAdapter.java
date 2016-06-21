@@ -2,16 +2,20 @@ package com.luoyp.brnmall.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.model.HomeGoods;
+
+import org.simple.eventbus.EventBus;
 
 import java.util.List;
 
@@ -45,13 +49,15 @@ public class HomeGoodsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        CategoryGoodsAdapter.ViewHolder holder = null;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        ViewHolder holder = null;
         TextView textView = new TextView(mContext);
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 120);
         textView.setLayoutParams(params);
         textView.setTextSize(16);
         textView.setBackgroundResource(R.color.colorAccent);
+        textView.setGravity(Gravity.CENTER_VERTICAL);
+        textView.setPadding(10, 5, 5, 5);
         textView.setTextColor(mContext.getResources().getColorStateList(R.color.white));
         if ("33".equals(getItem(position).getItemType())) {
             textView.setText("情趣用品");
@@ -83,24 +89,27 @@ public class HomeGoodsAdapter extends BaseAdapter {
             return textView;
         }
         convertView = mInflater.inflate(R.layout.item_home_goods, null);
-        holder = new CategoryGoodsAdapter.ViewHolder();
+        holder = new ViewHolder();
         holder.goodsName = (TextView) convertView.findViewById(R.id.tv_goods_name);
         holder.goodsPrice = (TextView) convertView.findViewById(R.id.tv_goods_price);
         holder.goodsIcon = (ImageView) convertView.findViewById(R.id.iv_goods_icon);
         holder.marketPrice = (TextView) convertView.findViewById(R.id.tv_market_price);
         holder.memberPrice = (TextView) convertView.findViewById(R.id.tv_member_price);
+        holder.addtocart = (Button) convertView.findViewById(R.id.home_add_tocart);
+        holder.addtocart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(getItem(position).getPid(), "home_add_tocart");
+            }
+        });
         convertView.setTag(holder);
+
 
         holder.goodsName.setText(getItem(position).getPname());
         holder.goodsPrice.setText("￥ " + getItem(position).getPrice());
         holder.marketPrice.setText(" ￥ " + getItem(position).getMarkiprice());
         holder.marketPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);// 添加中划线
 
-//        if (App.getPref("isLogin", false)) {
-//            holder.memberPrice.setText("  ￥" + SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * Double.valueOf(getItem(position).getShopPrice()) * 10 / 100)) + " (" + App.getPref("zhekoutitle", "") + ")");
-//        } else {
-//            holder.memberPrice.setText("  ￥ (未登陆)");
-//        }
         App.getPicasso().load(getItem(position).getImg()).placeholder(R.drawable.goodsdefaulimg).error(R.drawable.goodsdefaulimg).into(holder.goodsIcon);
 
 
@@ -113,5 +122,6 @@ public class HomeGoodsAdapter extends BaseAdapter {
         TextView marketPrice;
         TextView memberPrice;
         ImageView goodsIcon;
+        Button addtocart;
     }
 }

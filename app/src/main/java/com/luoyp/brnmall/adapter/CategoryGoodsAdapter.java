@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +16,8 @@ import com.luoyp.brnmall.SysUtils;
 import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.CategoryGoodsModel;
 import com.socks.library.KLog;
+
+import org.simple.eventbus.EventBus;
 
 /**
  * Created by MnZi on 2016/5/6.
@@ -46,7 +49,7 @@ public class CategoryGoodsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_category_goods, null);
@@ -56,11 +59,19 @@ public class CategoryGoodsAdapter extends BaseAdapter {
             holder.goodsIcon = (ImageView) convertView.findViewById(R.id.iv_goods_icon);
             holder.marketPrice = (TextView) convertView.findViewById(R.id.tv_market_price);
             holder.memberPrice = (TextView) convertView.findViewById(R.id.tv_member_price);
+            holder.add_tocart = (Button) convertView.findViewById(R.id.add_tocart);
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+        holder.add_tocart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                EventBus.getDefault().post(getItem(position).getPid() + "", "add_tocart");
+            }
+        });
         holder.goodsName.setText(getItem(position).getName());
         holder.goodsPrice.setText("￥ " + getItem(position).getShopPrice());
         holder.marketPrice.setText(" ￥ " + getItem(position).getMarketPrice());
@@ -86,5 +97,6 @@ public class CategoryGoodsAdapter extends BaseAdapter {
         TextView marketPrice;
         TextView memberPrice;
         ImageView goodsIcon;
+        Button add_tocart;
     }
 }

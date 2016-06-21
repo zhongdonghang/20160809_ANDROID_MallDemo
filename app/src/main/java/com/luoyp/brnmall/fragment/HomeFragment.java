@@ -23,9 +23,11 @@ import com.baidu.autoupdatesdk.AppUpdateInfoForInstall;
 import com.baidu.autoupdatesdk.BDAutoUpdateSDK;
 import com.baidu.autoupdatesdk.CPCheckUpdateCallback;
 import com.baidu.autoupdatesdk.CPUpdateDownloadCallback;
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.internal.Utils;
+import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.activity.GoodsDetailActivity;
 import com.luoyp.brnmall.adapter.HomeGoodsAdapter;
@@ -33,6 +35,7 @@ import com.luoyp.brnmall.adapter.ImagePagerAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.HomeGoods;
+import com.luoyp.brnmall.model.UserModel;
 import com.luoyp.brnmall.task.Task;
 import com.luoyp.brnmall.utils.PermissionUtil;
 import com.luoyp.brnmall.view.AutoScrollViewPager;
@@ -41,6 +44,8 @@ import com.squareup.okhttp.Request;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +89,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         //判断权限
         if (PermissionUtil.hasSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             BDAutoUpdateSDK.cpUpdateCheck(getActivity(), new MyCPCheckUpdateCallback());
@@ -170,6 +176,12 @@ public class HomeFragment extends BaseFragment {
 
         doGetHomeGoodsTask();
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     public void doGetHomeGoodsTask() {
@@ -315,6 +327,55 @@ public class HomeFragment extends BaseFragment {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Subscriber(tag = "home_add_tocart")
+    public void addToCart(String pid) {
+        KLog.d(pid);
+        if (!checkLogin()) {
+            return;
+        }
+
+        UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
+        String uid = String.valueOf(userModel.getUserInfo().getUid());
+        if (uid == null || uid.isEmpty()) {
+            checkLogin();
+        } else {
+            addGoodsToCart(pid, uid, "1");
+        }
+    }
+
+    /**
+     * 加入购物车
+     *
+     * @param pid   商品id
+     * @param uid   用户id
+     * @param count 数量
+     */
+    private void addGoodsToCart(String pid, String uid, String count) {
+        showProgressDialog("正在添加到购物车");
+        BrnmallAPI.addProductToCart(pid, uid, count, new ApiCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+                dismissProgressDialog();
+                showToast("网络异常,请稍后再试吧");
+            }
+
+            @Override
+            public void onResponse(String response) {
+                //  KLog.json(response);
+                dismissProgressDialog();
+                if (response != null && !TextUtils.isEmpty(response)) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        showToast(jsonObject.getJSONArray("data").getJSONObject(0).getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });

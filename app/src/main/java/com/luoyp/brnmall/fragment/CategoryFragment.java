@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.activity.GoodsDetailActivity;
 import com.luoyp.brnmall.adapter.CategoryAdapter;
@@ -23,11 +24,14 @@ import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.CategoryGoodsModel;
 import com.luoyp.brnmall.model.CategoryModel;
+import com.luoyp.brnmall.model.UserModel;
 import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +48,7 @@ public class CategoryFragment extends BaseFragment {
     private CategoryAdapter adapter;
     private List<CategoryModel.Category> categoryListData;
     private CategoryGoodsModel categoryGoodsModel;
-    private  CategoryGoodsAdapter categoryGoodsAdapter;
+    private CategoryGoodsAdapter categoryGoodsAdapter;
 
     private boolean isFirstLoad = true;  // 首次可见标志
     private int pageNumber = 1;
@@ -65,9 +69,17 @@ public class CategoryFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         // 实例化
         categoryGoodsModel = new CategoryGoodsModel();
         categoryGoodsModel.setGoodsBeanList(new ArrayList<CategoryGoodsModel.GoodsBean>());
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+
+        super.onDestroy();
     }
 
     @Override
@@ -97,10 +109,10 @@ public class CategoryFragment extends BaseFragment {
                 KLog.d(position + "  " + id);
                 adapter.setMySelection(position);
                 pageNumber = 1;
-                cateId = categoryListData.get(position).getCateId()+"";
+                cateId = categoryListData.get(position).getCateId() + "";
                 categoryGoodsModel.getGoodsBeanList().clear();
                 categoryGoodsAdapter.notifyDataSetChanged();
-                getCategoryCoodsList(cateId,pageNumber + "");
+                getCategoryCoodsList(cateId, pageNumber + "");
 //                Intent intent = new Intent(getActivity(), MessageDetailActivity_.class);
 //                //position从1开始,所以list中对应减1
 //                intent.putExtra("id", messageListData.get(position - 1).getId());
@@ -115,9 +127,9 @@ public class CategoryFragment extends BaseFragment {
 
     }
 
-    private void setupListView(){
+    private void setupListView() {
         // 设置适配器
-        categoryGoodsAdapter = new CategoryGoodsAdapter(getActivity(),categoryGoodsModel);
+        categoryGoodsAdapter = new CategoryGoodsAdapter(getActivity(), categoryGoodsModel);
         categorygoodslistview.setAdapter(categoryGoodsAdapter);
         // 设置刷新方式
         categorygoodslistview.setMode(PullToRefreshBase.Mode.BOTH);
@@ -140,8 +152,8 @@ public class CategoryFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 KLog.d("产品id" + categoryGoodsModel.getGoodsBeanList().get(position - 1).getPid());
                 Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
-                intent.putExtra("pid",categoryGoodsModel.getGoodsBeanList().get(position - 1).getPid() + "");
-                intent.putExtra("name",categoryGoodsModel.getGoodsBeanList().get(position-1).getName());
+                intent.putExtra("pid", categoryGoodsModel.getGoodsBeanList().get(position - 1).getPid() + "");
+                intent.putExtra("name", categoryGoodsModel.getGoodsBeanList().get(position - 1).getName());
                 startActivity(intent);
             }
         });
@@ -234,7 +246,7 @@ public class CategoryFragment extends BaseFragment {
                 categorygoodslistview.onRefreshComplete();
 
                 KLog.json("分类商品=  " + response);
-                if (TextUtils.isEmpty(response)){
+                if (TextUtils.isEmpty(response)) {
                     showToast("没有找到相关商品");
                     return;
                 }
@@ -258,4 +270,53 @@ public class CategoryFragment extends BaseFragment {
         });
     }
 
+    @Subscriber(tag = "add_tocart")
+    public void addToCart(String pid) {
+        KLog.d(pid);
+        if (!checkLogin()) {
+            return;
+        }
+
+        UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
+        String uid = String.valueOf(userModel.getUserInfo().getUid());
+        if (uid == null || uid.isEmpty()) {
+            checkLogin();
+        } else {
+            addGoodsToCart(pid, uid, "1");
+        }
+    }
+
+
+    /**
+     * 加入购物车
+     *
+     * @param pid   商品id
+     * @param uid   用户id
+     * @param count 数量
+     */
+    private void addGoodsToCart(String pid, String uid, String count) {
+        showProgressDialog("正在添加到购物车");
+        BrnmallAPI.addProductToCart(pid, uid, count, new ApiCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+                dismissProgressDialog();
+                showToast("网络异常,请稍后再试吧");
+            }
+
+            @Override
+            public void onResponse(String response) {
+                //  KLog.json(response);
+                dismissProgressDialog();
+                if (response != null && !TextUtils.isEmpty(response)) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        showToast(jsonObject.getJSONArray("data").getJSONObject(0).getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
 }
