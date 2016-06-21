@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.view.Window;
 
 import com.luoyp.brnmall.fragment.BrandFragment;
@@ -85,11 +86,15 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onPageSelected(int position) {
+        toolbar.setVisibility(View.VISIBLE);
+
         if (position == 0) {
             toolbar.setTitle("精生缘实销");
             return;
         }
         if (position == 4) {
+            toolbar.setVisibility(View.GONE);
+
             toolbar.setTitle("");
             return;
         }

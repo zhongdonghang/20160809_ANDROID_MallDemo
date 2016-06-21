@@ -271,6 +271,12 @@ public class LoginActivity extends BaseActivity {
                         // 保存登录信息
                         getUserLevel(userModel.getUserInfo().getUid() + "");
                         App.setPref("LoginResult", jsonObject.getJSONObject("data").toString());
+                        App.setPref("nicheng", userModel.getUserInfo().getNickName());
+                        App.setPref("zhenming", userModel.getUserInfo().getRealName());
+                        App.setPref("sex", userModel.getUserInfo().getGender());
+                        App.setPref("sfz", userModel.getUserInfo().getIdCard());
+                        App.setPref("jianjie", userModel.getUserInfo().getBio());
+                        App.setPref("avatar", userModel.getUserInfo().getAvatar());
                         // 发布事件 ，刷新 我的 界面
                         EventBus.getDefault().post(userModel, "LoginUser_tag");
 

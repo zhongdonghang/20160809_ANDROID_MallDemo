@@ -1,9 +1,7 @@
 package com.luoyp.brnmall.fragment;
 
 
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,8 +17,15 @@ import com.luoyp.brnmall.activity.LoginActivity;
 import com.luoyp.brnmall.activity.MyAddressActivity;
 import com.luoyp.brnmall.activity.MyFavoriteActivity;
 import com.luoyp.brnmall.activity.MyOrderActivity;
+import com.luoyp.brnmall.activity.MyProfileActivity;
+import com.luoyp.brnmall.activity.MyRelationActivity;
+import com.luoyp.brnmall.api.ApiCallback;
+import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.UserModel;
+import com.squareup.okhttp.Request;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
@@ -117,6 +122,7 @@ public class MineFragment extends BaseFragment {
             // 获取当前用户的uid
             UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
             nickName.setText(userModel.getUserInfo().getNickName());
+            App.getPicasso().load(BrnmallAPI.userImgUrl + userModel.getUserInfo().getAvatar()).error(R.mipmap.logo).placeholder(R.mipmap.logo).into(userIcon);
         } else {
 
         }
@@ -130,26 +136,9 @@ public class MineFragment extends BaseFragment {
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage("确定注销当前用户?");
+                    Intent intent = new Intent(getActivity(), MyProfileActivity.class);
+                    startActivity(intent);
 
-                    builder.setTitle("退出登录");
-                    builder.setCancelable(false);
-                    builder.setPositiveButton("我点错了", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.setNegativeButton("注销用户", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            App.setPref("isLogin", false);
-                            nickName.setText("点击登录");
-                        }
-                    });
-                    builder.create().show();
 
                 }
             }
@@ -201,6 +190,63 @@ public class MineFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), MyAddressActivity.class));
             }
         });
+        view.findViewById(R.id.my_relation).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!checkLogin()) {
+                    return;
+                }
+                startActivity(new Intent(getActivity(), MyRelationActivity.class));
+            }
+        });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        isLogin = App.getPref("isLogin", false);
+        if (isLogin) {
+            // 获取当前用户的uid
+            UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
+            nickName.setText(userModel.getUserInfo().getNickName());
+            App.getPicasso().load(BrnmallAPI.userImgUrl + userModel.getUserInfo().getAvatar()).error(R.mipmap.logo).placeholder(R.mipmap.logo).into(userIcon);
+        } else {
+            nickName.setText("注册/登录");
+            App.getPicasso().load(BrnmallAPI.userImgUrl).error(R.mipmap.logo).placeholder(R.mipmap.logo).into(userIcon);
+        }
+    }
+
+    public void getUserInfo(String uid) {
+        BrnmallAPI.getUserInfo(uid, new ApiCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+
+                if (response == null || response.isEmpty()) {
+
+                    return;
+                }
+
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response);
+                    if (jsonObject.getString("result").equals("true")) {
+                        App.setPref("nicheng", jsonObject.getJSONObject("data").getString("NickName"));
+                        App.setPref("zhenming", jsonObject.getJSONObject("data").getString("RealName"));
+                        App.setPref("sex", jsonObject.getJSONObject("data").getInt("Gender"));
+                        App.setPref("sfz", jsonObject.getJSONObject("data").getString("IdCard"));
+                        App.setPref("jianjie", jsonObject.getJSONObject("data").getString("Bio"));
+                        App.setPref("avatar", jsonObject.getJSONObject("data").getString("Avatar"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+    }
 }

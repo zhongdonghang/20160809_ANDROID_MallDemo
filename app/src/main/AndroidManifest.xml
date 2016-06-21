@@ -134,6 +134,7 @@
             android:excludeFromRecents="true"
             android:exported="false"
             android:process=":pushservice"
+            android:screenOrientation="portrait"
             android:taskAffinity="com.igexin.sdk.PushActivityTask"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <!-- <activity -->
@@ -188,12 +189,23 @@
         <!-- 个推SDK配置结束 -->
         <activity
             android:name=".activity.LoginActivity"
-            android:label="@string/title_activity_login"/>
-        <activity android:name=".activity.RegisterActivity"/>
-        <activity android:name=".activity.EditOrderActy"/>
-        <activity android:name=".activity.MyOrderActivity"/>
-        <activity android:name=".activity.GoodsDetailActivity"/>
-        <activity android:name=".activity.PayActivity">
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.EditOrderActy"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.MyOrderActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.GoodsDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.PayActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 
@@ -205,14 +217,37 @@
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop"/>
-        <activity android:name=".activity.MyAddressActivity"/>
-        <activity android:name=".activity.AddMyAddressActivity"/>
-        <activity android:name=".activity.EditAddressActivity"/>
-        <activity android:name=".activity.OrderDetailActivity"/>
-        <activity android:name=".activity.ResetPasswordActivity"/>
-        <activity android:name=".activity.MyFavoriteActivity"/>
-        <activity android:name=".activity.BrandGoodsActivity">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.MyAddressActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.AddMyAddressActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.EditAddressActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.OrderDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.ResetPasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.MyFavoriteActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.BrandGoodsActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.MyProfileActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.MyRelationActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

@@ -99,8 +99,8 @@ public class ShopCarFragment extends BaseFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                shopCartModel.getCartGoodsBeanList().get(position).setCheck(!shopCartModel.getCartGoodsBeanList().get(position).isCheck());
-                adapter.notifyDataSetChanged();
+//                shopCartModel.getCartGoodsBeanList().get(position).setCheck(!shopCartModel.getCartGoodsBeanList().get(position).isCheck());
+//                adapter.notifyDataSetChanged();
             }
         });
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

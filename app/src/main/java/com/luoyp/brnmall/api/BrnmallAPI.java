@@ -19,7 +19,7 @@ public class BrnmallAPI {
     public static String BaseImgUrl3 = "/product/show/thumb800_800/";
     public static String adImgUrl = BaseIP + "/upload/advert/";
     public static String brandImgUrl = BaseIP + "/upload/brand/thumb100_100/";
-
+    public static String userImgUrl = BaseIP + "/upload/user/thumb100_100/";
     /**
      * 获取商品目录
      */
@@ -191,6 +191,10 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "FavoriteStoreList", params, callback, "favoriteStoreList");
     }
 
+    public static void getUserInfo(String uid, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {new OkHttpClientManager.Param("uid", uid)};
+        OkHttpClientManager.postAsyn(BaseURL + "GetUserById", params, callback, "GetUserById");
+    }
     /**
      * 添加店铺到收藏夹
      *
