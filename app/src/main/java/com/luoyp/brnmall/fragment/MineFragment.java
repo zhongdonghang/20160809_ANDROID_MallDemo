@@ -15,12 +15,14 @@ import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.activity.LoginActivity;
 import com.luoyp.brnmall.activity.MyAddressActivity;
 import com.luoyp.brnmall.activity.MyFavoriteActivity;
+import com.luoyp.brnmall.activity.MyMoneyActivity;
 import com.luoyp.brnmall.activity.MyOrderActivity;
 import com.luoyp.brnmall.activity.MyProfileActivity;
 import com.luoyp.brnmall.activity.MyRelationActivity;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.UserModel;
+import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
 
 import org.json.JSONException;
@@ -119,9 +121,8 @@ public class MineFragment extends BaseFragment {
         nickName = (TextView) view.findViewById(R.id.tvNickName);
         if (isLogin) {
             // 获取当前用户的uid
-            UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
-            nickName.setText(userModel.getUserInfo().getNickName());
-            App.getPicasso().load(BrnmallAPI.userImgUrl + userModel.getUserInfo().getAvatar()).error(R.mipmap.logo).placeholder(R.mipmap.logo).into(userIcon);
+            nickName.setText(App.getPref("nicheng", ""));
+            App.getPicasso().load(BrnmallAPI.userImgUrl + App.getPref("avatar", "")).error(R.mipmap.logo).placeholder(R.mipmap.logo).into(userIcon);
         } else {
 
         }
@@ -171,11 +172,14 @@ public class MineFragment extends BaseFragment {
             }
         });
 
-        // 打开收藏的店铺页面
-        view.findViewById(R.id.action_to_favorite_store).setOnClickListener(new View.OnClickListener() {
+        // 打开我的资产
+        view.findViewById(R.id.action_to_my_money).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!checkLogin()) {
+                    return;
+                }
+                startActivity(new Intent(getActivity(), MyMoneyActivity.class));
             }
         });
 
@@ -203,16 +207,26 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+
         isLogin = App.getPref("isLogin", false);
         if (isLogin) {
+            EventBus.getDefault().post("getuserinfo", "getuserinfo");
             // 获取当前用户的uid
             UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
-            nickName.setText(userModel.getUserInfo().getNickName());
+            nickName.setText(App.getPref("nicheng", ""));
             App.getPicasso().load(BrnmallAPI.userImgUrl + userModel.getUserInfo().getAvatar()).error(R.mipmap.logo).placeholder(R.mipmap.logo).into(userIcon);
         } else {
             nickName.setText("注册/登录");
             App.getPicasso().load(BrnmallAPI.userImgUrl).error(R.mipmap.logo).placeholder(R.mipmap.logo).into(userIcon);
         }
+    }
+
+
+    @Subscriber(tag = "getuserinfo")
+    public void update(String s) {
+        UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
+        String uid = String.valueOf(userModel.getUserInfo().getUid());
+        getUserInfo(uid);
     }
 
     public void getUserInfo(String uid) {
@@ -224,7 +238,7 @@ public class MineFragment extends BaseFragment {
 
             @Override
             public void onResponse(String response) {
-
+                KLog.d("更新个人信息");
                 if (response == null || response.isEmpty()) {
 
                     return;
@@ -240,6 +254,9 @@ public class MineFragment extends BaseFragment {
                         App.setPref("sfz", jsonObject.getJSONObject("data").getString("IdCard"));
                         App.setPref("jianjie", jsonObject.getJSONObject("data").getString("Bio"));
                         App.setPref("avatar", jsonObject.getJSONObject("data").getString("Avatar"));
+                        App.setPref("addr", jsonObject.getJSONObject("data").getString("Address"));
+                        App.setPref("regionId", jsonObject.getJSONObject("data").getInt("RegionId"));
+                        App.getPicasso().load(BrnmallAPI.userImgUrl + App.getPref("avatar", "")).error(R.mipmap.logo).placeholder(R.mipmap.logo).into(userIcon);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

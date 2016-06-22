@@ -104,9 +104,10 @@ public class LoginActivity extends BaseActivity {
     }
 
     // 找回密码
-    public void toFindPwd(View view){
-        startActivity(new Intent(this,ResetPasswordActivity.class));
+    public void toFindPwd(View view) {
+        startActivity(new Intent(this, ResetPasswordActivity.class));
     }
+
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
@@ -277,8 +278,13 @@ public class LoginActivity extends BaseActivity {
                         App.setPref("sfz", userModel.getUserInfo().getIdCard());
                         App.setPref("jianjie", userModel.getUserInfo().getBio());
                         App.setPref("avatar", userModel.getUserInfo().getAvatar());
+                        App.setPref("regionId", userModel.getUserInfo().getRegionId());
+                        App.setPref("addr", userModel.getUserInfo().getAddress());
+                        //    App.setPref("birthday", userModel.getUserInfo().getBday());
+
                         // 发布事件 ，刷新 我的 界面
                         EventBus.getDefault().post(userModel, "LoginUser_tag");
+                        EventBus.getDefault().post("update", "getuserinfo");
 
                     }
                 } catch (JSONException e) {

@@ -249,6 +249,10 @@
             android:name=".activity.MyRelationActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".activity.MyMoneyActivity"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

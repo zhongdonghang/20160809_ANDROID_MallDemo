@@ -104,7 +104,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void add(View view) {
-        onBackPressed();
+        //  onBackPressed();
     }
 
     public boolean checkLogin() {

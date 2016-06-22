@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F0F0"
+    android:background="#EFEFF4"
     android:focusable="true"
     android:focusableInTouchMode="true"
     tools:context="com.luoyp.brnmall.activity.EditOrderActy">
@@ -21,8 +21,7 @@
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="5dp"
-        >
+        android:paddingTop="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -154,7 +153,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/payway"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="5dp"
         android:background="@android:color/white"
         android:orientation="vertical"
         android:paddingLeft="10dp"
@@ -190,7 +189,7 @@
         android:layout_width="match_parent"
         android:layout_height="42dp"
         android:layout_alignParentBottom="true"
-        android:background="#e9e3e3"
+        android:background="#EFEFF4"
         android:orientation="horizontal">
 
         <TextView

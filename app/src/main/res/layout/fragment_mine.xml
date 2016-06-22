@@ -103,17 +103,17 @@
                     android:background="#ECECEC"/>
 
                 <TextView
-                    android:id="@+id/action_to_my_msg"
+                    android:id="@+id/action_to_my_money"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:background="@drawable/pressed_white_gray"
                     android:clickable="true"
-                    android:drawableTop="@drawable/mymsg"
+                    android:drawableTop="@drawable/mymoney"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="我的消息"
+                    android:text="我的资产"
                     android:textAppearance="?android:attr/textAppearanceSmall"/>
             </LinearLayout>
 
@@ -121,7 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="22dp"
                 android:background="#EFEFF4"
                 android:orientation="vertical"
                 android:showDividers="middle">
@@ -129,7 +129,7 @@
                 <TextView
                     android:id="@+id/action_to_ship_address"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/pressed_white_gray"
                     android:clickable="true"
@@ -145,9 +145,9 @@
                 <TextView
                     android:id="@+id/my_relation"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="45dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="2dp"
                     android:background="@drawable/pressed_white_gray"
                     android:clickable="true"
                     android:drawableRight="@drawable/ic_navigate_next_black_24dp"
@@ -160,9 +160,9 @@
                 <TextView
                     android:id="@+id/action_to_favorite_store"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="45dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="2dp"
                     android:background="@drawable/pressed_white_gray"
                     android:clickable="true"
                     android:drawableRight="@drawable/ic_navigate_next_black_24dp"
@@ -174,7 +174,7 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="45dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="2dp"
                     android:background="@drawable/pressed_white_gray"

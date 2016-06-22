@@ -35,6 +35,5 @@
         android:layout_centerVertical="true"
         android:background="@android:color/transparent"
         android:onClick="add"
-        android:src="@drawable/ic_add_box_white_18dp"
         android:visibility="gone"/>
 </RelativeLayout>

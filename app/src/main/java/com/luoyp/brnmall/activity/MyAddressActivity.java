@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -53,8 +54,9 @@ public class MyAddressActivity extends BaseActivity {
         }
 
         isSelect = getIntent().getBooleanExtra("isSelect", false);
-        findViewById(R.id.topbar_right).setVisibility(View.VISIBLE);
-
+        ImageButton btn = (ImageButton) findViewById(R.id.topbar_right);
+        btn.setVisibility(View.VISIBLE);
+        btn.setBackgroundResource(R.drawable.ic_add_box_white_18dp);
         addressList = new ArrayList<>();
         adapter = new MyAddressAdapter(this, addressList);
         myaddresslistview.setAdapter(adapter);

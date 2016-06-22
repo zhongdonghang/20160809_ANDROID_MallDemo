@@ -16,7 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="@drawable/pressed_white_gray"
-        android:clickable="true">
+        android:clickable="true"
+        android:onClick="showInputDialog">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_avatar"
@@ -50,7 +51,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/pressed_white_gray"
-        android:clickable="true">
+        android:clickable="true"
+        android:onClick="showInputDialog">
 
         <TextView
             android:id="@+id/tv_nicheng"
@@ -91,7 +93,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/pressed_white_gray"
-        android:clickable="true">
+        android:clickable="true"
+        android:onClick="showInputDialog">
 
         <TextView
             android:id="@+id/tv_realname"
@@ -114,7 +117,7 @@
             android:layout_toRightOf="@id/tv_realname"
             android:ellipsize="end"
             android:gravity="right"
-            android:singleLine="true"
+            android:textColor="#AAAAAA"
             android:textSize="14sp"/>
 
         <View
@@ -132,7 +135,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/pressed_white_gray"
-        android:clickable="true">
+        android:clickable="true"
+        android:onClick="showInputDialog">
 
         <TextView
             android:id="@+id/tv_temp_sex"
@@ -169,11 +173,12 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_region"
+        android:id="@+id/re_sfz"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/pressed_white_gray"
-        android:clickable="true">
+        android:clickable="true"
+        android:onClick="showInputDialog">
 
         <TextView
             android:id="@+id/tv_temp_region"
@@ -210,11 +215,12 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/re_sign"
+        android:id="@+id/re_jianjie"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/pressed_white_gray"
-        android:clickable="true">
+        android:clickable="true"
+        android:onClick="showInputDialog">
 
         <TextView
             android:id="@+id/tv_temp_sign"

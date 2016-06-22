@@ -7,12 +7,12 @@ import com.luoyp.xlibrary.net.OkHttpClientManager;
  */
 public class BrnmallAPI {
     //3号服务器：
-    //  public static String BaseIP = "http://jsy.nnbetter.com";
-    //   public static String BaseURL = BaseIP + "/api/app.asmx/";
+    public static String BaseIP = "http://jsy.nnbetter.com";
+    public static String BaseURL = BaseIP + "/api/app.asmx/";
 
     //四号服务器：
-    public static String BaseIP = "http://www.888jsy.com";
-    public static String BaseURL = BaseIP + "/api/app.asmx/";
+    //  public static String BaseIP = "http://www.888jsy.com";
+    //  public static String BaseURL = BaseIP + "/api/app.asmx/";
 
     public static String BaseImgUrl1 = BaseIP + "/upload/store/";
     public static String BaseImgUrl2 = "/product/show/thumb100_100/";
@@ -56,6 +56,32 @@ public class BrnmallAPI {
                 , new OkHttpClientManager.Param("sortdirection", "")};
 
         OkHttpClientManager.postAsyn(BaseURL + "GetProductListByCateId", params, callback, "getProductListByCateId");
+    }
+
+    public static void userEdit(
+            String uid
+            , String nickName
+            , String realName
+            , String gender
+            , String idCard
+            , String birthDay
+            , String regionId
+            , String bio
+            , String address,
+            ApiCallback<String> callback) {
+
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("uid", uid)
+                , new OkHttpClientManager.Param("nickName", nickName)
+                , new OkHttpClientManager.Param("realName", realName)
+                , new OkHttpClientManager.Param("gender", gender)
+                , new OkHttpClientManager.Param("idCard", idCard)
+                , new OkHttpClientManager.Param("birthDay", birthDay)
+                , new OkHttpClientManager.Param("regionId", regionId)
+                , new OkHttpClientManager.Param("address", address)
+                , new OkHttpClientManager.Param("bio", bio)};
+
+        OkHttpClientManager.postAsyn(BaseURL + "UserEdit", params, callback, "UserEdit");
     }
 
     /**
@@ -118,6 +144,12 @@ public class BrnmallAPI {
         OkHttpClientManager.Param[] params = {new OkHttpClientManager.Param("uid", uid)};
         OkHttpClientManager.postAsyn(BaseURL + "GetMyCart", params, callback, "getMyCart");
     }
+
+    public static void userAvatarEdit(String uid, String avatar, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {new OkHttpClientManager.Param("uid", uid), new OkHttpClientManager.Param("avatar", avatar)};
+        OkHttpClientManager.postAsyn(BaseURL + "UserAvatarEdit", params, callback, "userAvatarEdit");
+    }
+
 
     /**
      * 添加商品到购物车

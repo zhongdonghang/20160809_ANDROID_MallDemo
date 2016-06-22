@@ -49,11 +49,11 @@ public class RelationAdapter extends BaseAdapter {
         ViewHolder holder = null;
 
         TextView textView = new TextView(mContext);
-        ViewGroup.LayoutParams params = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 130);
+        ViewGroup.LayoutParams params = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 120);
         textView.setLayoutParams(params);
         textView.setTextSize(15);
         textView.setGravity(Gravity.CENTER_VERTICAL);
-        textView.setPadding(25, 5, 5, 5);
+        textView.setPadding(25, 5, 5, 0);
         textView.setTextColor(mContext.getResources().getColorStateList(R.color.textColor));
         if ("-1".equals(getItem(position).getAddTime())) {
             textView.setText("我的介绍人");
