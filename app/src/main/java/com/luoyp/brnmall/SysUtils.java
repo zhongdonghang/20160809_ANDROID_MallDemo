@@ -1,7 +1,10 @@
 package com.luoyp.brnmall;
 
 import java.math.RoundingMode;
+import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by lyp3314@gmail.com on 16/5/17.
@@ -18,7 +21,19 @@ public class SysUtils {
         // 如果不需要四舍五入，可以使用RoundingMode.DOWN
         nf.setRoundingMode(RoundingMode.UP);
 
-
         return nf.format(d);
+    }
+
+    public static String getDate(String s) {
+        String ss = "";
+        ss = s.replace("\"/Date(", "").replace(")/", "").split("\\+")[0].replace(" ", "");
+        //  System.out.print(ss);
+        long foo = Long.parseLong(ss.toString());
+
+
+        Date date = new Date(foo);
+        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        //   System.out.println(formatter.format(date));
+        return formatter.format(date);
     }
 }
