@@ -30,10 +30,10 @@
 
                 android:orientation="vertical">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/ivUserIcon"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
                     android:layout_gravity="center"
                     android:background="@color/colorAccent"
                     android:src="@drawable/circleimageview"/>

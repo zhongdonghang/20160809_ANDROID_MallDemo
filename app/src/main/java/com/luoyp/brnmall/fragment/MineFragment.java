@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -29,16 +28,17 @@ import org.json.JSONObject;
 import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MineFragment extends BaseFragment {
 
     private TextView nickName;
-    private ImageView userIcon;
+    private CircleImageView userIcon;
 
     private boolean isLogin = false;
-    private ImageView ivUserIcon;
     private TextView tvNickName;
     private TextView actiontoorder;
     private TextView actiontofavoritegoods;
@@ -76,7 +76,6 @@ public class MineFragment extends BaseFragment {
         this.actiontofavoritegoods = (TextView) view.findViewById(R.id.action_to_favorite_goods);
         this.actiontoorder = (TextView) view.findViewById(R.id.action_to_order);
         this.tvNickName = (TextView) view.findViewById(R.id.tvNickName);
-        this.ivUserIcon = (ImageView) view.findViewById(R.id.ivUserIcon);
 
 //        Bundle bundle = getArguments();
 //        String agrs1 = bundle.getString("agrs1");
@@ -115,7 +114,7 @@ public class MineFragment extends BaseFragment {
      */
     private void initUserControl(View view) {
         // 用户头像
-        userIcon = (ImageView) view.findViewById(R.id.ivUserIcon);
+        userIcon = (CircleImageView) view.findViewById(R.id.ivUserIcon);
         // 用户昵称
         nickName = (TextView) view.findViewById(R.id.tvNickName);
         if (isLogin) {

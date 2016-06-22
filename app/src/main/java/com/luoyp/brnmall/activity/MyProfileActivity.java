@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,9 +15,11 @@ import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.UserModel;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MyProfileActivity extends BaseActivity {
 
-    private android.widget.ImageView ivavatar;
+    private CircleImageView ivavatar;
     private android.widget.RelativeLayout reavatar;
     private TextView tvnicheng;
     private TextView tvnickname;
@@ -59,7 +60,7 @@ public class MyProfileActivity extends BaseActivity {
         this.tvnickname = (TextView) findViewById(R.id.tv_nickname);
         this.tvnicheng = (TextView) findViewById(R.id.tv_nicheng);
         this.reavatar = (RelativeLayout) findViewById(R.id.re_avatar);
-        this.ivavatar = (ImageView) findViewById(R.id.iv_avatar);
+        this.ivavatar = (CircleImageView) findViewById(R.id.iv_avatar);
 
         UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
         tvnickname.setText(userModel.getUserInfo().getNickName());

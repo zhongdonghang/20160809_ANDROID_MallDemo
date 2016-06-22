@@ -20,6 +20,7 @@ public class BrnmallAPI {
     public static String adImgUrl = BaseIP + "/upload/advert/";
     public static String brandImgUrl = BaseIP + "/upload/brand/thumb100_100/";
     public static String userImgUrl = BaseIP + "/upload/user/thumb100_100/";
+
     /**
      * 获取商品目录
      */
@@ -34,6 +35,7 @@ public class BrnmallAPI {
     public static void getDiqu(String id, ApiCallback<String> callback) {
         OkHttpClientManager.postAsyn(BaseIP + "/tool/countylist?cityId=" + id, "", callback, "getDiqu");
     }
+
     /**
      * 根据分类Id获取商品列表
      *
@@ -77,6 +79,7 @@ public class BrnmallAPI {
 
         OkHttpClientManager.postAsyn(BaseURL + "GetProductListByCateId", params, callback, "getProductListByBrandId");
     }
+
     /**
      * 用户登录
      *
@@ -195,6 +198,19 @@ public class BrnmallAPI {
         OkHttpClientManager.Param[] params = {new OkHttpClientManager.Param("uid", uid)};
         OkHttpClientManager.postAsyn(BaseURL + "GetUserById", params, callback, "GetUserById");
     }
+
+
+    /**
+     * 获取关系人
+     *
+     * @param uid
+     * @param callback
+     */
+    public static void getIntroducers(String uid, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {new OkHttpClientManager.Param("uid", uid)};
+        OkHttpClientManager.postAsyn(BaseURL + "GetIntroducers", params, callback, "GetIntroducers");
+    }
+
     /**
      * 添加店铺到收藏夹
      *
@@ -355,6 +371,7 @@ public class BrnmallAPI {
         };
         OkHttpClientManager.postAsyn(BaseURL + "GetCateBrandList", params, callback, "GetCateBrandList");
     }
+
     /**
      * 发送验证码到手机
      *
