@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Environment;
 
 import com.luoyp.brnmall.model.ShopCartModel;
+import com.luoyp.brnmall.model.TixianLogModel;
 import com.socks.library.KLog;
 import com.squareup.picasso.Downloader;
 import com.squareup.picasso.OkHttpDownloader;
@@ -23,6 +24,7 @@ import java.util.Map;
 public class App extends Application {
     //临时保存购物车
     public static ShopCartModel shopCar;
+    public static TixianLogModel tixianLogModel;
     public static Picasso picasso;
     static Context _context;
     static Resources _resource;

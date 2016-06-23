@@ -162,6 +162,34 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "PayCreditList", params, callback, "PayCreditList");
     }
 
+    /**
+     * 提现记录
+     *
+     * @param uid
+     * @param pageIndex
+     * @param callback
+     */
+    public static void withdrawlList(String uid, String pageIndex, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {new OkHttpClientManager.Param("uid", uid), new OkHttpClientManager.Param("pageSize", "10"), new OkHttpClientManager.Param("pageNumber", pageIndex)};
+        OkHttpClientManager.postAsyn(BaseURL + "WithdrawlList", params, callback, "WithdrawlList");
+    }
+
+    /**
+     * 申请提现
+     *
+     * @param uid
+     * @param applyAmount
+     * @param payAccount
+     * @param amountRemark
+     * @param payType
+     * @param phone
+     * @param callback
+     */
+
+    public static void withdrawlApply(String uid, String applyAmount, String payAccount, String amountRemark, String payType, String phone, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {new OkHttpClientManager.Param("uid", uid), new OkHttpClientManager.Param("payAccount", payAccount), new OkHttpClientManager.Param("applyAmount", applyAmount), new OkHttpClientManager.Param("amountRemark", amountRemark), new OkHttpClientManager.Param("payType", payType), new OkHttpClientManager.Param("phone", phone)};
+        OkHttpClientManager.postAsyn(BaseURL + "WithdrawlApply", params, callback, "WithdrawlApply");
+    }
 
     /**
      * 添加商品到购物车

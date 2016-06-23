@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/activity_apply"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context="com.luoyp.brnmall.activity.ApplyActivity">
+
+    <include layout="@layout/topbar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/tixianjine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_edittext"
+                android:gravity="left"
+                android:hint="提现金额"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:textColor="@color/textColor"
+                android:textColorHint="@android:color/darker_gray"
+                android:textSize="14sp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvtxfs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="提现方式"
+                        android:textColor="@color/textColor"
+                        android:textSize="16sp"/>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btntixianfangshi"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical"
+                    android:onClick="getPayway"
+                    android:text="选择"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="14sp"/>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/forward"
+                    android:textSize="14sp"
+                    />
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/zhanghao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_edittext"
+                android:gravity="left"
+                android:hint="账号"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:textColor="@color/textColor"
+                android:textColorHint="@android:color/darker_gray"
+                android:textSize="14sp"/>
+
+            <EditText
+                android:id="@+id/zhxinxi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_edittext"
+                android:gravity="left"
+                android:hint="1、银行卡提现，请填写姓名、所属银行及开通银行网点\n2、支付宝提现，请填写真实姓名"
+                android:minLines="3"
+                android:padding="5dp"
+                android:textColor="@color/textColor"
+                android:textColorHint="@android:color/darker_gray"
+                android:textSize="14sp"/>
+
+            <EditText
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/bg_edittext"
+                android:gravity="left"
+                android:hint="联系方式"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:textColor="@color/textColor"
+                android:textColorHint="@android:color/darker_gray"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:gravity="left"
+                android:padding="5dp"
+                android:text="注意：请认真根据提示填写申请信息，这将直接影响到审核结果！"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"/>
+
+            <Button
+                android:id="@+id/btn_apply"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
+                android:background="@color/colorPrimary"
+                android:text="提交申请"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

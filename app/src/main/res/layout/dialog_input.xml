@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:gravity="left"/>
+        android:background="@drawable/bg_edittext"
+        android:gravity="left"
+        android:padding="5dp"/>
 
 </LinearLayout>

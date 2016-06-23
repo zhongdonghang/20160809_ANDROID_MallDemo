@@ -223,15 +223,18 @@ public class MyProfileActivity extends BaseActivity {
             });
             //Create alert dialog object via builder
             AlertDialog alertDialogObject = dialogBuilder.create();
+            alertDialogObject.setCanceledOnTouchOutside(false);
+            alertDialogObject.setCancelable(false);
             //Show the dialog
             alertDialogObject.show();
             return;
         }
+
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.dialog_input, null);
         dialog.setView(layout);
-
+        dialog.setCancelable(false);
         final EditText et_search = (EditText) layout.findViewById(R.id.searchC);
         if (view.getId() == R.id.re_nicheng) {
             dialog.setTitle("请输入昵称");
@@ -252,6 +255,7 @@ public class MyProfileActivity extends BaseActivity {
             final CharSequence[] Animals = mAnimals.toArray(new String[mAnimals.size()]);
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
             dialogBuilder.setTitle("选择性别");
+
             dialogBuilder.setItems(Animals, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int item) {
                     String selectedText = Animals[item].toString();  //Selected item in listview
@@ -261,6 +265,8 @@ public class MyProfileActivity extends BaseActivity {
             });
             //Create alert dialog object via builder
             AlertDialog alertDialogObject = dialogBuilder.create();
+            alertDialogObject.setCanceledOnTouchOutside(false);
+            alertDialogObject.setCancelable(false);
             //Show the dialog
             alertDialogObject.show();
             return;

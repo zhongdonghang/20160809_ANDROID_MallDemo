@@ -1,6 +1,8 @@
 package com.luoyp.brnmall.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -68,7 +70,7 @@ public class MyMoneyActivity extends BaseActivity {
         list = new ArrayList<>();
         adapter = new PaylogAdapter(this, list);
         mymoneylistview.setAdapter(adapter);
-        mymoneylistview.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        mymoneylistview.setMode(PullToRefreshBase.Mode.BOTH);
         mymoneylistview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -80,12 +82,24 @@ public class MyMoneyActivity extends BaseActivity {
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-
+                getPaylog(pageIndex + "");
             }
         });
         showProgressDialog("正在加载数据");
         getPaylog(pageIndex + "");
 
+        btntixian.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyMoneyActivity.this, ApplyActivity.class));
+            }
+        });
+        btntixianlog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyMoneyActivity.this, TixianLogActivity.class));
+            }
+        });
     }
 
     public void getPaylog(String index) {

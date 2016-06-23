@@ -253,6 +253,18 @@
             android:name=".activity.MyMoneyActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".activity.TixianLogActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.ApplyActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.TixianDetailActivity"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
