@@ -97,14 +97,13 @@ public class MyRelationActivity extends BaseActivity {
                         model.setAddTime("-1");
                         list.add(model);
                         if (!json.isNull("introducer")) {
-                            JSONArray introducerJson = json.getJSONArray("introducer");
-                            for (int i = 0; i < introducerJson.length(); i++) {
+                            JSONObject jsonObject = json.getJSONObject("introducer");
                                 RelationModel m = new RelationModel();
-                                m.setAddTime(introducerJson.getJSONObject(i).getString("AddTime"));
-                                m.setNickName(introducerJson.getJSONObject(i).getString("NickName"));
-                                m.setRealName(introducerJson.getJSONObject(i).getString("UserName"));
+                            m.setAddTime(jsonObject.getString("AddTime"));
+                            m.setNickName(jsonObject.getString("NickName"));
+                            m.setRealName(jsonObject.getString("UserName"));
                                 list.add(m);
-                            }
+
                         }
 
                         model = new RelationModel();

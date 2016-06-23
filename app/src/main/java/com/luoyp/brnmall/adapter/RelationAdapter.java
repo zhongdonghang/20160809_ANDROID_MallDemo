@@ -54,7 +54,7 @@ public class RelationAdapter extends BaseAdapter {
         textView.setTextSize(15);
         textView.setGravity(Gravity.CENTER_VERTICAL);
         textView.setPadding(25, 5, 5, 0);
-        textView.setTextColor(mContext.getResources().getColorStateList(R.color.textColor));
+        textView.setTextColor(mContext.getResources().getColorStateList(R.color.colorAccent));
         if ("-1".equals(getItem(position).getAddTime())) {
             textView.setText("我的介绍人");
             return textView;
