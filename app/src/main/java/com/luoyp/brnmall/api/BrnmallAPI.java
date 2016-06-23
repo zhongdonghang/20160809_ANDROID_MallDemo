@@ -7,12 +7,12 @@ import com.luoyp.xlibrary.net.OkHttpClientManager;
  */
 public class BrnmallAPI {
     //3号服务器：
-    public static String BaseIP = "http://jsy.nnbetter.com";
-    public static String BaseURL = BaseIP + "/api/app.asmx/";
+    // public static String BaseIP = "http://jsy.nnbetter.com";
+    //   public static String BaseURL = BaseIP + "/api/app.asmx/";
 
     //四号服务器：
-    //  public static String BaseIP = "http://www.888jsy.com";
-    //  public static String BaseURL = BaseIP + "/api/app.asmx/";
+    public static String BaseIP = "http://www.888jsy.com";
+    public static String BaseURL = BaseIP + "/api/app.asmx/";
 
     public static String BaseImgUrl1 = BaseIP + "/upload/store/";
     public static String BaseImgUrl2 = "/product/show/thumb100_100/";

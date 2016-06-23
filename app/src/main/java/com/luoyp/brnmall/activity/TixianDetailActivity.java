@@ -74,7 +74,7 @@ public class TixianDetailActivity extends BaseActivity {
         }
         tvzhanghaoxinxi.setText(App.tixianLogModel.getApplyRemark().replace(" ", ""));
         tvshenqingshijian.setText(SysUtils.getDate(App.tixianLogModel.getApplyTime()));
-        tvpishi.setText("支付单号: " + App.tixianLogModel.getReason().replace(" ", ""));
+        tvpishi.setText(App.tixianLogModel.getReason().replace(" ", ""));
         tvpishishijian.setText(SysUtils.getDate(App.tixianLogModel.getOperatTime()));
 
     }
