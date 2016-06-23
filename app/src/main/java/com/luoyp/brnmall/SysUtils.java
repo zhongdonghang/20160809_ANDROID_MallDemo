@@ -1,5 +1,7 @@
 package com.luoyp.brnmall;
 
+import com.socks.library.KLog;
+
 import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -26,13 +28,14 @@ public class SysUtils {
 
     public static String getDate(String s) {
         String ss = "";
-        ss = s.replace("\"/Date(", "").replace(")/", "").split("\\+")[0].replace(" ", "");
-        //  System.out.print(ss);
+        ss = s.replace(" ", "").replace("/Date(", "").replace(")/", "").split("\\+")[0];
+        KLog.d(ss);
+
         long foo = Long.parseLong(ss.toString());
 
 
         Date date = new Date(foo);
-        DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //   System.out.println(formatter.format(date));
         return formatter.format(date);
     }

@@ -212,9 +212,8 @@ public class MineFragment extends BaseFragment {
         if (isLogin) {
             EventBus.getDefault().post("getuserinfo", "getuserinfo");
             // 获取当前用户的uid
-            UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
             nickName.setText(App.getPref("nicheng", ""));
-            App.getPicasso().load(BrnmallAPI.userImgUrl + userModel.getUserInfo().getAvatar()).error(R.mipmap.logo).placeholder(R.mipmap.logo).into(userIcon);
+            App.getPicasso().load(BrnmallAPI.userImgUrl + App.getPref("avatar", "")).error(R.mipmap.logo).placeholder(R.mipmap.logo).into(userIcon);
         } else {
             nickName.setText("注册/登录");
             App.getPicasso().load(BrnmallAPI.userImgUrl).error(R.mipmap.logo).placeholder(R.mipmap.logo).into(userIcon);

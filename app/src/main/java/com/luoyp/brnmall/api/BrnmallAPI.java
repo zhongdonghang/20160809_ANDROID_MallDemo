@@ -150,6 +150,18 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "UserAvatarEdit", params, callback, "userAvatarEdit");
     }
 
+    /**
+     * 资金日志
+     *
+     * @param uid
+     * @param pageIndex
+     * @param callback
+     */
+    public static void payCreditList(String uid, String pageIndex, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {new OkHttpClientManager.Param("uid", uid), new OkHttpClientManager.Param("pageSize", "10"), new OkHttpClientManager.Param("pageNumber", pageIndex)};
+        OkHttpClientManager.postAsyn(BaseURL + "PayCreditList", params, callback, "PayCreditList");
+    }
+
 
     /**
      * 添加商品到购物车
