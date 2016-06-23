@@ -24,14 +24,30 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/tv_ketixian"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:gravity="left"
+                android:padding="5dp"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"/>
+
             <EditText
                 android:id="@+id/tixianjine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/bg_edittext"
                 android:gravity="left"
                 android:hint="提现金额"
+                android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:padding="5dp"
                 android:textColor="@color/textColor"

@@ -37,6 +37,8 @@ public class MyMoneyActivity extends BaseActivity {
     PaylogAdapter adapter;
     List<PayCreditLogModel> list;
     int pageIndex = 1;
+    double ketixian = 0.0;
+    double dongjie = 0.0;
     private de.hdodenhof.circleimageview.CircleImageView ivavatar;
     private TextView tvketixian;
     private TextView tvdongjie;
@@ -91,13 +93,24 @@ public class MyMoneyActivity extends BaseActivity {
         btntixian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MyMoneyActivity.this, ApplyActivity.class));
+
+                if (ketixian > 0.2) {
+                    Intent intent = new Intent(MyMoneyActivity.this, ApplyActivity.class);
+                    intent.putExtra("ketixian", ketixian);
+                    startActivity(intent);
+
+                    return;
+                }
+                showToast("可提现资产必须达到 0.2 元才可提现");
             }
         });
         btntixianlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 startActivity(new Intent(MyMoneyActivity.this, TixianLogActivity.class));
+
+
             }
         });
     }
@@ -127,12 +140,15 @@ public class MyMoneyActivity extends BaseActivity {
                             return;
                         }
 
+                        ketixian = json.getDouble("UserAmount");
+                        dongjie = json.getDouble("UserFrozenAmount");
                         JSONArray jsonArray = json.getJSONArray("PayCreditLogList");
                         if (jsonArray.length() == 0) {
                             showToast("没有数据了");
                             adapter.notifyDataSetChanged();
                             return;
                         }
+
                         for (int i = 0; i < jsonArray.length(); i++) {
                             PayCreditLogModel m = new PayCreditLogModel();
                             m.setActionDes(jsonArray.getJSONObject(i).getString("ActionDes"));
@@ -141,6 +157,9 @@ public class MyMoneyActivity extends BaseActivity {
                             m.setUserAmount(jsonArray.getJSONObject(i).getString("UserAmount"));
                             list.add(m);
                         }
+
+                        tvketixian.setText("可提现资产：" + ketixian + " 元");
+                        tvdongjie.setText(" 冻结资产：" + dongjie + " 元");
 
                         pageIndex++;
                         adapter.notifyDataSetChanged();

@@ -27,6 +27,7 @@ import java.util.List;
 
 public class ApplyActivity extends BaseActivity {
 
+    double ketixian = 0.0;
     private android.widget.EditText tixianjine;
     private android.widget.EditText zhanghao;
     private android.widget.EditText zhxinxi;
@@ -37,12 +38,14 @@ public class ApplyActivity extends BaseActivity {
     private Button btntixianfangshi;
     private RelativeLayout payway;
     private int txfs = 0;
+    private TextView tvketixian;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_apply);
+        this.tvketixian = (TextView) findViewById(R.id.tv_ketixian);
         this.payway = (RelativeLayout) findViewById(R.id.payway);
         this.btntixianfangshi = (Button) findViewById(R.id.btntixianfangshi);
         this.tvtxfs = (TextView) findViewById(R.id.tvtxfs);
@@ -53,6 +56,8 @@ public class ApplyActivity extends BaseActivity {
         this.zhanghao = (EditText) findViewById(R.id.zhanghao);
         this.tixianjine = (EditText) findViewById(R.id.tixianjine);
 
+        ketixian = getIntent().getDoubleExtra("ketixian", 0.0);
+        tvketixian.setText("可提现资产：" + ketixian + " 元");
         // 设置topbar
         TextView topbarTitle = (TextView) findViewById(R.id.topbar_title);
         if (topbarTitle != null) {
@@ -65,6 +70,7 @@ public class ApplyActivity extends BaseActivity {
                 apply();
             }
         });
+
         btntixianfangshi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,6 +106,11 @@ public class ApplyActivity extends BaseActivity {
     public void apply() {
         if (tixianjine.getText().length() == 0) {
             showToast("请输入提现金额");
+            return;
+        }
+        if (Double.valueOf(tixianjine.getText().toString()) > ketixian) {
+
+            showToast("超过了可提现金额");
             return;
         }
         if (txfs == 0) {
