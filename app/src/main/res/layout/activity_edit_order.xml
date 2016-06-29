@@ -148,11 +148,66 @@
             />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/way2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/payway"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/beisongpay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="备送方式"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/getbeisongway"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:onClick="getBeisongway"
+            android:text="选择"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="14sp"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:src="@drawable/forward"
+            android:textSize="14sp"
+            />
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/llll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/payway"
+        android:layout_below="@id/way2"
         android:layout_marginTop="5dp"
         android:background="@android:color/white"
         android:orientation="vertical"
@@ -198,7 +253,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="5dp"
             android:text="合计:￥"
-            android:textSize="14sp"/>
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/tv_sum"
@@ -209,7 +264,7 @@
             android:paddingLeft="5dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/holo_red_dark"
-            android:textSize="14sp"/>
+            android:textSize="12sp"/>
 
         <Button
             android:id="@+id/btn_tijiandingdan"

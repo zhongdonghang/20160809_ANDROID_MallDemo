@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.BaseActivity;
 import com.luoyp.brnmall.R;
-import com.luoyp.brnmall.SysUtils;
 
 public class TixianDetailActivity extends BaseActivity {
 
@@ -73,9 +72,9 @@ public class TixianDetailActivity extends BaseActivity {
 
         }
         tvzhanghaoxinxi.setText(App.tixianLogModel.getApplyRemark().replace(" ", ""));
-        tvshenqingshijian.setText(SysUtils.getDate(App.tixianLogModel.getApplyTime()));
+        tvshenqingshijian.setText(App.tixianLogModel.getApplyTime());
         tvpishi.setText(App.tixianLogModel.getReason().replace(" ", ""));
-        tvpishishijian.setText(SysUtils.getDate(App.tixianLogModel.getOperatTime()));
+        tvpishishijian.setText(App.tixianLogModel.getOperatTime());
 
     }
 }

@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.luoyp.brnmall.R;
-import com.luoyp.brnmall.SysUtils;
 import com.luoyp.brnmall.model.TixianLogModel;
 
 import java.util.List;
@@ -70,7 +69,7 @@ public class TixianlogAdapter extends BaseAdapter {
             holder.state.setText("已通过");
         }
 
-        holder.addTime.setText(SysUtils.getDate(getItem(position).getApplyTime()));
+        holder.addTime.setText(getItem(position).getApplyTime());
 
         holder.name.setText(getItem(position).getApplyRemark());
 

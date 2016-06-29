@@ -7,12 +7,13 @@ import com.luoyp.xlibrary.net.OkHttpClientManager;
  */
 public class BrnmallAPI {
     //3号服务器：
-    // public static String BaseIP = "http://jsy.nnbetter.com";
-    //   public static String BaseURL = BaseIP + "/api/app.asmx/";
+
+    public static String BaseIP = "http://jsy.nnbetter.com";
+    public static String BaseURL = BaseIP + "/api/app.asmx/";
 
     //四号服务器：
-    public static String BaseIP = "http://www.888jsy.com";
-    public static String BaseURL = BaseIP + "/api/app.asmx/";
+// public static String BaseIP = "http://www.888jsy.com";
+//    public static String BaseURL = BaseIP + "/api/app.asmx/";
 
     public static String BaseImgUrl1 = BaseIP + "/upload/store/";
     public static String BaseImgUrl2 = "/product/show/thumb100_100/";
@@ -242,6 +243,13 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "AddProductToFavorite", params, callback, "addProductToFavorite");
     }
 
+
+    public static void getShipFreeAmount(String uid, String saId, String selectedCartItemKeyList, String shipmode, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {new OkHttpClientManager.Param("uid", uid)
+                , new OkHttpClientManager.Param("saId", saId), new OkHttpClientManager.Param("selectedCartItemKeyList", selectedCartItemKeyList), new OkHttpClientManager.Param("shipmode", shipmode)};
+        OkHttpClientManager.postAsyn(BaseURL + "GetShipFreeAmount", params, callback, "GetShipFreeAmount");
+    }
+
     /**
      * 删除商品收藏
      *
@@ -326,7 +334,7 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "GetMyOrderList", params, callback, "getMyOrderList");
     }
 
-    public static void createOrder(String uid, String said, String orderList, String payName, String remark, ApiCallback<String> callback) {
+    public static void createOrder(String uid, String said, String orderList, String payName, String remark, String shipmode, ApiCallback<String> callback) {
         OkHttpClientManager.Param[] params = {
                 new OkHttpClientManager.Param("uid", uid)
                 , new OkHttpClientManager.Param("saId", said)
@@ -338,7 +346,8 @@ public class BrnmallAPI {
                 , new OkHttpClientManager.Param("fullcut", "")
                 , new OkHttpClientManager.Param("bestTime", "")
                 , new OkHttpClientManager.Param("ip", "")
-                , new OkHttpClientManager.Param("payName", payName)};
+                , new OkHttpClientManager.Param("payName", payName)
+                , new OkHttpClientManager.Param("shipmode", shipmode)};
 
         OkHttpClientManager.postAsyn(BaseURL + "OrderCreate", params, callback, "createOrder");
     }

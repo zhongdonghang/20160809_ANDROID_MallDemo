@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,12 +49,29 @@ public class EditOrderActy extends BaseActivity {
     private TextView orderaddress, txtPay;
     private String pay = "";
     private String[] payname = {"在线支付", "货到付款",};
+    private int beisong = -1;
+    private TextView txtpay;
+    private Button getpayway;
+    private RelativeLayout payway;
+    private TextView beisongpay;
+    private Button getbeisongway;
+    private RelativeLayout way2;
+    private android.widget.LinearLayout llll;
+    private android.widget.LinearLayout bb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_edit_order);
+        this.bb = (LinearLayout) findViewById(R.id.bb);
+        this.llll = (LinearLayout) findViewById(R.id.llll);
+        this.way2 = (RelativeLayout) findViewById(R.id.way2);
+        this.getbeisongway = (Button) findViewById(R.id.getbeisongway);
+        this.beisongpay = (TextView) findViewById(R.id.beisongpay);
+        this.payway = (RelativeLayout) findViewById(R.id.payway);
+        this.getpayway = (Button) findViewById(R.id.getpayway);
+        this.txtpay = (TextView) findViewById(R.id.txtpay);
         this.orderaddress = (TextView) findViewById(R.id.orderaddress);
         this.orderphone = (TextView) findViewById(R.id.orderphone);
         this.ordername = (TextView) findViewById(R.id.ordername);
@@ -127,6 +145,10 @@ public class EditOrderActy extends BaseActivity {
             showToast("请选择支付方式");
             return;
         }
+        if (beisong == -1) {
+            showToast("请选择备送方式");
+            return;
+        }
         // 获取当前用户的uid
         UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
         String uid = String.valueOf(userModel.getUserInfo().getUid());
@@ -141,7 +163,7 @@ public class EditOrderActy extends BaseActivity {
         }
         KLog.d("提交订单商品list:" + list);
         showProgressDialog("正在提交订单");
-        BrnmallAPI.createOrder(uid, aid, list, pay, "", new ApiCallback<String>() {
+        BrnmallAPI.createOrder(uid, aid, list, pay, "", beisong + "", new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
                 dismissProgressDialog();
@@ -165,10 +187,10 @@ public class EditOrderActy extends BaseActivity {
 
                     EventBus.getDefault().post("", "CartAdapter_tag");
                     showToast("提交订单成功");
-                    if ("cod".equals(pay)) {
-                        finish();
-                        return;
-                    }
+//                    if ("cod".equals(pay)) {
+//                        finish();
+//                        return;
+//                    }
                     Intent intent = new Intent();
 //                    intent.putExtra("oid", json.getJSONObject("data").getString("Oid"));
 //                    intent.putExtra("osn", json.getJSONObject("data").getString("OSN"));
@@ -183,6 +205,42 @@ public class EditOrderActy extends BaseActivity {
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void getShip(String beisong) {
+        UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
+        String uid = String.valueOf(userModel.getUserInfo().getUid());
+        int count = shopCartModel.getCartGoodsBeanList().size();
+        String list = "";
+        for (int i = 0; i < count; i++) {
+            if (i == count - 1) {
+                list += "0_" + shopCartModel.getCartGoodsBeanList().get(i).getPid();
+            } else {
+                list += "0_" + shopCartModel.getCartGoodsBeanList().get(i).getPid() + ",";
+            }
+        }
+        BrnmallAPI.getShipFreeAmount(uid, aid, list, beisong, new ApiCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+                showToast("地址信息异常,请重新选择");
+            }
+
+            @Override
+            public void onResponse(String response) {
+                if (!response.isEmpty()) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        if ("true".equals(jsonObject.getString("result"))) {
+                            tvsum.setText((jsonObject.getJSONObject("data").getDouble("ProductAmount") + jsonObject.getJSONObject("data").getDouble("ShipFree")) + " (会员价) 运费:" + jsonObject.getJSONObject("data").getDouble("ShipFree"));
+                        } else {
+                            showToast("地址信息异常,请重新选择");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -203,6 +261,12 @@ public class EditOrderActy extends BaseActivity {
             orderaddress.setText("收货地址: " + data.getExtras().getString("address"));
             ordername.setText("收 货 人: " + data.getExtras().getString("name"));
             orderphone.setText("联系电话: " + data.getExtras().getString("phone"));
+            if (-1 == beisong) {
+                getShip("0");
+            } else {
+                getShip(beisong + "");
+            }
+
         }
 
     }
@@ -210,6 +274,51 @@ public class EditOrderActy extends BaseActivity {
     public void getPayway(View view) {
         KLog.d("选择支付方式");
         showDialog("支付方式", payname, "0");
+    }
+
+    public void getBeisongway(View view) {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(EditOrderActy.this);
+        builderSingle.setIcon(R.mipmap.logo);
+        builderSingle.setTitle("选择备送方式");
+        final String[] data = {"备送上门", "上门自提",};
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                EditOrderActy.this,
+                android.R.layout.select_dialog_singlechoice);
+        arrayAdapter.addAll(data);
+
+        builderSingle.setNegativeButton(
+                "取消",
+                new DialogInterface.OnClickListener()
+
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }
+        );
+
+        builderSingle.setAdapter(
+                arrayAdapter,
+                new DialogInterface.OnClickListener()
+
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        beisongpay.setText("备送方式: " + data[which]);
+                        if (which == 0) {
+                            beisong = 0;
+                            getShip(beisong + "");
+                            return;
+                        } else {
+                            beisong = 1;
+                            getShip(beisong + "");
+                        }
+                    }
+                }
+
+        );
+        builderSingle.show();
     }
 
     public void showDialog(String name, String[] data, final String type) {

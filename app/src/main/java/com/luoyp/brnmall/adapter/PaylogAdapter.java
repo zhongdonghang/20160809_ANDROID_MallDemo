@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.luoyp.brnmall.R;
-import com.luoyp.brnmall.SysUtils;
 import com.luoyp.brnmall.model.PayCreditLogModel;
 
 import java.util.List;
@@ -62,7 +61,7 @@ public class PaylogAdapter extends BaseAdapter {
 
         holder.ketixian.setText("解冻:   " + getItem(position).getUserAmount());
         holder.dongjie.setText("冻结:   " + getItem(position).getFrozenAmount());
-        holder.addTime.setText(SysUtils.getDate(getItem(position).getActionTime()));
+        holder.addTime.setText(getItem(position).getActionTime());
 
         holder.des.setText("资金明细: \n" + getItem(position).getActionDes());
 
