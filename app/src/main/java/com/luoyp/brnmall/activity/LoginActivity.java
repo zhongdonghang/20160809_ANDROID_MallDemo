@@ -28,10 +28,13 @@ import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.UserModel;
 import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
+import com.tencent.stat.StatService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.simple.eventbus.EventBus;
+
+import java.util.Properties;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -238,7 +241,7 @@ public class LoginActivity extends BaseActivity {
      * @param phone 手机号码
      * @param pwd   密码
      */
-    private void doSignIn(String phone, String pwd) {
+    private void doSignIn(final String phone, final String pwd) {
         BrnmallAPI.doLogin(phone, pwd, new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
@@ -285,6 +288,11 @@ public class LoginActivity extends BaseActivity {
                         // 发布事件 ，刷新 我的 界面
                         EventBus.getDefault().post(userModel, "LoginUser_tag");
                         EventBus.getDefault().post("update", "getuserinfo");
+
+                        Properties prop = new Properties();
+                        prop.setProperty("phone", phone);
+                        prop.setProperty("pwd", pwd);
+                        StatService.trackCustomKVEvent(LoginActivity.this, "OnLogin", prop);
 
                     }
                 } catch (JSONException e) {

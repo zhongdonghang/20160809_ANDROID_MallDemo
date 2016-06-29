@@ -18,6 +18,7 @@ android {
         versionCode 9
         versionName "1.0"
         // multiDexEnabled true
+        manifestPlaceholders = [CHANNEL_VALUE: "TEST"]
     }
 //    dexOptions {
 //        incremental = true;
@@ -44,13 +45,22 @@ android {
         }
     }
 
+    productFlavors {
+        baidu {
+            manifestPlaceholders = [CHANNEL_VALUE: "BTAPP"]
+        }
+        qqplay {
+            manifestPlaceholders = [CHANNEL_VALUE: "QQPlay"]
+        }
+    }
+
 
     android.applicationVariants.all { variant ->
         variant.outputs.each { output ->
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 //这里修改apk文件名
-                def fileName = "brnmall.apk"
+                def fileName = "${variant.productFlavors[0].name}_brnmall.apk"
                 output.outputFile = new File(outputFile.parent, fileName)
             }
         }
@@ -79,4 +89,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha2'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     testCompile 'junit:junit:4.12'
+    compile files('libs/mid-sdk-2.3.jar')
+    compile files('libs/mta-android-stat-sdk-2.2.0_20160504.jar')
 }

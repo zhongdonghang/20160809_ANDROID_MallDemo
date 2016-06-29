@@ -22,11 +22,13 @@ import com.luoyp.brnmall.model.GoodsDetailModel;
 import com.luoyp.brnmall.model.UserModel;
 import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
+import com.tencent.stat.StatService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class GoodsDetailActivity extends BaseActivity {
 
@@ -82,6 +84,10 @@ public class GoodsDetailActivity extends BaseActivity {
             UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
             uid = String.valueOf(userModel.getUserInfo().getUid());
         }
+        Properties prop = new Properties();
+        prop.setProperty("pid", pid);
+        prop.setProperty("uid", uid);
+        StatService.trackCustomKVEvent(GoodsDetailActivity.this, "OnViewGoods", prop);
     }
 
     // 点击加入购物车

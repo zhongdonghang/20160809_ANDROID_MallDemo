@@ -14,10 +14,13 @@ import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
 import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
+import com.tencent.stat.StatService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Properties;
 
 /**
  * 注册
@@ -179,7 +182,7 @@ public class RegisterActivity extends BaseActivity {
      * @param pwd            密码
      * @param introducePhone 推荐人手机
      */
-    private void doRegister(String account, String pwd, String introducePhone) {
+    private void doRegister(final String account, final String pwd, String introducePhone) {
         BrnmallAPI.doRegister(account, pwd, introducePhone, new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
@@ -204,6 +207,10 @@ public class RegisterActivity extends BaseActivity {
                         showToast(jsonArray.getJSONObject(0).getString("msg"));
                     } else {
                         showToast("注册成功");
+                        Properties prop = new Properties();
+                        prop.setProperty("phone", account);
+                        prop.setProperty("pwd", pwd);
+                        StatService.trackCustomKVEvent(RegisterActivity.this, "OnRegist", prop);
                         finish();
                     }
                 } catch (JSONException e) {

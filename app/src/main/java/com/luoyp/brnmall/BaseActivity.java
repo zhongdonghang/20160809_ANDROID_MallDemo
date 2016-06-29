@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.luoyp.brnmall.activity.LoginActivity;
 import com.luoyp.xlibrary.widgets.CustomProgressDialog;
 import com.squareup.picasso.Picasso;
+import com.tencent.stat.StatService;
 
 /**
  * Created by lyp3314@gmail.com on 16/4/13.
@@ -28,6 +29,19 @@ public class BaseActivity extends AppCompatActivity {
     public boolean isRefresh = false;
     AlertDialog loginDialog;
     private CustomProgressDialog progressDialog = null;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 页面开始
+        StatService.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPause(this);
+    }
 
     public int dip2px(Context context, float dipValue) {
         final float scale = context.getResources().getDisplayMetrics().density;

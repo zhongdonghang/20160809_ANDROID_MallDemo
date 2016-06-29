@@ -15,6 +15,10 @@ import com.luoyp.brnmall.fragment.HomeFragment;
 import com.luoyp.brnmall.fragment.MineFragment;
 import com.luoyp.brnmall.fragment.ShopCarFragment;
 import com.luoyp.brnmall.view.TabView;
+import com.tencent.stat.MtaSDkException;
+import com.tencent.stat.StatConfig;
+import com.tencent.stat.StatReportStrategy;
+import com.tencent.stat.StatService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +42,19 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
+        initMTAConfig(false);
+        String appkey = "xYUfImXA0gI7HlED";
+        // 初始化并启动MTA
+        // 第三方SDK必须按以下代码初始化MTA，其中appkey为规定的格式或MTA分配的代码。
+        // 其它普通的app可自行选择是否调用
+        try {
+            // 第三个参数必须为：com.tencent.stat.common.StatConstants.VERSION
+            StatService.startStatService(this, appkey,
+                    com.tencent.stat.common.StatConstants.VERSION);
+        } catch (MtaSDkException e) {
+
+        }
+
         mFragmentMap = new HashMap<>();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -53,6 +70,49 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     }
 
+    /**
+     * 根据不同的模式，建议设置的开关状态，可根据实际情况调整，仅供参考。
+     *
+     * @param isDebugMode 根据调试或发布条件，配置对应的MTA配置
+     */
+    private void initMTAConfig(boolean isDebugMode) {
+        if (isDebugMode) { // 调试时建议设置的开关状态
+            // 查看MTA日志及上报数据内容
+            StatConfig.setDebugEnable(true);
+            // 禁用MTA对app未处理异常的捕获，方便开发者调试时，及时获知详细错误信息。
+            StatConfig.setAutoExceptionCaught(false);
+            // StatConfig.setEnableSmartReporting(false);
+            // Thread.setDefaultUncaughtExceptionHandler(new
+            // UncaughtExceptionHandler() {
+            //
+            // @Override
+            // public void uncaughtException(Thread thread, Throwable ex) {
+            // logger.error("setDefaultUncaughtExceptionHandler");
+            // }
+            // });
+            // 调试时，使用实时发送
+            // StatConfig.setStatSendStrategy(StatReportStrategy.BATCH);
+            // // 是否按顺序上报
+            // StatConfig.setReportEventsByOrder(false);
+            // // 缓存在内存的buffer日志数量,达到这个数量时会被写入db
+            // StatConfig.setNumEventsCachedInMemory(30);
+            // // 缓存在内存的buffer定期写入的周期
+            // StatConfig.setFlushDBSpaceMS(10 * 1000);
+            // // 如果用户退出后台，记得调用以下接口，将buffer写入db
+            // StatService.flushDataToDB(getApplicationContext());
+
+            // StatConfig.setEnableSmartReporting(false);
+            // StatConfig.setSendPeriodMinutes(1);
+            // StatConfig.setStatSendStrategy(StatReportStrategy.PERIOD);
+        } else { // 发布时，建议设置的开关状态，请确保以下开关是否设置合理
+            // 禁止MTA打印日志
+            StatConfig.setDebugEnable(false);
+            // 根据情况，决定是否开启MTA对app未处理异常的捕获
+            StatConfig.setAutoExceptionCaught(false);
+            // 选择默认的上报策略
+            StatConfig.setStatSendStrategy(StatReportStrategy.INSTANT);
+        }
+    }
     private Fragment getFragment(int position) {
         Fragment fragment = mFragmentMap.get(position);
         if (fragment == null) {

@@ -26,6 +26,7 @@ import com.luoyp.brnmall.model.ShopCartModel;
 import com.luoyp.brnmall.model.UserModel;
 import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
+import com.tencent.stat.StatService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,6 +34,7 @@ import org.simple.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class EditOrderActy extends BaseActivity {
 
@@ -150,8 +152,8 @@ public class EditOrderActy extends BaseActivity {
             return;
         }
         // 获取当前用户的uid
-        UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
-        String uid = String.valueOf(userModel.getUserInfo().getUid());
+        final UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
+        final String uid = String.valueOf(userModel.getUserInfo().getUid());
         int count = shopCartModel.getCartGoodsBeanList().size();
         String list = "";
         for (int i = 0; i < count; i++) {
@@ -191,6 +193,13 @@ public class EditOrderActy extends BaseActivity {
 //                        finish();
 //                        return;
 //                    }
+                    Properties prop = new Properties();
+                    prop.setProperty("OrderAmount", json.getJSONObject("data").getString("OrderAmount"));
+                    prop.setProperty("uid", uid);
+                    prop.setProperty("mobile", userModel.getUserInfo().getMobile());
+                    prop.setProperty("name", userModel.getUserInfo().getUserName());
+                    StatService.trackCustomKVEvent(EditOrderActy.this, "OnNewOrder", prop);
+
                     Intent intent = new Intent();
 //                    intent.putExtra("oid", json.getJSONObject("data").getString("Oid"));
 //                    intent.putExtra("osn", json.getJSONObject("data").getString("OSN"));

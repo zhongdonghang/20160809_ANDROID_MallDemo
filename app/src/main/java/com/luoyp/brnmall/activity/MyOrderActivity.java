@@ -24,6 +24,7 @@ import com.luoyp.brnmall.model.MyOrderModel;
 import com.luoyp.brnmall.model.UserModel;
 import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
+import com.tencent.stat.StatService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +34,7 @@ import org.simple.eventbus.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class MyOrderActivity extends BaseActivity {
 
@@ -118,8 +120,15 @@ public class MyOrderActivity extends BaseActivity {
         Intent intent = new Intent();
         intent.putExtra("oid", list.get(pos).getOid());
         intent.putExtra("osn", list.get(pos).getOsn());
-
         intent.putExtra("price", list.get(pos).getRealpay());
+
+        Properties prop = new Properties();
+        UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
+
+        prop.setProperty("name", userModel.getUserInfo().getUserName());
+        prop.setProperty("mobile", userModel.getUserInfo().getMobile());
+        prop.setProperty("price", list.get(pos).getRealpay());
+        StatService.trackCustomKVEvent(MyOrderActivity.this, "OnPay", prop);
 
         intent.setClass(MyOrderActivity.this, PayActivity.class);
         startActivity(intent);
