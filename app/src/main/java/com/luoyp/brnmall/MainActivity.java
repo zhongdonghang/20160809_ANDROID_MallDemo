@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             // 根据情况，决定是否开启MTA对app未处理异常的捕获
             StatConfig.setAutoExceptionCaught(false);
             // 选择默认的上报策略
-            StatConfig.setStatSendStrategy(StatReportStrategy.INSTANT);
+            StatConfig.setStatSendStrategy(StatReportStrategy.APP_LAUNCH);
         }
     }
     private Fragment getFragment(int position) {

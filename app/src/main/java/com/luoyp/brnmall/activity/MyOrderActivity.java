@@ -1,5 +1,7 @@
 package com.luoyp.brnmall.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -56,6 +58,7 @@ public class MyOrderActivity extends BaseActivity {
         if (topbarTitle != null) {
             topbarTitle.setText("我的订单");
         }
+
         list = new ArrayList<MyOrderModel>();
         adapter = new MyOrderAdapter(this, list);
         myorderlistview.setAdapter(adapter);
@@ -100,8 +103,54 @@ public class MyOrderActivity extends BaseActivity {
     }
 
     @Subscriber(tag = "paynow")
-    public void paynow(int pos) {
+    public void paynow(final int pos) {
+        if ("110".equals(list.get(pos).getOrderstate())) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MyOrderActivity.this);
+            builder.setMessage("确认已收货吗？");
+            builder.setTitle("提示");
+            builder.setPositiveButton("已收货", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    orderConfirm(list.get(pos).getOid());
+                }
+            });
+            builder.setNegativeButton("未收货", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
+
+            return;
+        }
         pay(pos);
+    }
+
+    public void orderConfirm(String oid) {
+        UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
+        String uid = String.valueOf(userModel.getUserInfo().getUid());
+        BrnmallAPI.orderReceive(uid, oid, new ApiCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+                showToast("网络异常,请稍后再试");
+            }
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    list.clear();
+                    pageIndex = 1;
+                    getMyOder();
+
+                    JSONObject jsonObject = new JSONObject(response);
+                    showToast(jsonObject.getJSONArray("data").getJSONObject(0).getString("msg"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -206,6 +255,7 @@ public class MyOrderActivity extends BaseActivity {
                             myOrderModel.setStorename(orderlist.getJSONObject(i).getString("StoreName"));
                             myOrderModel.setPayfriendname(orderlist.getJSONObject(i).getString("PayFriendName"));
                             myOrderModel.setOsn(orderlist.getJSONObject(i).getString("OSN"));
+                            myOrderModel.setPayMode(orderlist.getJSONObject(i).getString("PayMode"));
                             list.add(myOrderModel);
                         }
 

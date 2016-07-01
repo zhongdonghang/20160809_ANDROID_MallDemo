@@ -13,7 +13,7 @@ public class BrnmallAPI {
 
     //四号服务器：
 // public static String BaseIP = "http://www.888jsy.com";
-//    public static String BaseURL = BaseIP + "/api/app.asmx/";
+//   public static String BaseURL = BaseIP + "/api/app.asmx/";
 
     public static String BaseImgUrl1 = BaseIP + "/upload/store/";
     public static String BaseImgUrl2 = "/product/show/thumb100_100/";
@@ -206,6 +206,11 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "AddProductToCart", params, callback, "addProductToCart");
     }
 
+    public static void orderReceive(String uid, String oid, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {new OkHttpClientManager.Param("uid", uid),
+                new OkHttpClientManager.Param("oid", oid)};
+        OkHttpClientManager.postAsyn(BaseURL + "OrderReceive", params, callback, "OrderReceive");
+    }
     /**
      * 删除购物车中的商品
      *
@@ -349,7 +354,7 @@ public class BrnmallAPI {
                 , new OkHttpClientManager.Param("payName", payName)
                 , new OkHttpClientManager.Param("shipmode", shipmode)};
 
-        OkHttpClientManager.postAsyn(BaseURL + "OrderCreate", params, callback, "createOrder");
+        OkHttpClientManager.postAsyn(BaseURL + "OrderCreateNew", params, callback, "OrderCreateNew");
     }
 
     /**

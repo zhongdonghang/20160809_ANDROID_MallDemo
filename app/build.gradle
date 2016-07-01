@@ -15,7 +15,7 @@ android {
         applicationId "com.luoyp.brnmall"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 9
+        versionCode 10
         versionName "1.0"
         // multiDexEnabled true
         manifestPlaceholders = [CHANNEL_VALUE: "TEST"]
@@ -60,7 +60,7 @@ android {
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 //这里修改apk文件名
-                def fileName = "${variant.productFlavors[0].name}_brnmall.apk"
+                def fileName = "${variant.productFlavors[0].name}_${versionCode}_jsy.apk"
                 output.outputFile = new File(outputFile.parent, fileName)
             }
         }

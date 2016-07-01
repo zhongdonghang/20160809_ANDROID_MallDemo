@@ -19,6 +19,15 @@ public class MyOrderModel {
     private String storename = "";
     private String osn = "";
     private String realpay = "";
+    private String payMode = "";
+
+    public String getPayMode() {
+        return payMode;
+    }
+
+    public void setPayMode(String payMode) {
+        this.payMode = payMode;
+    }
 
     public String getRealpay() {
         return realpay;

@@ -14,6 +14,7 @@ import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.MyOrderModel;
+import com.socks.library.KLog;
 
 import org.simple.eventbus.EventBus;
 
@@ -124,19 +125,24 @@ public class MyOrderAdapter extends BaseAdapter {
             holder.state.setText("已确认");
         }
         if ("90".equals(state)) {
-            holder.state.setText("备货中");
+            holder.state.setText("已备货");
         }
         if ("110".equals(state)) {
             holder.state.setText("已发货");
+            KLog.d("paymode " + getItem(position).getPayMode());
+            if ("1".equals(getItem(position).getPayMode())) {
+                holder.paynow.setVisibility(View.VISIBLE);
+                holder.paynow.setText("确认收货");
+            }
         }
         if ("140".equals(state)) {
-            holder.state.setText("已完成");
+            holder.state.setText("已收货");
         }
         if ("160".equals(state)) {
-            holder.state.setText("已退货");
+            holder.state.setText("已完成");
         }
         if ("180".equals(state)) {
-            holder.state.setText("已锁定");
+            holder.state.setText("已退货");
         }
         if ("200".equals(state)) {
             holder.state.setText("已取消");

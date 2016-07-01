@@ -86,7 +86,8 @@ public class GoodsDetailActivity extends BaseActivity {
         }
         Properties prop = new Properties();
         prop.setProperty("pid", pid);
-        prop.setProperty("uid", uid);
+
+        //   prop.setProperty("uid", uid);
         StatService.trackCustomKVEvent(GoodsDetailActivity.this, "OnViewGoods", prop);
     }
 
@@ -171,7 +172,6 @@ public class GoodsDetailActivity extends BaseActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         });
     }
