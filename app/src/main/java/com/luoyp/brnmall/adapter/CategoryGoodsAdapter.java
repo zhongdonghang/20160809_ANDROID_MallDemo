@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
-import com.luoyp.brnmall.SysUtils;
 import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.CategoryGoodsModel;
 import com.socks.library.KLog;
@@ -73,12 +72,12 @@ public class CategoryGoodsAdapter extends BaseAdapter {
             }
         });
         holder.goodsName.setText(getItem(position).getName());
-        holder.goodsPrice.setText("￥ " + getItem(position).getShopPrice());
-        holder.marketPrice.setText(" ￥ " + getItem(position).getMarketPrice());
+        holder.goodsPrice.setText("商城价￥ " + getItem(position).getShopPrice());
+        holder.marketPrice.setText("市场价￥ " + getItem(position).getMarketPrice());
         holder.marketPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);// 添加中划线
 
         if (App.getPref("isLogin", false)) {
-            holder.memberPrice.setText("  ￥" + SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * Double.valueOf(getItem(position).getShopPrice()) * 10 / 100)) + " (" + App.getPref("zhekoutitle", "") + ")");
+            holder.memberPrice.setText("会员价￥ " + getItem(position).getVipPrice());
         } else {
             holder.memberPrice.setText("  ￥ (未登陆)");
         }

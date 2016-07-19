@@ -83,7 +83,7 @@ public class BrandFragment extends BaseFragment {
             }
         });
 
-        brandlistview.getRefreshableView().setNumColumns(2);
+        brandlistview.getRefreshableView().setNumColumns(3);
         brandListData = new ArrayList<>();
         brandAdapter = new BrandAdapter(getActivity(), brandListData);
         brandlistview.setAdapter(brandAdapter);

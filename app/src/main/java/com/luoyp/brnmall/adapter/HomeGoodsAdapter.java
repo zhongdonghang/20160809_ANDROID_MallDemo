@@ -1,12 +1,11 @@
 package com.luoyp.brnmall.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Paint;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -52,42 +51,55 @@ public class HomeGoodsAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-        TextView textView = new TextView(mContext);
-        ViewGroup.LayoutParams params = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 130);
-        textView.setLayoutParams(params);
-        textView.setTextSize(15);
-        textView.setBackgroundResource(R.color.colorAccent);
-        textView.setGravity(Gravity.CENTER_VERTICAL);
-        textView.setPadding(25, 5, 5, 5);
-        textView.setTextColor(mContext.getResources().getColorStateList(R.color.white));
+        View head = mInflater.inflate(R.layout.home_item_head, null);
+        TextView textView = (TextView) head.findViewById(R.id.item_head_name);
+        View line = head.findViewById(R.id.line);
+        Button btn = (Button) head.findViewById(R.id.item_head_more);
+        btn.setTag(getItem(position).getItemType());
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                App.cateIndex = getItem(position).getItemType();
+                EventBus.getDefault().post(v.getTag().toString(), "homemoreclick");
+            }
+        });
+
         if ("33".equals(getItem(position).getItemType())) {
             textView.setText("情趣用品");
-            return textView;
+            line.setBackgroundColor(Color.parseColor("#A6D17A"));
+            return head;
         }
         if ("34".equals(getItem(position).getItemType())) {
+            line.setBackgroundColor(Color.parseColor("#FF6D69"));
             textView.setText("保健品");
-            return textView;
+            return head;
         }
+
         if ("35".equals(getItem(position).getItemType())) {
+            line.setBackgroundColor(Color.parseColor("#A6D17A"));
             textView.setText("保健食品");
-            return textView;
+            return head;
         }
         if ("36".equals(getItem(position).getItemType())) {
             textView.setText("保健器材");
-            return textView;
+            line.setBackgroundColor(Color.parseColor("#FF6D69"));
+            return head;
         }
         if ("37".equals(getItem(position).getItemType())) {
+            line.setBackgroundColor(Color.parseColor("#A6D17A"));
             textView.setText("化妆品");
-            return textView;
+            return head;
         }
         if ("38".equals(getItem(position).getItemType())) {
             textView.setText("洗护用品");
-            return textView;
+            line.setBackgroundColor(Color.parseColor("#FF6D69"));
+            return head;
         }
         if ("39".equals(getItem(position).getItemType())) {
-
+            line.setBackgroundColor(Color.parseColor("#A6D17A"));
             textView.setText("保健礼品");
-            return textView;
+            return head;
         }
         convertView = mInflater.inflate(R.layout.item_home_goods, null);
         holder = new ViewHolder();
@@ -107,8 +119,8 @@ public class HomeGoodsAdapter extends BaseAdapter {
 
 
         holder.goodsName.setText(getItem(position).getPname());
-        holder.goodsPrice.setText("￥ " + getItem(position).getPrice());
-        holder.marketPrice.setText(" ￥ " + getItem(position).getMarkiprice());
+        holder.goodsPrice.setText("现价￥ " + getItem(position).getPrice());
+        holder.marketPrice.setText("原价￥ " + getItem(position).getMarkiprice());
         holder.marketPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);// 添加中划线
 
         App.getPicasso().load(getItem(position).getImg()).placeholder(R.drawable.goodsdefaulimg).error(R.drawable.goodsdefaulimg).into(holder.goodsIcon);

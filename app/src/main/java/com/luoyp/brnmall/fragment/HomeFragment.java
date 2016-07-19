@@ -16,6 +16,10 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baidu.autoupdatesdk.AppUpdateInfo;
@@ -72,7 +76,12 @@ public class HomeFragment extends BaseFragment {
     private com.handmark.pulltorefresh.library.PullToRefreshListView homelistview;
     //    private PullToRefreshGridView homelistview;
     private android.support.v4.widget.SwipeRefreshLayout swipemessage;
-    private android.widget.TextView tvhot;
+    private android.widget.ImageView llogo;
+    private android.widget.RelativeLayout searbar;
+    private android.widget.LinearLayout tvhot;
+    private RelativeLayout homehead;
+    private ImageView searchIv;
+    private android.widget.EditText searchEt;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -118,12 +127,21 @@ public class HomeFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        this.tvhot = (TextView) view.findViewById(R.id.tv_hot);
+        this.searchEt = (EditText) view.findViewById(R.id.searchEt);
+        this.searchIv = (ImageView) view.findViewById(R.id.searchIv);
+        this.homehead = (RelativeLayout) view.findViewById(R.id.homehead);
+        this.tvhot = (LinearLayout) view.findViewById(R.id.tv_hot);
+        this.searbar = (RelativeLayout) view.findViewById(R.id.searbar);
+        this.llogo = (ImageView) view.findViewById(R.id.llogo);
 
         this.swipemessage = (SwipeRefreshLayout) view.findViewById(R.id.swipe_message);
         this.homelistview = (PullToRefreshListView) view.findViewById(R.id.home_list_view);
-        this.autoviewpager = (AutoScrollViewPager) view.findViewById(R.id.auto_view_pager);
+        // this.autoviewpager = (AutoScrollViewPager) header.findViewById(R.id.auto_view_pager);
+        AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.WRAP_CONTENT);
 
+        View header = inflater.inflate(R.layout.homehead, container, false);
+        header.setLayoutParams(layoutParams);
+        this.autoviewpager = (AutoScrollViewPager) header.findViewById(R.id.auto_view_pager);
         autoviewpager.setAdapter(homeAdAdapter.setInfiniteLoop(true));
         autoviewpager.setOnPageChangeListener(new MyOnPageChangeListener());
         autoviewpager.setInterval(2500);
@@ -139,6 +157,16 @@ public class HomeFragment extends BaseFragment {
             }
         });
 
+        searchIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (searchEt.getText().toString().isEmpty()) {
+                    showToast("请输入要搜索的商品名称");
+                    return;
+                }
+            }
+        });
+        homelistview.getRefreshableView().addHeaderView(header);
         // homelistview.getRefreshableView().setNumColumns(2);
         homelistview.setMode(PullToRefreshBase.Mode.DISABLED);
 
@@ -177,6 +205,7 @@ public class HomeFragment extends BaseFragment {
         doGetHomeGoodsTask();
         return view;
     }
+
 
     @Override
     public void onDestroy() {

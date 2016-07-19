@@ -48,11 +48,12 @@
         <LinearLayout
             android:id="@+id/imgll"
             android:layout_width="wrap_content"
-            android:layout_height="55dp"
+            android:layout_height="75dp"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="20dp"
             android:focusable="false"
             android:focusableInTouchMode="false"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
         </LinearLayout>
@@ -131,6 +132,7 @@
             android:padding="3dp"
             android:text="取消订单"
             android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/white"
             android:textSize="10sp"
             android:visibility="gone"/>
 
@@ -147,6 +149,7 @@
             android:padding="3dp"
             android:text="现在付款"
             android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/white"
             android:textSize="10sp"
             android:visibility="gone"/>
     </RelativeLayout>

@@ -87,8 +87,10 @@ dependencies {
     compile 'com.ashokvarma.android:bottom-navigation-bar:1.0.0'
     compile 'com.android.support:support-v4:23.4.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha2'
+
     compile 'de.hdodenhof:circleimageview:2.0.0'
     testCompile 'junit:junit:4.12'
     compile files('libs/mid-sdk-2.3.jar')
+
     compile files('libs/mta-android-stat-sdk-2.2.0_20160504.jar')
 }

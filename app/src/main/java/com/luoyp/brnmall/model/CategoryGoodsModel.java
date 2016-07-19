@@ -205,6 +205,7 @@ public class CategoryGoodsModel {
         private double ShopPrice;
         private double MarketPrice;
         private double CostPrice;
+        private double VipPrice;
         private int State;
         private int IsBest;
         private int IsHot;
@@ -221,6 +222,14 @@ public class CategoryGoodsModel {
         private int Star4;
         private int Star5;
         private String AddTime;
+
+        public double getVipPrice() {
+            return VipPrice;
+        }
+
+        public void setVipPrice(double vipPrice) {
+            VipPrice = vipPrice;
+        }
 
         public String getStoreName() {
             return StoreName;

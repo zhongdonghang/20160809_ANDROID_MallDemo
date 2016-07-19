@@ -22,6 +22,9 @@ import java.util.Map;
  * Created by lyp3314@gmail.com on 16/4/13.
  */
 public class App extends Application {
+
+    public static String cateIndex = "-1";
+
     //临时保存购物车
     public static ShopCartModel shopCar;
     public static TixianLogModel tixianLogModel;

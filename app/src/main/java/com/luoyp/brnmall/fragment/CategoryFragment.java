@@ -167,6 +167,61 @@ public class CategoryFragment extends BaseFragment {
             categoryListData.clear();
             adapter.notifyDataSetChanged();
             getCategoty();
+            return;
+        }
+        if (!isFirstLoad) {
+            if ("33".equals(App.cateIndex)) {
+                categorylistview.performItemClick(categorylistview, 5, 5);
+                adapter.setMySelection(5);
+                isFirstLoad = false;
+                App.cateIndex = "-1";
+                return;
+            }
+            if ("34".equals(App.cateIndex)) {
+                categorylistview.performItemClick(categorylistview, 0, 0);
+                adapter.setMySelection(0);
+                isFirstLoad = false;
+                App.cateIndex = "-1";
+                return;
+            }
+
+            if ("35".equals(App.cateIndex)) {
+                categorylistview.performItemClick(categorylistview, 1, 1);
+                adapter.setMySelection(1);
+                isFirstLoad = false;
+                App.cateIndex = "-1";
+                return;
+            }
+            if ("36".equals(App.cateIndex)) {
+                categorylistview.performItemClick(categorylistview, 2, 2);
+                adapter.setMySelection(2);
+                isFirstLoad = false;
+                App.cateIndex = "-1";
+                return;
+            }
+            if ("37".equals(App.cateIndex)) {
+                categorylistview.performItemClick(categorylistview, 3, 3);
+                adapter.setMySelection(3);
+                isFirstLoad = false;
+                App.cateIndex = "-1";
+                return;
+            }
+            if ("38".equals(App.cateIndex)) {
+                categorylistview.performItemClick(categorylistview, 4, 4);
+                adapter.setMySelection(4);
+                isFirstLoad = false;
+                App.cateIndex = "-1";
+                return;
+            }
+            if ("39".equals(App.cateIndex)) {
+                categorylistview.performItemClick(categorylistview, 6, 6);
+                adapter.setMySelection(6);
+                isFirstLoad = false;
+                App.cateIndex = "-1";
+                return;
+            }
+            categorylistview.performItemClick(categorylistview, 0, 0);
+            adapter.setMySelection(0);
         }
     }
 
@@ -179,7 +234,6 @@ public class CategoryFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     public void getCategoty() {
@@ -215,8 +269,60 @@ public class CategoryFragment extends BaseFragment {
                 categoryListData.addAll(category.getCategory());
 
                 adapter.notifyDataSetChanged();
-                categorylistview.performItemClick(categorylistview, 0, 0);
-                adapter.setMySelection(0);
+                if (isFirstLoad) {
+                    if ("33".equals(App.cateIndex)) {
+                        categorylistview.performItemClick(categorylistview, 5, 5);
+                        adapter.setMySelection(5);
+                        isFirstLoad = false;
+                        App.cateIndex = "-1";
+                        return;
+                    }
+                    if ("34".equals(App.cateIndex)) {
+                        categorylistview.performItemClick(categorylistview, 0, 0);
+                        adapter.setMySelection(0);
+                        isFirstLoad = false;
+                        App.cateIndex = "-1";
+                        return;
+                    }
+
+                    if ("35".equals(App.cateIndex)) {
+                        categorylistview.performItemClick(categorylistview, 1, 1);
+                        adapter.setMySelection(1);
+                        isFirstLoad = false;
+                        App.cateIndex = "-1";
+                        return;
+                    }
+                    if ("36".equals(App.cateIndex)) {
+                        categorylistview.performItemClick(categorylistview, 2, 2);
+                        adapter.setMySelection(2);
+                        isFirstLoad = false;
+                        App.cateIndex = "-1";
+                        return;
+                    }
+                    if ("37".equals(App.cateIndex)) {
+                        categorylistview.performItemClick(categorylistview, 3, 3);
+                        adapter.setMySelection(3);
+                        isFirstLoad = false;
+                        App.cateIndex = "-1";
+                        return;
+                    }
+                    if ("38".equals(App.cateIndex)) {
+                        categorylistview.performItemClick(categorylistview, 4, 4);
+                        adapter.setMySelection(4);
+                        isFirstLoad = false;
+                        App.cateIndex = "-1";
+                        return;
+                    }
+                    if ("39".equals(App.cateIndex)) {
+                        categorylistview.performItemClick(categorylistview, 6, 6);
+                        adapter.setMySelection(6);
+                        isFirstLoad = false;
+                        App.cateIndex = "-1";
+                        return;
+                    }
+                    categorylistview.performItemClick(categorylistview, 0, 0);
+                    adapter.setMySelection(0);
+                }
                 isFirstLoad = false;
             }
         });

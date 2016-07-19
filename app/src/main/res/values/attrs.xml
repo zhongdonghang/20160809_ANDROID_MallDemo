@@ -10,6 +10,6 @@
         <attr name="text_normal_color"></attr>
         <attr name="item_padding"></attr>
     </declare-styleable>
-
+    <attr name="fabColorCustomized" format="color"/>
 
 </resources>
