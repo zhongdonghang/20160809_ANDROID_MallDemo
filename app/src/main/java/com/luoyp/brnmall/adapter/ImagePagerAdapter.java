@@ -11,7 +11,6 @@ import android.widget.ImageView;
 
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
-import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -64,7 +63,7 @@ public class ImagePagerAdapter extends RecyclingPagerAdapter {
             holder = (ViewHolder) view.getTag();
         }
         //holder.imageView.setBackgroundResource(imageIdList.get(getPosition(position)));
-        KLog.d("ad pic:" + imageIdList.get(position) + "  pos=" + position);
+        //     KLog.d("ad pic:" + imageIdList.get(position) + "  pos=" + position);
         if (position == 0) {
             App.getPicasso().load(imageIdList.get(position)).placeholder(R.drawable.ad1).error(R.drawable.ad1).into(holder.imageView);
         }

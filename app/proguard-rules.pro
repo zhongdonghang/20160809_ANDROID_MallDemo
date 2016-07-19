@@ -15,3 +15,12 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+#-keep class com.alipay.** { *; }
+#-keep class com.ta.** { *; }
+#-keep class com.ut.** { *; }
+#-keep class org.json.alipay.** { *; }
+#-keep class com.baidu.** { *; }
+#-keep class com.tencent.** { *; }
+#-keep class com.google.gson.** { *; }
+#-keep class android.support.v4.** { *; }
+#-keep interface android.support.v4.** { *; }
