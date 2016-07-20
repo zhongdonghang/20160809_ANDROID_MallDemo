@@ -339,7 +339,7 @@ public class CategoryFragment extends BaseFragment {
             @Override
             public void onError(Request request, Exception e) {
                 // 关闭加载提示
-                showToast("网络异常,请稍后再说吧");
+                showToast("网络异常,请稍后再试吧");
                 dismissProgressDialog();
                 categorygoodslistview.onRefreshComplete();
 

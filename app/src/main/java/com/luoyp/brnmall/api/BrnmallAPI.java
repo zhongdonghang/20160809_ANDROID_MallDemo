@@ -129,6 +129,7 @@ public class BrnmallAPI {
         OkHttpClientManager.Param[] params = {new OkHttpClientManager.Param("uid", uid), new OkHttpClientManager.Param("oidList", oidList), new OkHttpClientManager.Param("psw", psw)};
         OkHttpClientManager.postAsyn(BaseURL + "CreditPayOrder", params, callback, "CreditPayOrder");
     }
+
     /**
      * 注册
      *
@@ -153,6 +154,21 @@ public class BrnmallAPI {
     public static void getMyCart(String uid, ApiCallback<String> callback) {
         OkHttpClientManager.Param[] params = {new OkHttpClientManager.Param("uid", uid)};
         OkHttpClientManager.postAsyn(BaseURL + "GetMyCart", params, callback, "getMyCart");
+    }
+
+
+    public static void MallSearch(String keyword, String pagenumber, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {new OkHttpClientManager.Param("keyword", keyword),
+                new OkHttpClientManager.Param("uid", ""),
+                new OkHttpClientManager.Param("cateid", ""),
+                new OkHttpClientManager.Param("brandid", ""),
+                new OkHttpClientManager.Param("filterprice", ""),
+                new OkHttpClientManager.Param("sortcolumn", ""),
+                new OkHttpClientManager.Param("sortdirection", ""),
+                new OkHttpClientManager.Param("pagenumber", pagenumber),
+                new OkHttpClientManager.Param("pagesize", "500"),
+                new OkHttpClientManager.Param("type", "1")};
+        OkHttpClientManager.postAsyn(BaseURL + "MallSearch", params, callback, "MallSearch");
     }
 
     public static void userAvatarEdit(String uid, String avatar, ApiCallback<String> callback) {
@@ -220,6 +236,7 @@ public class BrnmallAPI {
                 new OkHttpClientManager.Param("oid", oid)};
         OkHttpClientManager.postAsyn(BaseURL + "OrderReceive", params, callback, "OrderReceive");
     }
+
     /**
      * 删除购物车中的商品
      *

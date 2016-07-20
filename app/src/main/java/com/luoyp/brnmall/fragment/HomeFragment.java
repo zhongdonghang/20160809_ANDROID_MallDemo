@@ -34,6 +34,7 @@ import com.handmark.pulltorefresh.library.internal.Utils;
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.activity.GoodsDetailActivity;
+import com.luoyp.brnmall.activity.SearchActivity;
 import com.luoyp.brnmall.adapter.HomeGoodsAdapter;
 import com.luoyp.brnmall.adapter.ImagePagerAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
@@ -124,7 +125,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         this.searchEt = (EditText) view.findViewById(R.id.searchEt);
@@ -164,6 +165,10 @@ public class HomeFragment extends BaseFragment {
                     showToast("请输入要搜索的商品名称");
                     return;
                 }
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                intent.putExtra("key", searchEt.getText().toString());
+                startActivity(intent);
+
             }
         });
         homelistview.getRefreshableView().addHeaderView(header);
