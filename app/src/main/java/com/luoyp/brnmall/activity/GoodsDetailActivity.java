@@ -26,19 +26,19 @@ import com.tencent.stat.StatService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.simple.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Properties;
 
 public class GoodsDetailActivity extends BaseActivity {
 
+    boolean isbuynow = false;
     private ImageView goodsIcon;
     private TextView goodsName, goodsPrice, goodsPinPai, goodsGuiGe;
     private ListView listView;
     private GoodsImageAdapter adapter;
-
     private GoodsDetailModel goodsDetailModel;
-
     private String pid, uid;
     private boolean isLogin = false;
     private boolean isFavorite = false;
@@ -99,7 +99,14 @@ public class GoodsDetailActivity extends BaseActivity {
         // 获取当前用户的uid
         UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
         uid = String.valueOf(userModel.getUserInfo().getUid());
+        showProgressDialog("添加到购物车");
+        addGoodsToCart(pid, uid, "1");
+    }
 
+    // 点击加入购物车
+    public void buynow(View view) {
+        isbuynow = true;
+        showProgressDialog("正在提交商品信息");
         addGoodsToCart(pid, uid, "1");
     }
 
@@ -184,7 +191,7 @@ public class GoodsDetailActivity extends BaseActivity {
      * @param count 数量
      */
     private void addGoodsToCart(String pid, String uid, String count) {
-        showProgressDialog("正在添加到购物车");
+
         BrnmallAPI.addProductToCart(pid, uid, count, new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
@@ -198,6 +205,13 @@ public class GoodsDetailActivity extends BaseActivity {
                 dismissProgressDialog();
                 if (response != null && !TextUtils.isEmpty(response)) {
                     try {
+                        if (isbuynow) {
+                            isbuynow = false;
+                            GoodsDetailActivity.this.finish();
+                            EventBus.getDefault().post("--", "buynowClick");
+                            return;
+
+                        }
                         JSONObject jsonObject = new JSONObject(response);
                         showToast(jsonObject.getJSONArray("data").getJSONObject(0).getString("msg"));
 

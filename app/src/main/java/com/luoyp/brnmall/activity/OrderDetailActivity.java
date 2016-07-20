@@ -115,19 +115,19 @@ public class OrderDetailActivity extends BaseActivity {
                         stateName.setText("已确认");
                     }
                     if ("90".equals(state)) {
-                        stateName.setText("备货中");
+                        stateName.setText("已备货");
                     }
                     if ("110".equals(state)) {
                         stateName.setText("已发货");
                     }
                     if ("140".equals(state)) {
-                        stateName.setText("已完成");
+                        stateName.setText("已收货");
                     }
                     if ("160".equals(state)) {
-                        stateName.setText("已退货");
+                        stateName.setText("已完成");
                     }
                     if ("180".equals(state)) {
-                        stateName.setText("已锁定");
+                        stateName.setText("已退货");
                     }
                     if ("200".equals(state)) {
                         stateName.setText("已取消");

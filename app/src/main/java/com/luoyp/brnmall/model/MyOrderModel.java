@@ -20,6 +20,15 @@ public class MyOrderModel {
     private String osn = "";
     private String realpay = "";
     private String payMode = "";
+    private String isReview = "";
+
+    public String getIsReview() {
+        return isReview;
+    }
+
+    public void setIsReview(String isReview) {
+        this.isReview = isReview;
+    }
 
     public String getPayMode() {
         return payMode;

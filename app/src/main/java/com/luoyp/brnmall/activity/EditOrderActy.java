@@ -50,7 +50,7 @@ public class EditOrderActy extends BaseActivity {
     private TextView orderphone;
     private TextView orderaddress, txtPay;
     private String pay = "";
-    private String[] payname = {"在线支付", "货到付款",};
+    private String[] payname = {"在线支付"};
     private int beisong = -1;
     private TextView txtpay;
     private Button getpayway;
@@ -243,7 +243,7 @@ public class EditOrderActy extends BaseActivity {
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         if ("true".equals(jsonObject.getString("result"))) {
-                            tvsum.setText((jsonObject.getJSONObject("data").getDouble("ProductAmount") + jsonObject.getJSONObject("data").getDouble("ShipFree")) + " (会员价) 运费:" + jsonObject.getJSONObject("data").getDouble("ShipFree"));
+                            tvsum.setText((jsonObject.getJSONObject("data").getDouble("ProductAmount") + jsonObject.getJSONObject("data").getDouble("ShipFree")) + " (会员价) 运费: ￥" + jsonObject.getJSONObject("data").getDouble("ShipFree"));
                         } else {
                             showToast("地址信息异常,请重新选择");
                         }
@@ -286,6 +286,10 @@ public class EditOrderActy extends BaseActivity {
     }
 
     public void getBeisongway(View view) {
+        if (aid.isEmpty()) {
+            showToast("请先选择地址信息");
+            return;
+        }
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(EditOrderActy.this);
         builderSingle.setIcon(R.mipmap.logo);
         builderSingle.setTitle("选择备送方式");

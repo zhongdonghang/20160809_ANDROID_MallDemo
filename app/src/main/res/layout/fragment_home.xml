@@ -30,7 +30,7 @@
             android:layout_marginTop="8dp"
             android:layout_toRightOf="@id/llogo"
             android:background="@drawable/bg_edittext_normal"
-            android:hint="搜索 (商品名称)"
+            android:hint="输入商品名称"
             android:padding="2dp"
             android:textColor="@android:color/darker_gray"
             android:textColorHint="#D2D2D6"

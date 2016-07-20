@@ -2,24 +2,32 @@ package com.luoyp.brnmall.activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Xml;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+import com.google.gson.Gson;
+import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.BaseActivity;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.alipay.PayResult;
 import com.luoyp.brnmall.alipay.SignUtils;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
+import com.luoyp.brnmall.model.UserModel;
 import com.luoyp.brnmall.wepay.PrePayModel;
 import com.luoyp.brnmall.wxapi.Constants;
 import com.luoyp.brnmall.wxapi.MD5;
@@ -29,6 +37,8 @@ import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.simple.eventbus.EventBus;
 import org.simple.eventbus.Subscriber;
 import org.xmlpull.v1.XmlPullParser;
@@ -53,11 +63,11 @@ public class PayActivity extends BaseActivity {
     // 支付宝公钥
     public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB";
     private static final int SDK_PAY_FLAG = 1;
+    public String price = "0.0";
     PayReq req;
     IWXAPI msgApi;
     private String oid = "";
     private String osn = "";
-    private String price = "";
     private PrePayModel prePayModel;
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -140,12 +150,24 @@ public class PayActivity extends BaseActivity {
 
         ;
     };
+    private TextView tvway;
+    private android.widget.RelativeLayout llali;
+    private android.widget.RelativeLayout lllllll;
+    private TextView yueTv;
+    private android.widget.RelativeLayout yerl;
+    private android.widget.RelativeLayout address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_pay);
+        this.address = (RelativeLayout) findViewById(R.id.address);
+        this.yerl = (RelativeLayout) findViewById(R.id.yerl);
+        this.yueTv = (TextView) findViewById(R.id.yueTv);
+        this.lllllll = (RelativeLayout) findViewById(R.id.lllllll);
+        this.llali = (RelativeLayout) findViewById(R.id.llali);
+        this.tvway = (TextView) findViewById(R.id.tvway);
         EventBus.getDefault().register(this);
         msgApi = WXAPIFactory.createWXAPI(getApplicationContext(), Constants.APP_ID, true);
         msgApi.registerApp(Constants.APP_ID);
@@ -157,10 +179,41 @@ public class PayActivity extends BaseActivity {
         if (topbarTitle != null) {
             topbarTitle.setText("精生缘收银台");
         }
+
         oid = getIntent().getStringExtra("oid");
         osn = getIntent().getStringExtra("osn");
         price = getIntent().getStringExtra("price");
         KLog.d("订单信息 oid" + oid + "   osn  " + osn + "   price  " + price);
+        getYue();
+    }
+
+    public void getYue() {
+        UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
+        String uid = String.valueOf(userModel.getUserInfo().getUid());
+
+        BrnmallAPI.GetPayPluginList(uid, new ApiCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+                if (response != null && !response.isEmpty()) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        double count = jsonObject.getJSONObject("data").getDouble("UserAmount");
+                        double prices = Double.valueOf(price);
+                        if (count > prices) {
+                            yerl.setVisibility(View.VISIBLE);
+                            yueTv.setText("余额支付 (￥" + count + ")");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -173,6 +226,61 @@ public class PayActivity extends BaseActivity {
     @Subscriber(tag = "wechatpaynotice")
     public void noti(String s) {
         finish();
+    }
+
+    public void yepay(View view) {
+        KLog.d("余额支付");
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.paypwddialog, null);
+        dialog.setView(layout);
+        final EditText et_pwd = (EditText) layout.findViewById(R.id.paypwd);
+        dialog.setIcon(R.drawable.logo);
+        dialog.setTitle("请输入支付密码");
+        dialog.setPositiveButton("支付", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                yuePay(et_pwd.getText().toString());
+            }
+        });
+
+        dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+
+        });
+        dialog.show();
+    }
+
+    public void yuePay(String pwd) {
+        showProgressDialog("正在支付...");
+        UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
+        String uid = String.valueOf(userModel.getUserInfo().getUid());
+        BrnmallAPI.CreditPayOrder(uid, oid, pwd, new ApiCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+                dismissProgressDialog();
+                showToast("网络异常,支付失败,请稍后再试,或者更换其他支付方式");
+            }
+
+            @Override
+            public void onResponse(String response) {
+                dismissProgressDialog();
+                if (response != null && !response.isEmpty()) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        showToast(jsonObject.getJSONArray("data").getJSONObject(0).getString("msg"));
+                        if ("true".equals(jsonObject.getString("result"))) {
+                            EventBus.getDefault().post("", "refreshorder");
+                            PayActivity.this.finish();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     /**

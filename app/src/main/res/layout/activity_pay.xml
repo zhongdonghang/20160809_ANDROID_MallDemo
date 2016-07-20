@@ -19,24 +19,118 @@
         android:paddingTop="5dp"
         >
 
-        <Button
+        <TextView
+            android:id="@+id/tvway"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:background="@color/colorPrimary"
-            android:onClick="alipay"
-            android:text="支付宝"
-            android:textColor="@android:color/white"/>
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="请选择支付方式"/>
 
-        <Button
+
+        <RelativeLayout
+            android:id="@+id/llali"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="80dp"
-            android:background="@color/colorPrimary"
-            android:onClick="wechatpay"
-            android:text="微信支付"
-            android:textColor="@android:color/white"/>
+            android:layout_below="@id/tvway"
+            android:layout_marginTop="20dp"
+            android:clickable="true"
+            android:onClick="alipay">
+
+            <ImageView
+                android:layout_width="86dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/zfbpay"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/forward"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/llali"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="#F0F0E0"></View>
+
+        <RelativeLayout
+            android:id="@+id/lllllll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llali"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:onClick="wechatpay">
+
+            <ImageView
+                android:layout_width="86dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/wxpay"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/forward"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/lllllll"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="#F0F0E0"></View>
+
+        <RelativeLayout
+            android:id="@+id/yerl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lllllll"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:onClick="yepay"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="86dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/yuezhif"/>
+
+            <TextView
+                android:id="@+id/yueTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="110dp"
+                android:text="余额支付"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/forward"/>
+        </RelativeLayout>
+
     </RelativeLayout>
 </RelativeLayout>

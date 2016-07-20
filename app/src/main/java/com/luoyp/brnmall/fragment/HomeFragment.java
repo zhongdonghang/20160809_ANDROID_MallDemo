@@ -319,7 +319,7 @@ public class HomeFragment extends BaseFragment {
                             goods.setPname(json.getJSONArray("data").getJSONObject(i).getString("ExtField1"));
                             goods.setPrice(json.getJSONArray("data").getJSONObject(i).getString("ExtField2"));
                             goods.setMarkiprice(json.getJSONArray("data").getJSONObject(i).getString("ExtField3"));
-                            goods.setPid(json.getJSONArray("data").getJSONObject(i).getString("ExtField4"));
+                            goods.setPid(json.getJSONArray("data").getJSONObject(i).getString("ExtField5"));
                             goods.setImg(BrnmallAPI.adImgUrl + json.getJSONArray("data").getJSONObject(i).getString("Body"));
 
 

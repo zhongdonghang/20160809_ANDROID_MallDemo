@@ -79,6 +79,7 @@
             android:value="Jxx0SbZNJA9gZ1pQOpH8e5"/>
         <!-- 替换为第三方应用的APPSECRET -->
 
+
         <!-- 请将value改为MTA分配的appkey < -->
         <meta-data
             android:name="TA_APPKEY"
@@ -271,6 +272,10 @@
         </activity>
         <activity
             android:name=".activity.TixianDetailActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".activity.CommentActivity"
             android:screenOrientation="portrait">
         </activity>
     </application>

@@ -137,9 +137,17 @@ public class MyOrderAdapter extends BaseAdapter {
         }
         if ("140".equals(state)) {
             holder.state.setText("已收货");
+            if ("0".equals(getItem(position).getIsReview())) {
+                holder.paynow.setVisibility(View.VISIBLE);
+                holder.paynow.setText("评 价");
+            }
         }
         if ("160".equals(state)) {
             holder.state.setText("已完成");
+            if ("0".equals(getItem(position).getIsReview())) {
+                holder.paynow.setVisibility(View.VISIBLE);
+                holder.paynow.setText("评 价");
+            }
         }
         if ("180".equals(state)) {
             holder.state.setText("已退货");

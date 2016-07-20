@@ -89,6 +89,14 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         //   onPageSelected(2);
     }
 
+    @Subscriber(tag = "buynowClick")
+    public void buynowClick(String tag) {
+        KLog.d("tag = " + tag);
+        mViewPager.setCurrentItem(3, false);
+
+        //   onPageSelected(2);
+    }
+
     @Override
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
