@@ -251,10 +251,88 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/re_dlmm"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/pressed_white_gray"
+        android:clickable="true"
+        android:onClick="toLoginPwd">
+
+        <TextView
+            android:id="@+id/tv_temp_dlmm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:text="登录密码"
+            android:textColor="#353535"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_dlmm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_toRightOf="@id/tv_temp_dlmm"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:singleLine="true"
+            android:textColor="#AAAAAA"
+            android:textSize="14sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="#dadada"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/re_zfmm"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/pressed_white_gray"
+        android:clickable="true"
+        android:onClick="toPayPwd">
+
+        <TextView
+            android:id="@+id/tv_temp_zfmm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:text="支付密码"
+            android:textColor="#353535"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_zfmm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_toRightOf="@id/tv_temp_zfmm"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:singleLine="true"
+            android:textColor="#AAAAAA"
+            android:textSize="14sp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/re_logout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/pressed_white_gray"
         android:clickable="true">
 

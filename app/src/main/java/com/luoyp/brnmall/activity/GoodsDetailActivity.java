@@ -118,6 +118,11 @@ public class GoodsDetailActivity extends BaseActivity {
         }
     }
 
+    // 打开店铺
+    public void toStore(View view) {
+        showToast("。。。。。");
+    }
+
 
     private void setupListView() {
         goodsDetailModel.setImageBeanList(new ArrayList<GoodsDetailModel.ImageBean>());

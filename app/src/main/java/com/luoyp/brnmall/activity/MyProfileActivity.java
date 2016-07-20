@@ -463,4 +463,15 @@ public class MyProfileActivity extends BaseActivity {
             }
         });
     }
+
+    // 打开修改登录密码页面
+    public void toLoginPwd(View view) {
+        startActivity(new Intent(this, ResetPasswordActivity.class));
+    }
+
+    // 打开修改支付密码页面
+    public void toPayPwd(View view) {
+        startActivity(new Intent(this, ResetPaypwdActivity.class));
+    }
+
 }
