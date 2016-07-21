@@ -34,11 +34,11 @@
             android:layout_marginRight="30dp"
             android:drawableTop="@drawable/dianpu"
             android:gravity="center_vertical"
+            android:onClick="toStore"
             android:paddingTop="5dp"
             android:text="店铺"
             android:textAppearance="?android:attr/textAppearanceListItemSmall"
-            android:textSize="12sp"
-            android:onClick="toStore"/>
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/tv_favorite"
@@ -76,21 +76,22 @@
                 android:textColor="@android:color/white"
                 android:textSize="15sp"/>
 
-        <Button
-            android:id="@+id/btn_addtocart"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:background="@android:color/holo_red_light"
-            android:gravity="center_vertical"
-            android:onClick="addCart"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:text="加入购物车"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/white"
-            android:textSize="16sp" />
+            <Button
+                android:id="@+id/btn_addtocart"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/holo_red_light"
+                android:gravity="center_vertical"
+                android:onClick="addCart"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:text="加入购物车"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
-
 </LinearLayout>
