@@ -176,6 +176,19 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "UserAvatarEdit", params, callback, "userAvatarEdit");
     }
 
+
+    public static void ReviewOrder(String oid, String uid, String stars, String messages, String opids, String descriptionStar, String serviceStar, String shipStar, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {new OkHttpClientManager.Param("oid", oid)
+                , new OkHttpClientManager.Param("uid", uid)
+                , new OkHttpClientManager.Param("stars", stars)
+                , new OkHttpClientManager.Param("messages", messages)
+                , new OkHttpClientManager.Param("opids", opids)
+                , new OkHttpClientManager.Param("descriptionStar", descriptionStar)
+                , new OkHttpClientManager.Param("serviceStar", serviceStar)
+                , new OkHttpClientManager.Param("shipStar", shipStar)};
+        OkHttpClientManager.postAsyn(BaseURL + "ReviewOrder", params, callback, "ReviewOrder");
+    }
+
     /**
      * 资金日志
      *
@@ -518,7 +531,7 @@ public class BrnmallAPI {
     /**
      * 设置支付密码
      *
-     * @param uid    手机号
+     * @param uid      手机号
      * @param pwd      新密码
      * @param callback 回调
      */
