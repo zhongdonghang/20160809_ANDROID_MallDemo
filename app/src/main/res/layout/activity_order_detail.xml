@@ -91,7 +91,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="已完成"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/holo_red_light"
                         android:textSize="12sp"/>
@@ -126,7 +125,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="￥10"
                         android:textAppearance="?android:attr/textAppearanceSmall"/>
                 </LinearLayout>
 
@@ -147,7 +145,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="￥100"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/holo_red_light" />
                 </LinearLayout>

@@ -25,6 +25,8 @@ import java.util.ArrayList;
 
 public class OrderDetailActivity extends BaseActivity {
 
+    String oid = "";
+    String uid = "";
     private TextView storeName, stateName, shipfee, amount, userName, userPhone, address;
     private ListView listViewGoods;
     private OrderGoodsAdapter adapterGoods;
@@ -57,10 +59,11 @@ public class OrderDetailActivity extends BaseActivity {
         adapterGoods = new OrderGoodsAdapter(OrderDetailActivity.this, orderModel.getOrderGoodsList());
         listViewGoods.setAdapter(adapterGoods);
 
-        String oid = getIntent().getStringExtra("oid");
+        oid = getIntent().getStringExtra("oid");
         // 获取当前用户的uid
         UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
-        String uid = String.valueOf(userModel.getUserInfo().getUid());
+        uid = String.valueOf(userModel.getUserInfo().getUid());
+        showProgressDialog("正在加载订单信息");
         getOrderDetail(uid, oid);
 
 
@@ -76,12 +79,14 @@ public class OrderDetailActivity extends BaseActivity {
         BrnmallAPI.getOrderDetail(uid, oid, new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
-
+                dismissProgressDialog();
+                showToast("网络异常,请稍后再试吧");
             }
 
             @Override
             public void onResponse(String response) {
                 KLog.json(response);
+                dismissProgressDialog();
 
                 if (TextUtils.isEmpty(response)) {
                     return;
