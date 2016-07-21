@@ -515,4 +515,20 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "ReSetPassword", params, callback, "resetPassword");
     }
 
+    /**
+     * 设置支付密码
+     *
+     * @param uid    手机号
+     * @param pwd      新密码
+     * @param callback 回调
+     */
+    public static void resetPayPwd(String uid, String pwd, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("uid", uid),
+                new OkHttpClientManager.Param("password", pwd),
+                new OkHttpClientManager.Param("confirmpwd", pwd)
+        };
+        OkHttpClientManager.postAsyn(BaseURL + "UserPayPasswordEdit", params, callback, "resetPayPwd");
+    }
+
 }

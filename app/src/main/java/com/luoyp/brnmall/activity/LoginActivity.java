@@ -275,6 +275,7 @@ public class LoginActivity extends BaseActivity {
                         // 保存登录信息
                         getUserLevel(userModel.getUserInfo().getUid() + "");
                         App.setPref("LoginResult", jsonObject.getJSONObject("data").toString());
+                        App.setPref("uid",userModel.getUserInfo().getUid() + "");
                         App.setPref("nicheng", userModel.getUserInfo().getNickName());
                         App.setPref("zhenming", userModel.getUserInfo().getRealName());
                         App.setPref("sex", userModel.getUserInfo().getGender());
