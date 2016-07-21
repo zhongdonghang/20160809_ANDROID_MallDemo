@@ -38,7 +38,7 @@
             android:paddingLeft="2dp"
             android:paddingTop="2dp"
             android:textColor="#202020"
-            android:textSize="15sp"/>
+            android:textSize="13sp"/>
 
         <TextView
             android:id="@+id/tv_goods_price"
@@ -48,7 +48,7 @@
             android:layout_marginTop="5dp"
             android:paddingTop="3dp"
             android:textColor="#939494"
-            android:textSize="13sp"/>
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/tv_member_price"
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_goods_price"
             android:textColor="#EB5787"
-            android:textSize="13sp"/>
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/tv_market_price"
@@ -65,7 +65,7 @@
             android:layout_below="@id/tv_member_price"
             android:layout_marginLeft="2dp"
             android:textColor="#939494"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:textStyle="italic"/>
 
 

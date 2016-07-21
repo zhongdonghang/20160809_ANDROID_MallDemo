@@ -79,7 +79,7 @@ public class CategoryGoodsAdapter extends BaseAdapter {
         if (App.getPref("isLogin", false)) {
             holder.memberPrice.setText("会员价￥ " + getItem(position).getVipPrice());
         } else {
-            holder.memberPrice.setText("  ￥ (未登陆)");
+            holder.memberPrice.setText("会员价￥ (未登陆)");
         }
 
         App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + getItem(position).getStoreId()
