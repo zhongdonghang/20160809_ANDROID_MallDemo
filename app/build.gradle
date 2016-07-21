@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'better'
-            keyPassword 'better3314'
-            storeFile file('/Users/luoyp/Desktop/luoyp/workspace/apkkeystore')
-            storePassword 'better3314'
-        }
-    }
+//    signingConfigs {
+//        config {
+//            keyAlias 'better'
+//            keyPassword 'better3314'
+//            storeFile file('/Users/luoyp/Desktop/luoyp/workspace/apkkeystore')
+//            storePassword 'better3314'
+//        }
+//    }
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
     defaultConfig {
@@ -34,13 +34,13 @@ android {
     }
     buildTypes {
         release {
-            signingConfig signingConfigs.config
-            minifyEnabled false
+//            signingConfig signingConfigs.config
+//            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            signingConfig signingConfigs.config
-            minifyEnabled false
+//            signingConfig signingConfigs.config
+//            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -86,7 +86,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.ashokvarma.android:bottom-navigation-bar:1.0.0'
     compile 'com.android.support:support-v4:23.4.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha2'
+//    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha2'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     testCompile 'junit:junit:4.12'
     compile files('libs/mid-sdk-2.3.jar')
