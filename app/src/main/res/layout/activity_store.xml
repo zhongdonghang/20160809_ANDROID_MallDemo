@@ -33,7 +33,6 @@
             android:layout_alignTop="@+id/store_icon"
             android:layout_toEndOf="@+id/store_icon"
             android:layout_toRightOf="@+id/store_icon"
-            android:text="Large Text"
             android:textAppearance="?android:attr/textAppearanceSmall"/>
 
         <TextView
@@ -44,7 +43,6 @@
             android:layout_marginTop="8dp"
             android:layout_toEndOf="@+id/store_icon"
             android:layout_toRightOf="@+id/store_icon"
-            android:text="Large Text"
             android:textAppearance="?android:attr/textAppearanceSmall"/>
 
         <TextView
@@ -55,7 +53,6 @@
             android:layout_marginTop="8dp"
             android:layout_toEndOf="@+id/store_icon"
             android:layout_toRightOf="@+id/store_icon"
-            android:text="Large Text"
             android:textAppearance="?android:attr/textAppearanceSmall"/>
 
     </RelativeLayout>

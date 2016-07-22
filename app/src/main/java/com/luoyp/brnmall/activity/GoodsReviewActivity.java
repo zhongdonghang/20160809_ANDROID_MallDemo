@@ -30,7 +30,7 @@ public class GoodsReviewActivity extends BaseActivity {
 
     private List<GoodsReview> reviews;
     private GoodsReviewAdapter adapter;
-    private String pid;
+    private String pid = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
