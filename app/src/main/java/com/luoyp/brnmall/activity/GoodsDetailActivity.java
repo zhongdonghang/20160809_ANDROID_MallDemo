@@ -1,25 +1,34 @@
 package com.luoyp.brnmall.activity;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.handmark.pulltorefresh.library.internal.Utils;
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.BaseActivity;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.SysUtils;
+import com.luoyp.brnmall.adapter.GoodsDetailImagePagerAdapter;
 import com.luoyp.brnmall.adapter.GoodsImageAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
 import com.luoyp.brnmall.model.GoodsDetailModel;
 import com.luoyp.brnmall.model.UserModel;
+import com.luoyp.brnmall.view.AutoScrollViewPager;
 import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
 import com.tencent.stat.StatService;
@@ -29,37 +38,77 @@ import org.json.JSONObject;
 import org.simple.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class GoodsDetailActivity extends BaseActivity {
 
     boolean isbuynow = false;
+    TextView topbarTitle;
     private ImageView goodsIcon;
     private TextView goodsName, goodsPrice, goodsPinPai, goodsGuiGe;
-    private ListView listView;
+    //  private ListView listView;
     private GoodsImageAdapter adapter;
     private GoodsDetailModel goodsDetailModel;
     private String pid, uid;
     private boolean isLogin = false;
     private boolean isFavorite = false;
     private String sid = "";
+    private com.luoyp.brnmall.view.AutoScrollViewPager autoviewpager;
+    private TextView tvstore;
+    private TextView tvfavorite;
+    private android.widget.Button btnbuynow;
+    private android.widget.Button btnaddtocart;
+    private GoodsDetailImagePagerAdapter homeAdAdapter;
+    private List<String> imageIdList;
+    private android.widget.ScrollView goodsscrollview;
+    private TextView goodsname;
+    private TextView goodsprice;
+    private TextView goodspinpai;
+    private TextView goodsguige;
+    private TextView goodpingjia;
+    private android.widget.LinearLayout bottomLL;
+    private TextView goodmarketsprice;
+    private WebView web;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_goods_detail);
+        this.web = (WebView) findViewById(R.id.web);
+        this.goodmarketsprice = (TextView) findViewById(R.id.goodmarketsprice);
+        this.bottomLL = (LinearLayout) findViewById(R.id.bottomLL);
+        this.goodpingjia = (TextView) findViewById(R.id.goodpingjia);
+        this.goodsguige = (TextView) findViewById(R.id.goodsguige);
+        this.goodspinpai = (TextView) findViewById(R.id.goodspinpai);
+        this.goodsprice = (TextView) findViewById(R.id.goodsprice);
+        this.goodsname = (TextView) findViewById(R.id.goodsname);
+        this.goodsscrollview = (ScrollView) findViewById(R.id.goodsscrollview);
+        this.btnaddtocart = (Button) findViewById(R.id.btn_addtocart);
+        this.btnbuynow = (Button) findViewById(R.id.btn_buynow);
+        this.tvfavorite = (TextView) findViewById(R.id.tv_favorite);
+        this.tvstore = (TextView) findViewById(R.id.tv_store);
+        this.autoviewpager = (AutoScrollViewPager) findViewById(R.id.auto_view_pager);
 
-        listView = (ListView) findViewById(R.id.lv_goods_image);
+        goodsscrollview.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                goodsscrollview.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
 
         LayoutInflater mInflater = LayoutInflater.from(this);
-        View view = mInflater.inflate(R.layout.goods_detail_head_view,null);
+        View view = mInflater.inflate(R.layout.goods_detail_head_view, null);
         goodsIcon = (ImageView) view.findViewById(R.id.iv_goods_icon);
         goodsName = (TextView) view.findViewById(R.id.tv_goods_name);
         goodsPrice = (TextView) view.findViewById(R.id.tv_goods_price);
         goodsPinPai = (TextView) view.findViewById(R.id.tv_goods_pinpai);
         goodsGuiGe = (TextView) view.findViewById(R.id.tv_goods_guige);
-        listView.addHeaderView(view);
+        // listView.addHeaderView(view);
 
         goodsDetailModel = new GoodsDetailModel();
 
@@ -69,7 +118,7 @@ public class GoodsDetailActivity extends BaseActivity {
         pid = mIntent.getStringExtra("pid");
 
         // 设置topbar
-        TextView topbarTitle = (TextView) findViewById(R.id.topbar_title);
+        topbarTitle = (TextView) findViewById(R.id.topbar_title);
         if (topbarTitle != null) {
             topbarTitle.setText(name);
         }
@@ -136,11 +185,10 @@ public class GoodsDetailActivity extends BaseActivity {
         startActivity(intent);
     }
 
-
     private void setupListView() {
         goodsDetailModel.setImageBeanList(new ArrayList<GoodsDetailModel.ImageBean>());
         adapter = new GoodsImageAdapter(this, goodsDetailModel);
-        listView.setAdapter(adapter);
+        //  listView.setAdapter(adapter);
     }
 
     private void getGoodsData(String pid) {
@@ -171,27 +219,55 @@ public class GoodsDetailActivity extends BaseActivity {
                     goodsDetailModel.setBrandInfo(new Gson().fromJson(dataObject.getString("BrandInfo")
                             , GoodsDetailModel.BrandBean.class));
                     goodsDetailModel.getImageBeanList().addAll(goodsDetailModel.jsonToImageBeanList(dataObject.getString("ProductImageList")));
+
+                    imageIdList = new ArrayList<String>();
+
+                    for (int i = 0; i < goodsDetailModel.getImageBeanList().size(); i++) {
+                        imageIdList.add(BrnmallAPI.BaseImgUrl1 + goodsDetailModel.getGoodsInfo().getStoreId()
+                                + BrnmallAPI.BaseImgUrl3 + goodsDetailModel.getImageBeanList().get(i).getShowImg());
+                    }
+                    homeAdAdapter = new GoodsDetailImagePagerAdapter(GoodsDetailActivity.this, imageIdList, false);
+                    autoviewpager.setAdapter(homeAdAdapter.setInfiniteLoop(true));
+                    autoviewpager.setOnPageChangeListener(new MyOnPageChangeListener());
+                    autoviewpager.setInterval(3500);
+                    autoviewpager.startAutoScroll();
+                    autoviewpager.setCurrentItem(Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2 % Utils.getSize(imageIdList));
+
+                    homeAdAdapter.notifyDataSetChanged();
+
                     sid = goodsDetailModel.getGoodsInfo().getStoreId() + "";
                     App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + goodsDetailModel.getGoodsInfo().getStoreId()
                             + BrnmallAPI.BaseImgUrl3 + goodsDetailModel.getGoodsInfo().getShowImg())
                             .placeholder(R.drawable.goodsdefaulimg).error(R.drawable.goodsdefaulimg).into(goodsIcon);
 
-                    goodsName.setText(goodsDetailModel.getGoodsInfo().getName());
-                    if (isLogin){
+                    web.loadData(goodsDetailModel.getGoodsInfo().getDescription(), "text/html", "UTF-8");
+                    goodsname.setText(goodsDetailModel.getGoodsInfo().getName());
+                    if (isLogin) {
                         String price = SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * goodsDetailModel.getGoodsInfo().getShopPrice()) * 10 / 100);
                         goodsPrice.setText(" ￥ " + price + " (" + App.getPref("zhekoutitle", "") + ")");
-                    } else{
+                    } else {
                         goodsPrice.setText(" ￥ " + goodsDetailModel.getGoodsInfo().getShopPrice());
                     }
-                    goodsPinPai.setText("品牌  " + goodsDetailModel.getBrandInfo().getName());
-
+                    goodsName.setText(goodsDetailModel.getGoodsInfo().getName());
+                    goodsprice.setText("商城价￥ " + goodsDetailModel.getGoodsInfo().getShopPrice());
+                    goodmarketsprice.setText("市场价￥ " + goodsDetailModel.getGoodsInfo().getMarketPrice());
+                    goodmarketsprice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    goodspinpai.setText("品牌  " + goodsDetailModel.getBrandInfo().getName());
+                    goodsguige.setText("规格  ");
+                    goodpingjia.setText("评价 (" + goodsDetailModel.getGoodsInfo().getReviewCount() + ")");
+                    topbarTitle.setText(goodsDetailModel.getGoodsInfo().getName());
                     adapter.notifyDataSetChanged();
-
+                    bottomLL.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
+    }
+
+    //查看评论
+    public void viewComment(View view) {
+
     }
 
     /**
@@ -296,6 +372,23 @@ public class GoodsDetailActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
+
+        @Override
+        public void onPageSelected(int position) {
+//            indexText.setText(new StringBuilder().append((position) % ListUtils.getSize(imageIdList) + 1).append("/")
+//                    .append(ListUtils.getSize(imageIdList)));
+        }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int arg0) {
+        }
     }
 
 

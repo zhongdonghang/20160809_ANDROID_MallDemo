@@ -63,6 +63,7 @@ public class HomeFragment extends BaseFragment {
     AlertDialog newversionDialog = null;
     ProgressDialog progressBar;
     private List<String> imageIdList;
+    private List<String> adIdList;
     private List<HomeGoods> homeGoodsList;
     private List<HomeGoods> homeGoodsList1;
     private List<HomeGoods> homeGoodsList2;
@@ -112,6 +113,11 @@ public class HomeFragment extends BaseFragment {
         imageIdList.add("2");
         imageIdList.add("3");
         imageIdList.add("4");
+        adIdList = new ArrayList<>();
+        adIdList.add("1");
+        adIdList.add("2");
+        adIdList.add("3");
+        adIdList.add("4");
 
         homeGoodsList = new ArrayList<>();
         homeGoodsList1 = new ArrayList<>();
@@ -121,7 +127,7 @@ public class HomeFragment extends BaseFragment {
         homeGoodsList5 = new ArrayList<>();
         homeGoodsList6 = new ArrayList<>();
         homeGoodsList7 = new ArrayList<>();
-        homeAdAdapter = new ImagePagerAdapter(getActivity(), imageIdList);
+        homeAdAdapter = new ImagePagerAdapter(getActivity(), imageIdList, true);
     }
 
     @Override
@@ -165,6 +171,7 @@ public class HomeFragment extends BaseFragment {
                     showToast("请输入要搜索的商品名称");
                     return;
                 }
+
                 Intent intent = new Intent(getActivity(), SearchActivity.class);
                 intent.putExtra("key", searchEt.getText().toString());
                 startActivity(intent);
@@ -211,6 +218,14 @@ public class HomeFragment extends BaseFragment {
         return view;
     }
 
+    @Subscriber(tag = "clickAD")
+    public void clickAd(int pos) {
+        KLog.d("click ad id = " + adIdList.get(pos));
+        Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+        intent.putExtra("pid", adIdList.get(pos));
+        intent.putExtra("name", "");
+        startActivity(intent);
+    }
 
     @Override
     public void onDestroy() {
@@ -353,9 +368,11 @@ public class HomeFragment extends BaseFragment {
                 }
                 try {
                     JSONObject json = new JSONObject(response);
+                    KLog.d("ad json= " + json);
                     if (json.getJSONArray("data").length() >= 1) {
                         for (int i = 0; i < 4; i++) {
                             imageIdList.set(i, BrnmallAPI.adImgUrl + json.getJSONArray("data").getJSONObject(i).getString("Body"));
+                            adIdList.set(i, json.getJSONArray("data").getJSONObject(i).getString("ExtField5"));
                         }
                         homeAdAdapter.notifyDataSetChanged();
                     }

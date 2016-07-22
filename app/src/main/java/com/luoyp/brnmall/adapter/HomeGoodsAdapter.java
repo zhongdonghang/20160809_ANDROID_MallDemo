@@ -101,6 +101,7 @@ public class HomeGoodsAdapter extends BaseAdapter {
             textView.setText("保健礼品");
             return head;
         }
+
         convertView = mInflater.inflate(R.layout.item_home_goods, null);
         holder = new ViewHolder();
         holder.goodsName = (TextView) convertView.findViewById(R.id.tv_goods_name);
