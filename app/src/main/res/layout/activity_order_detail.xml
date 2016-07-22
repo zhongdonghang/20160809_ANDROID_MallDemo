@@ -294,10 +294,10 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="@android:color/darker_gray"/>
 
-                    <ListView
+                    <com.luoyp.brnmall.activity.OrderGoodsListView
                         android:id="@+id/lv_order_goods"
                         android:layout_width="match_parent"
-                        android:layout_height="180dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:clickable="false"
                         android:divider="@android:color/transparent"
