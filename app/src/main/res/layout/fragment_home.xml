@@ -1,9 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                tools:context="com.luoyp.brnmall.fragment.HomeFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context="com.luoyp.brnmall.fragment.HomeFragment">
 
     <RelativeLayout
         android:id="@+id/searbar"
@@ -17,7 +19,7 @@
             android:layout_width="96dp"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:background="@drawable/logo"/>
+            android:background="@drawable/logo" />
 
         <EditText
             android:id="@+id/searchEt"
@@ -34,7 +36,7 @@
             android:padding="2dp"
             android:textColor="#69696A"
             android:textColorHint="#D2D2D6"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/searchIv"
@@ -43,7 +45,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/sousuo"
-            android:clickable="true"/>
+            android:clickable="true" />
     </RelativeLayout>
 
 
@@ -64,7 +66,7 @@
             android:listSelector="@android:color/transparent"
             android:scrollbars="none"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="8dp"/>
+            android:verticalSpacing="8dp" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

@@ -186,10 +186,10 @@ public class HomeFragment extends BaseFragment {
         homelistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                KLog.d("产品id" + homeGoodsList.get(position - 1).getPid());
+                KLog.d("产品id" + homeGoodsList.get(position - 2).getPid());
                 Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
-                intent.putExtra("pid", homeGoodsList.get(position - 1).getPid() + "");
-                intent.putExtra("name", homeGoodsList.get(position - 1).getPname());
+                intent.putExtra("pid", homeGoodsList.get(position - 2).getPid() + "");
+                intent.putExtra("name", homeGoodsList.get(position - 2).getPname());
                 startActivity(intent);
             }
         });
@@ -339,7 +339,7 @@ public class HomeFragment extends BaseFragment {
                             goods.setPname(json.getJSONArray("data").getJSONObject(i).getString("ExtField1"));
                             goods.setPrice(json.getJSONArray("data").getJSONObject(i).getString("ExtField2"));
                             goods.setMarkiprice(json.getJSONArray("data").getJSONObject(i).getString("ExtField3"));
-                            goods.setPid(json.getJSONArray("data").getJSONObject(i).getString("ExtField5"));
+                            goods.setPid(json.getJSONArray("data").getJSONObject(i).getString("ExtField4"));
                             goods.setImg(BrnmallAPI.adImgUrl + json.getJSONArray("data").getJSONObject(i).getString("Body"));
 
 
@@ -385,7 +385,6 @@ public class HomeFragment extends BaseFragment {
 
     @Subscriber(tag = "home_add_tocart")
     public void addToCart(String pid) {
-        KLog.d(pid);
         if (!checkLogin()) {
             return;
         }
@@ -417,7 +416,6 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onResponse(String response) {
-                //  KLog.json(response);
                 dismissProgressDialog();
                 if (response != null && !TextUtils.isEmpty(response)) {
                     try {
