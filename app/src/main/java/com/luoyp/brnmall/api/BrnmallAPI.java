@@ -531,4 +531,34 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "UserPayPasswordEdit", params, callback, "resetPayPwd");
     }
 
+    /**
+     * 获取店铺信息
+     * @param sid
+     * @param callback
+     */
+    public static void getStoreInfo(String sid,ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("storeId", sid)
+        };
+        OkHttpClientManager.getAsyn(BaseURL + "GetStoreInfo", params, callback, "getStoreInfo");
+    }
+
+    /**
+     * 店铺商品搜索
+     * @param sid
+     * @param callback
+     */
+    public static void getStoreGoods(String sid, ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("storeId", sid),
+                new OkHttpClientManager.Param("pageSize", "1000"),
+                new OkHttpClientManager.Param("pageNumber", "1"),
+                new OkHttpClientManager.Param("storecid", ""),
+                new OkHttpClientManager.Param("keyword", ""),
+                new OkHttpClientManager.Param("sortcolumn", ""),
+                new OkHttpClientManager.Param("sortdirection", "")
+        };
+        OkHttpClientManager.postAsyn(BaseURL + "StoreProductSearch", params, callback, "getStoreGoods");
+    }
+
 }

@@ -42,6 +42,7 @@ public class GoodsDetailActivity extends BaseActivity {
     private String pid, uid;
     private boolean isLogin = false;
     private boolean isFavorite = false;
+    private String sid = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +128,12 @@ public class GoodsDetailActivity extends BaseActivity {
 
     // 打开店铺
     public void toStore(View view) {
-        showToast("。。。。。");
+        if (TextUtils.isEmpty(sid)) {
+            return;
+        }
+        Intent intent = new Intent(this, StoreActivity.class);
+        intent.putExtra("sid", sid);
+        startActivity(intent);
     }
 
 
@@ -165,7 +171,7 @@ public class GoodsDetailActivity extends BaseActivity {
                     goodsDetailModel.setBrandInfo(new Gson().fromJson(dataObject.getString("BrandInfo")
                             , GoodsDetailModel.BrandBean.class));
                     goodsDetailModel.getImageBeanList().addAll(goodsDetailModel.jsonToImageBeanList(dataObject.getString("ProductImageList")));
-
+                    sid = goodsDetailModel.getGoodsInfo().getStoreId() + "";
                     App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + goodsDetailModel.getGoodsInfo().getStoreId()
                             + BrnmallAPI.BaseImgUrl3 + goodsDetailModel.getGoodsInfo().getShowImg())
                             .placeholder(R.drawable.goodsdefaulimg).error(R.drawable.goodsdefaulimg).into(goodsIcon);
