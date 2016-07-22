@@ -267,7 +267,9 @@ public class GoodsDetailActivity extends BaseActivity {
 
     //查看评论
     public void viewComment(View view) {
-
+        Intent intent = new Intent(this, StoreActivity.class);
+        intent.putExtra("pid", goodsDetailModel.getGoodsInfo().getPid());
+        startActivity(intent);
     }
 
     /**
