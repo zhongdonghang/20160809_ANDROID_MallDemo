@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
 
 import com.luoyp.brnmall.fragment.BrandFragment;
 import com.luoyp.brnmall.fragment.CategoryFragment;
@@ -15,10 +16,14 @@ import com.luoyp.brnmall.fragment.HomeFragment;
 import com.luoyp.brnmall.fragment.MineFragment;
 import com.luoyp.brnmall.fragment.ShopCarFragment;
 import com.luoyp.brnmall.view.TabView;
+import com.socks.library.KLog;
 import com.tencent.stat.MtaSDkException;
 import com.tencent.stat.StatConfig;
 import com.tencent.stat.StatReportStrategy;
 import com.tencent.stat.StatService;
+
+import org.simple.eventbus.EventBus;
+import org.simple.eventbus.Subscriber;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,10 +40,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private Map<Integer, Fragment> mFragmentMap;
 
     private Toolbar toolbar;
+    private TextView toolbarTitle;
+    private PageAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
@@ -58,18 +66,66 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         mFragmentMap = new HashMap<>();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("精生缘实销");
         setSupportActionBar(toolbar);
 
         mFragmentMap = new HashMap<>();
         mViewPager = (ViewPager) findViewById(R.id.id_view_pager);
         mViewPager.setOffscreenPageLimit(5);
         mViewPager.addOnPageChangeListener(this);
-        mViewPager.setAdapter(new PageAdapter(getSupportFragmentManager()));
+        adapter = new PageAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(adapter);
         mTabView = (TabView) findViewById(R.id.id_tab);
         mTabView.setViewPager(mViewPager);
 
     }
 
+    @Subscriber(tag = "homemoreclick")
+    public void moreClick(String tag) {
+        KLog.d("tag = " + tag);
+        mViewPager.setCurrentItem(2, false);
+
+        //   onPageSelected(2);
+    }
+
+    @Subscriber(tag = "buynowClick")
+    public void buynowClick(String tag) {
+        KLog.d("tag = " + tag);
+        mViewPager.setCurrentItem(3, false);
+
+        //   onPageSelected(2);
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    public void baojian(View view) {
+        App.cateIndex = "34";
+        EventBus.getDefault().post("34", "homemoreclick");
+    }
+
+    public void meizhuang(View view) {
+        App.cateIndex = "37";
+        EventBus.getDefault().post("37", "homemoreclick");
+    }
+
+    public void gehu(View view) {
+        App.cateIndex = "38";
+        EventBus.getDefault().post("38", "homemoreclick");
+    }
+
+    public void qingqu(View view) {
+        App.cateIndex = "33";
+        EventBus.getDefault().post("33", "homemoreclick");
+    }
+
+    public void more(View view) {
+
+    }
     /**
      * 根据不同的模式，建议设置的开关状态，可根据实际情况调整，仅供参考。
      *
@@ -113,6 +169,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             StatConfig.setStatSendStrategy(StatReportStrategy.APP_LAUNCH);
         }
     }
+
     private Fragment getFragment(int position) {
         Fragment fragment = mFragmentMap.get(position);
         if (fragment == null) {
@@ -149,16 +206,16 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         toolbar.setVisibility(View.VISIBLE);
 
         if (position == 0) {
-            toolbar.setTitle("精生缘实销");
+            toolbarTitle.setText("精生缘实销");
             return;
         }
         if (position == 4) {
             toolbar.setVisibility(View.GONE);
 
-            toolbar.setTitle("");
+            toolbarTitle.setText("");
             return;
         }
-        toolbar.setTitle(mTitle[position]);
+        toolbarTitle.setText(mTitle[position]);
 
         if (position == 3) {
             if (checkLogin()) {
@@ -204,5 +261,4 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             return mTitle.length;
         }
     }
-
 }

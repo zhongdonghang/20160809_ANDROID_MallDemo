@@ -22,8 +22,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:layout_weight="1"
-        android:background="#EFEFEF"
+        android:background="#F5F7F7"
         android:choiceMode="singleChoice"
+        android:divider="#E8F7E9"
         android:listSelector="@android:color/white"
         android:scrollbars="none">
 

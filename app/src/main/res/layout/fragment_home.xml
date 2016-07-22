@@ -3,32 +3,55 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/white"
-                android:descendantFocusability="blocksDescendants"
                 tools:context="com.luoyp.brnmall.fragment.HomeFragment">
 
-    <com.luoyp.brnmall.view.AutoScrollViewPager
-        android:id="@+id/auto_view_pager"
+    <RelativeLayout
+        android:id="@+id/searbar"
         android:layout_width="match_parent"
-        android:layout_height="120dp"/>
+        android:layout_height="48dp"
+        android:background="#963896"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tv_hot"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/auto_view_pager"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="15dp"
-        android:text="热销商品"
-        android:textColor="@android:color/holo_red_dark"
-        android:textSize="16sp"
-        android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/llogo"
+            android:layout_width="96dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:background="@drawable/logo"/>
+
+        <EditText
+            android:id="@+id/searchEt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="55dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@id/llogo"
+            android:background="@drawable/bg_edittext_normal"
+            android:hint="输入商品名称"
+            android:padding="2dp"
+            android:textColor="#69696A"
+            android:textColorHint="#D2D2D6"
+            android:textSize="14sp"/>
+
+        <ImageView
+            android:id="@+id/searchIv"
+            android:layout_width="46dp"
+            android:layout_height="38dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/sousuo"
+            android:clickable="true"/>
+    </RelativeLayout>
+
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_message"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tv_hot"
-        android:layout_marginTop="6dp"
+        android:layout_below="@id/searbar"
         android:background="@android:color/white">
 
         <com.handmark.pulltorefresh.library.PullToRefreshListView
@@ -38,7 +61,6 @@
             android:background="@android:color/white"
             android:cacheColorHint="@android:color/transparent"
             android:divider="@android:color/transparent"
-            android:dividerHeight="5dp"
             android:listSelector="@android:color/transparent"
             android:scrollbars="none"
             android:stretchMode="columnWidth"

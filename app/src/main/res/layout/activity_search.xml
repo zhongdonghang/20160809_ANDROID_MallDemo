@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white">
+
+    <RelativeLayout
+        android:id="@+id/searbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#963896"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/topbar_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:background="@android:color/transparent"
+            android:onClick="back"
+            android:src="@drawable/ic_arrow_back_white_24dp"/>
+
+        <EditText
+            android:id="@+id/searchEt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="55dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@id/topbar_left"
+            android:background="@drawable/bg_edittext_normal"
+            android:hint="输入商品名称"
+            android:padding="2dp"
+            android:textColor="#69696A"
+            android:textColorHint="#D2D2D6"
+            android:textSize="14sp"/>
+
+        <ImageView
+            android:id="@+id/searchIv"
+            android:layout_width="46dp"
+            android:layout_height="38dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/sousuo"
+            android:clickable="true"/>
+    </RelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searbar">
+
+        <ListView
+            android:id="@+id/searchlistView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@android:color/white"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5dp"
+            android:listSelector="@android:color/transparent"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>

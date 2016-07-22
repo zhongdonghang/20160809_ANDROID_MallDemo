@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.luoyp.brnmall.R;
@@ -51,16 +52,37 @@ public class CategoryAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.category_item, null);
             holder = new ViewHolder();
             holder.name = (TextView) view.findViewById(R.id.name);
-
+            holder.cateImg = (ImageView) view.findViewById(R.id.cateImg);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
         holder.name.setText(getItem(position).getCateName());
+        if (position == 0) {
+            holder.cateImg.setBackgroundResource(R.drawable.bjp);
+        }
+        if (position == 1) {
+            holder.cateImg.setBackgroundResource(R.drawable.bjsp);
+        }
+        if (position == 2) {
+            holder.cateImg.setBackgroundResource(R.drawable.bjqc);
+        }
+        if (position == 3) {
+            holder.cateImg.setBackgroundResource(R.drawable.hzp);
+        }
+        if (position == 4) {
+            holder.cateImg.setBackgroundResource(R.drawable.xhyp);
+        }
+        if (position == 5) {
+            holder.cateImg.setBackgroundResource(R.drawable.qqyp);
+        }
+        if (position == 6) {
+            holder.cateImg.setBackgroundResource(R.drawable.bjlp);
+        }
         if (position == index) {// 判断当前position是否为选中项
             view.setBackgroundColor(Color.WHITE);
         } else {
-            view.setBackgroundColor(Color.parseColor("#EFEFEF"));
+            view.setBackgroundColor(Color.parseColor("#F5F7F7"));
         }
         return view;
     }
@@ -78,5 +100,6 @@ public class CategoryAdapter extends BaseAdapter {
     private static class ViewHolder {
 
         TextView name;
+        ImageView cateImg;
     }
 }

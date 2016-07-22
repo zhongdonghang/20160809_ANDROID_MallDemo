@@ -77,8 +77,8 @@ public class MyOrderAdapter extends BaseAdapter {
         holder.imgll.removeAllViews();
         for (int i = 0; i < count; i++) {
             ImageView imageView = new ImageView(context);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(5, 0, 5, 0);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(220, 200);
+            layoutParams.setMargins(15, 0, 15, 0);
             imageView.setLayoutParams(layoutParams);
             imageView.setFocusable(false);
             imageView.setFocusableInTouchMode(false);
@@ -137,9 +137,17 @@ public class MyOrderAdapter extends BaseAdapter {
         }
         if ("140".equals(state)) {
             holder.state.setText("已收货");
+            if ("0".equals(getItem(position).getIsReview())) {
+                holder.paynow.setVisibility(View.VISIBLE);
+                holder.paynow.setText("评 价");
+            }
         }
         if ("160".equals(state)) {
             holder.state.setText("已完成");
+            if ("0".equals(getItem(position).getIsReview())) {
+                holder.paynow.setVisibility(View.VISIBLE);
+                holder.paynow.setText("评 价");
+            }
         }
         if ("180".equals(state)) {
             holder.state.setText("已退货");

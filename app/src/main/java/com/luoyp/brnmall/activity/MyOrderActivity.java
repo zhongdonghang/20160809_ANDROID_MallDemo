@@ -85,7 +85,7 @@ public class MyOrderActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-        showProgressDialog("正在加载数据");
+        showProgressDialog("正在加载订单信息");
         getMyOder();
     }
 
@@ -104,6 +104,11 @@ public class MyOrderActivity extends BaseActivity {
 
     @Subscriber(tag = "paynow")
     public void paynow(final int pos) {
+        if ("140".equals(list.get(pos).getOrderstate()) || "160".equals(list.get(pos).getOrderstate())) {
+            startActivity(new Intent(MyOrderActivity.this, CommentActivity.class));
+            return;
+        }
+
         if ("110".equals(list.get(pos).getOrderstate())) {
             AlertDialog.Builder builder = new AlertDialog.Builder(MyOrderActivity.this);
             builder.setMessage("确认已收货吗？");
@@ -256,6 +261,7 @@ public class MyOrderActivity extends BaseActivity {
                             myOrderModel.setPayfriendname(orderlist.getJSONObject(i).getString("PayFriendName"));
                             myOrderModel.setOsn(orderlist.getJSONObject(i).getString("OSN"));
                             myOrderModel.setPayMode(orderlist.getJSONObject(i).getString("PayMode"));
+                            myOrderModel.setIsReview(orderlist.getJSONObject(i).getString("IsReview"));
                             list.add(myOrderModel);
                         }
 

@@ -74,6 +74,8 @@ public class ShopCarAdapter extends BaseAdapter {
         if (getItem(position).isCheck()) {
             holder.checkGoods.setChecked(true);
 
+        } else {
+            holder.checkGoods.setChecked(false);
         }
         holder.checkGoods.setOnClickListener(new View.OnClickListener() {
             @Override
