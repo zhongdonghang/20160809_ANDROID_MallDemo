@@ -25,16 +25,46 @@ import java.util.ArrayList;
 
 public class OrderDetailActivity extends BaseActivity {
 
+    String oid = "";
+    String uid = "";
     private TextView storeName, stateName, shipfee, amount, userName, userPhone, address;
     private ListView listViewGoods;
     private OrderGoodsAdapter adapterGoods;
     private OrderDetailModel orderModel;
+    private TextView tvdingdanhao;
+    private TextView tvbeisongdanhao;
+    private TextView tvxiadanshijian;
+    private TextView tvbeisongshijian;
+    private TextView tvbeisongfangshi;
+    private TextView tvzhifufangshi;
+    private TextView tvorderusername;
+    private TextView tvorderuserphone;
+    private TextView tvorderaddress;
+    private TextView tvorderstorename;
+    private TextView tvorderstatename;
+    private ListView lvordergoods;
+    private TextView tvordershipfee;
+    private TextView tvorderamount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_order_detail);
+        this.tvorderamount = (TextView) findViewById(R.id.tv_order_amount);
+        this.tvordershipfee = (TextView) findViewById(R.id.tv_order_shipfee);
+        this.lvordergoods = (ListView) findViewById(R.id.lv_order_goods);
+        this.tvorderstatename = (TextView) findViewById(R.id.tv_order_state_name);
+        this.tvorderstorename = (TextView) findViewById(R.id.tv_order_store_name);
+        this.tvorderaddress = (TextView) findViewById(R.id.tv_order_address);
+        this.tvorderuserphone = (TextView) findViewById(R.id.tv_order_user_phone);
+        this.tvorderusername = (TextView) findViewById(R.id.tv_order_user_name);
+        this.tvzhifufangshi = (TextView) findViewById(R.id.tvzhifufangshi);
+        this.tvbeisongfangshi = (TextView) findViewById(R.id.tvbeisongfangshi);
+        this.tvbeisongshijian = (TextView) findViewById(R.id.tvbeisongshijian);
+        this.tvxiadanshijian = (TextView) findViewById(R.id.tvxiadanshijian);
+        this.tvbeisongdanhao = (TextView) findViewById(R.id.tvbeisongdanhao);
+        this.tvdingdanhao = (TextView) findViewById(R.id.tvdingdanhao);
 
         // 设置topbar
         TextView topbarTitle = (TextView) findViewById(R.id.topbar_title);
@@ -57,10 +87,11 @@ public class OrderDetailActivity extends BaseActivity {
         adapterGoods = new OrderGoodsAdapter(OrderDetailActivity.this, orderModel.getOrderGoodsList());
         listViewGoods.setAdapter(adapterGoods);
 
-        String oid = getIntent().getStringExtra("oid");
+        oid = getIntent().getStringExtra("oid");
         // 获取当前用户的uid
         UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
-        String uid = String.valueOf(userModel.getUserInfo().getUid());
+        uid = String.valueOf(userModel.getUserInfo().getUid());
+        showProgressDialog("正在加载订单信息");
         getOrderDetail(uid, oid);
 
 
@@ -72,16 +103,18 @@ public class OrderDetailActivity extends BaseActivity {
      * @param uid 用户id
      * @param oid 订单id
      */
-    private void getOrderDetail(String uid, String oid) {
+    private void getOrderDetail(String uid, final String oid) {
         BrnmallAPI.getOrderDetail(uid, oid, new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
-
+                dismissProgressDialog();
+                showToast("网络异常,请稍后再试吧");
             }
 
             @Override
             public void onResponse(String response) {
                 KLog.json(response);
+                dismissProgressDialog();
 
                 if (TextUtils.isEmpty(response)) {
                     return;
@@ -101,6 +134,13 @@ public class OrderDetailActivity extends BaseActivity {
                     adapterGoods.notifyDataSetChanged();
 
                     storeName.setText(orderModel.getOrderInfo().getStoreName());
+                    tvdingdanhao.setText(orderModel.getOrderInfo().getOSN());
+                    tvbeisongdanhao.setText(orderModel.getOrderInfo().getShipSN());
+                    tvxiadanshijian.setText(orderModel.getOrderInfo().getAddTime());
+                    tvbeisongshijian.setText(orderModel.getOrderInfo().getShipTime());
+                    tvbeisongfangshi.setText(orderModel.getOrderInfo().getShipCoName());
+                    tvzhifufangshi.setText(orderModel.getOrderInfo().getPayFriendName());
+
                     String state = orderModel.getOrderInfo().getOrderState();
                     if ("10".equals(state)) {
                         stateName.setText("已提交");
@@ -134,9 +174,9 @@ public class OrderDetailActivity extends BaseActivity {
                     }
                     shipfee.setText("￥" + orderModel.getOrderInfo().getShipFee());
                     amount.setText("￥" + orderModel.getOrderInfo().getSurplusMoney() + " (" + App.getPref("zhekoutitle", "") + ")");
-                    userName.setText(orderModel.getOrderInfo().getConsignee());
+                    userName.setText("收 货 人: " + orderModel.getOrderInfo().getConsignee());
                     userPhone.setText(orderModel.getOrderInfo().getMobile());
-                    address.setText(orderModel.getOrderInfo().getAddress());
+                    address.setText("收货地址: " + orderModel.getRegionInfo().getProvinceName() + orderModel.getRegionInfo().getCityName() + orderModel.getRegionInfo().getName() + orderModel.getOrderInfo().getAddress());
 
 
                 } catch (JSONException e) {

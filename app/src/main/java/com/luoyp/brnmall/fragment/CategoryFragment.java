@@ -244,6 +244,8 @@ public class CategoryFragment extends BaseFragment {
                 dismissProgressDialog();
                 categorylistview.setVisibility(View.GONE);
                 refreshBtn.setVisibility(View.VISIBLE);
+                isFirstLoad = false;
+                App.cateIndex = "-1";
             }
 
             @Override
