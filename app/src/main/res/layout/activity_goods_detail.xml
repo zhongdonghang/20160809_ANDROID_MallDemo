@@ -13,11 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="45dp"
-        android:layout_marginTop="56dp">
+        android:layout_marginTop="56dp"
+        android:descendantFocusability="blocksDescendants"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -55,10 +57,20 @@
                     android:id="@+id/goodsprice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp"
-                    android:textColor="#ED6793"/>
+                    android:textSize="14sp"
+                    />
+
+                <TextView
+                    android:id="@+id/goodvipsprice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:textColor="#ED6793"
+                    android:textSize="13sp"
+                    android:textStyle="italic"/>
 
                 <TextView
                     android:id="@+id/goodmarketsprice"
@@ -67,6 +79,7 @@
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="5dp"
+                    android:textSize="12sp"
                     android:textStyle="italic"/>
 
                 <View
@@ -131,20 +144,26 @@
                         android:background="@drawable/forward"/>
                 </RelativeLayout>
 
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <WebView
-                    android:id="@+id/web"
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:text="商品详情"/>
 
-                </WebView>
             </LinearLayout>
+
+
+            <WebView
+                android:id="@+id/web"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+            </WebView>
         </LinearLayout>
     </ScrollView>
 
