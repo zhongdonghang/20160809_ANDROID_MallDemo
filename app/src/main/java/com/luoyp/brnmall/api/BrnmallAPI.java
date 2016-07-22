@@ -574,4 +574,18 @@ public class BrnmallAPI {
         OkHttpClientManager.postAsyn(BaseURL + "StoreProductSearch", params, callback, "getStoreGoods");
     }
 
+    /**
+     * 获取商品评价
+     * @param pid
+     * @param callback
+     */
+    public static void getGoodsReview(String pid,ApiCallback<String> callback) {
+        OkHttpClientManager.Param[] params = {
+                new OkHttpClientManager.Param("pid", pid),
+                new OkHttpClientManager.Param("pageSize", "500"),
+                new OkHttpClientManager.Param("pageNumber", "1"),
+        };
+        OkHttpClientManager.getAsyn(BaseURL + "ProductReviewList", params, callback, "getGoodsReview");
+    }
+
 }
