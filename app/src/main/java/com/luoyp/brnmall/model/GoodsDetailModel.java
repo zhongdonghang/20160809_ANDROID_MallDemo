@@ -417,6 +417,7 @@ public class GoodsDetailModel {
         private String Name;
         private double ShopPrice;
         private double MarketPrice;
+        private double VipPrice;
         private double CostPrice;
         private int State;
         private int IsBest;
@@ -434,6 +435,14 @@ public class GoodsDetailModel {
         private int Star4;
         private int Star5;
         private String AddTime;
+
+        public double getVipPrice() {
+            return VipPrice;
+        }
+
+        public void setVipPrice(double vipPrice) {
+            VipPrice = vipPrice;
+        }
 
         public String getDescription() {
             return Description;

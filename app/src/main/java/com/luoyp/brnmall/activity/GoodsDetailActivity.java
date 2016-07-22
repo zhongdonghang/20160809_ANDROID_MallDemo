@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -70,12 +72,14 @@ public class GoodsDetailActivity extends BaseActivity {
     private android.widget.LinearLayout bottomLL;
     private TextView goodmarketsprice;
     private WebView web;
+    private TextView goodvipsprice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_goods_detail);
+        this.goodvipsprice = (TextView) findViewById(R.id.goodvipsprice);
         this.web = (WebView) findViewById(R.id.web);
         this.goodmarketsprice = (TextView) findViewById(R.id.goodmarketsprice);
         this.bottomLL = (LinearLayout) findViewById(R.id.bottomLL);
@@ -90,7 +94,7 @@ public class GoodsDetailActivity extends BaseActivity {
         this.tvfavorite = (TextView) findViewById(R.id.tv_favorite);
         this.tvstore = (TextView) findViewById(R.id.tv_store);
         this.autoviewpager = (AutoScrollViewPager) findViewById(R.id.auto_view_pager);
-
+        goodpingjia.setClickable(false);
         goodsscrollview.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -116,6 +120,12 @@ public class GoodsDetailActivity extends BaseActivity {
         Intent mIntent = getIntent();
         String name = mIntent.getStringExtra("name");
         pid = mIntent.getStringExtra("pid");
+
+        web.setWebViewClient(new WebViewClient());
+        web.getSettings().setDefaultTextEncodingName("UTF-8");
+        web.getSettings().setLoadWithOverviewMode(true);
+        web.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        web.getSettings().setUseWideViewPort(true);
 
         // 设置topbar
         topbarTitle = (TextView) findViewById(R.id.topbar_title);
@@ -239,8 +249,8 @@ public class GoodsDetailActivity extends BaseActivity {
                     App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + goodsDetailModel.getGoodsInfo().getStoreId()
                             + BrnmallAPI.BaseImgUrl3 + goodsDetailModel.getGoodsInfo().getShowImg())
                             .placeholder(R.drawable.goodsdefaulimg).error(R.drawable.goodsdefaulimg).into(goodsIcon);
-
-                    web.loadData(goodsDetailModel.getGoodsInfo().getDescription(), "text/html", "UTF-8");
+                    web.loadDataWithBaseURL(null, goodsDetailModel.getGoodsInfo().getDescription(), "text/html", "utf-8", null);
+                    //  web.loadData(goodsDetailModel.getGoodsInfo().getDescription(), "text/html", "UTF-8");
                     goodsname.setText(goodsDetailModel.getGoodsInfo().getName());
                     if (isLogin) {
                         String price = SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * goodsDetailModel.getGoodsInfo().getShopPrice()) * 10 / 100);
@@ -250,6 +260,7 @@ public class GoodsDetailActivity extends BaseActivity {
                     }
                     goodsName.setText(goodsDetailModel.getGoodsInfo().getName());
                     goodsprice.setText("商城价￥ " + goodsDetailModel.getGoodsInfo().getShopPrice());
+                    goodvipsprice.setText("会员价￥" + goodsDetailModel.getGoodsInfo().getVipPrice());
                     goodmarketsprice.setText("市场价￥ " + goodsDetailModel.getGoodsInfo().getMarketPrice());
                     goodmarketsprice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                     goodspinpai.setText("品牌  " + goodsDetailModel.getBrandInfo().getName());
@@ -258,6 +269,7 @@ public class GoodsDetailActivity extends BaseActivity {
                     topbarTitle.setText(goodsDetailModel.getGoodsInfo().getName());
                     adapter.notifyDataSetChanged();
                     bottomLL.setVisibility(View.VISIBLE);
+                    goodpingjia.setClickable(true);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

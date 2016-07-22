@@ -150,7 +150,7 @@ public class CategoryFragment extends BaseFragment {
         categorygoodslistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                KLog.d("产品id" + categoryGoodsModel.getGoodsBeanList().get(position - 1).getPid());
+                //    KLog.d("产品id" + categoryGoodsModel.getGoodsBeanList().get(position - 1).getPid());
                 Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
                 intent.putExtra("pid", categoryGoodsModel.getGoodsBeanList().get(position - 1).getPid() + "");
                 intent.putExtra("name", categoryGoodsModel.getGoodsBeanList().get(position - 1).getName());
@@ -251,7 +251,7 @@ public class CategoryFragment extends BaseFragment {
             @Override
             public void onResponse(String response) {
                 dismissProgressDialog();
-                KLog.json("一级目录：" + response);
+                //     KLog.json("一级目录：" + response);
                 if (response == null) {
                     return;
                 }
@@ -353,7 +353,7 @@ public class CategoryFragment extends BaseFragment {
                 dismissProgressDialog();
                 categorygoodslistview.onRefreshComplete();
 
-                KLog.json("分类商品=  " + response);
+                //   KLog.json("分类商品=  " + response);
                 if (TextUtils.isEmpty(response)) {
                     showToast("没有找到相关商品");
                     return;
