@@ -106,6 +106,7 @@ public class MyOrderActivity extends BaseActivity {
     public void paynow(final int pos) {
         if ("140".equals(list.get(pos).getOrderstate()) || "160".equals(list.get(pos).getOrderstate())) {
             startActivity(new Intent(MyOrderActivity.this, CommentActivity.class));
+            App.orderItem = list.get(pos);
             return;
         }
 

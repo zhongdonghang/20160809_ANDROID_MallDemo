@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Environment;
 
+import com.luoyp.brnmall.model.MyOrderModel;
 import com.luoyp.brnmall.model.ShopCartModel;
 import com.luoyp.brnmall.model.TixianLogModel;
 import com.socks.library.KLog;
@@ -24,6 +25,7 @@ import java.util.Map;
 public class App extends Application {
 
     public static String cateIndex = "-1";
+    public static MyOrderModel orderItem = null;
 
     //临时保存购物车
     public static ShopCartModel shopCar;

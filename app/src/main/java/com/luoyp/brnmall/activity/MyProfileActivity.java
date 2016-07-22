@@ -471,6 +471,7 @@ public class MyProfileActivity extends BaseActivity {
 
     // 打开修改支付密码页面
     public void toPayPwd(View view) {
+
         startActivity(new Intent(this, ResetPaypwdActivity.class));
     }
 
