@@ -8,12 +8,12 @@ import com.luoyp.xlibrary.net.OkHttpClientManager;
 public class BrnmallAPI {
     //3号服务器：
 
-    public static String BaseIP = "http://jsy.nnbetter.com";
-    public static String BaseURL = BaseIP + "/api/app.asmx/";
+    // public static String BaseIP = "http://jsy.nnbetter.com";
+    // public static String BaseURL = BaseIP + "/api/app.asmx/";
 
     //四号服务器：
-    //   public static String BaseIP = "http://www.888jsy.com";
-    //   public static String BaseURL = BaseIP + "/api/app.asmx/";
+    public static String BaseIP = "http://www.888jsy.com";
+    public static String BaseURL = BaseIP + "/api/app.asmx/";
 
     public static String BaseImgUrl1 = BaseIP + "/upload/store/";
     public static String BaseImgUrl2 = "/product/show/thumb100_100/";
@@ -546,10 +546,11 @@ public class BrnmallAPI {
 
     /**
      * 获取店铺信息
+     *
      * @param sid
      * @param callback
      */
-    public static void getStoreInfo(String sid,ApiCallback<String> callback) {
+    public static void getStoreInfo(String sid, ApiCallback<String> callback) {
         OkHttpClientManager.Param[] params = {
                 new OkHttpClientManager.Param("storeId", sid)
         };
@@ -558,6 +559,7 @@ public class BrnmallAPI {
 
     /**
      * 店铺商品搜索
+     *
      * @param sid
      * @param callback
      */
@@ -576,10 +578,11 @@ public class BrnmallAPI {
 
     /**
      * 获取商品评价
+     *
      * @param pid
      * @param callback
      */
-    public static void getGoodsReview(String pid,ApiCallback<String> callback) {
+    public static void getGoodsReview(String pid, ApiCallback<String> callback) {
         OkHttpClientManager.Param[] params = {
                 new OkHttpClientManager.Param("pid", pid),
                 new OkHttpClientManager.Param("pageSize", "500"),

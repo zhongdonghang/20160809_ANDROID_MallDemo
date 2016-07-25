@@ -159,6 +159,13 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 homeGoodsList.clear();
+                homeGoodsList1.clear();
+                homeGoodsList2.clear();
+                homeGoodsList3.clear();
+                homeGoodsList4.clear();
+                homeGoodsList5.clear();
+                homeGoodsList6.clear();
+                homeGoodsList7.clear();
                 doGetHomeGoodsTask();
                 getHomeAds();
             }
@@ -186,10 +193,11 @@ public class HomeFragment extends BaseFragment {
         homelistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                KLog.d("产品id" + homeGoodsList.get(position - 1).getPid());
+                //减2 添加多了一个item当做head
+                KLog.d("产品id" + homeGoodsList.get(position - 2).getPid());
                 Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
-                intent.putExtra("pid", homeGoodsList.get(position - 1).getPid() + "");
-                intent.putExtra("name", homeGoodsList.get(position - 1).getPname());
+                intent.putExtra("pid", homeGoodsList.get(position - 2).getPid() + "");
+                intent.putExtra("name", homeGoodsList.get(position - 2).getPname());
                 startActivity(intent);
             }
         });
@@ -299,37 +307,37 @@ public class HomeFragment extends BaseFragment {
                             HomeGoods goods = new HomeGoods();
                             if ("33".equals(id) && i == 0) {
                                 goods.setItemType(id);
-                                homeGoodsList.add(goods);
+                                homeGoodsList1.add(goods);
 
                             }
                             if ("34".equals(id) && i == 0) {
                                 goods.setItemType(id);
-                                homeGoodsList.add(goods);
+                                homeGoodsList2.add(goods);
 
                             }
                             if ("35".equals(id) && i == 0) {
                                 goods.setItemType(id);
-                                homeGoodsList.add(goods);
+                                homeGoodsList3.add(goods);
 
                             }
                             if ("36".equals(id) && i == 0) {
                                 goods.setItemType(id);
-                                homeGoodsList.add(goods);
+                                homeGoodsList4.add(goods);
 
                             }
                             if ("37".equals(id) && i == 0) {
                                 goods.setItemType(id);
-                                homeGoodsList.add(goods);
+                                homeGoodsList5.add(goods);
 
                             }
                             if ("38".equals(id) && i == 0) {
                                 goods.setItemType(id);
-                                homeGoodsList.add(goods);
+                                homeGoodsList6.add(goods);
 
                             }
                             if ("39".equals(id) && i == 0) {
                                 goods.setItemType(id);
-                                homeGoodsList.add(goods);
+                                homeGoodsList7.add(goods);
 
                             }
 
@@ -343,7 +351,63 @@ public class HomeFragment extends BaseFragment {
                             goods.setImg(BrnmallAPI.adImgUrl + json.getJSONArray("data").getJSONObject(i).getString("Body"));
 
 
-                            homeGoodsList.add(goods);
+                            if ("33".equals(id)) {
+                                homeGoodsList1.add(goods);
+
+                            }
+                            if ("34".equals(id)) {
+                                homeGoodsList2.add(goods);
+
+                            }
+                            if ("35".equals(id)) {
+                                homeGoodsList3.add(goods);
+
+                            }
+                            if ("36".equals(id)) {
+                                homeGoodsList4.add(goods);
+
+                            }
+                            if ("37".equals(id)) {
+                                homeGoodsList5.add(goods);
+
+                            }
+                            if ("38".equals(id)) {
+                                homeGoodsList6.add(goods);
+
+                            }
+                            if ("39".equals(id)) {
+                                homeGoodsList7.add(goods);
+
+                            }
+
+                        }
+                        if ("33".equals(id)) {
+                            homeGoodsList.addAll(homeGoodsList1);
+
+                        }
+                        if ("34".equals(id)) {
+                            homeGoodsList.addAll(homeGoodsList2);
+
+                        }
+                        if ("35".equals(id)) {
+                            homeGoodsList.addAll(homeGoodsList3);
+
+                        }
+                        if ("36".equals(id)) {
+                            homeGoodsList.addAll(homeGoodsList4);
+
+                        }
+                        if ("37".equals(id)) {
+                            homeGoodsList.addAll(homeGoodsList5);
+
+                        }
+                        if ("38".equals(id)) {
+                            homeGoodsList.addAll(homeGoodsList6);
+
+                        }
+                        if ("39".equals(id)) {
+                            homeGoodsList.addAll(homeGoodsList7);
+
                         }
                         adapter.notifyDataSetChanged();
                     }

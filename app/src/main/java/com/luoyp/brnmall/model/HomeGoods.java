@@ -19,6 +19,15 @@ public class HomeGoods {
     private String extField3 = "";
     private String extField4 = "";
     private String extField5 = "";
+    private String listPos = "";
+
+    public String getListPos() {
+        return listPos;
+    }
+
+    public void setListPos(String listPos) {
+        this.listPos = listPos;
+    }
 
     public String getItemType() {
         return itemType;

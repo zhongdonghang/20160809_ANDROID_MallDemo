@@ -49,7 +49,8 @@ public class GoodsDetailActivity extends BaseActivity {
     //  private ListView listView;
     private GoodsImageAdapter adapter;
     private GoodsDetailModel goodsDetailModel;
-    private String pid, uid;
+    private String pid = "";
+    private String uid = "";
     private boolean isLogin = false;
     private boolean isFavorite = false;
     private String sid = "";
