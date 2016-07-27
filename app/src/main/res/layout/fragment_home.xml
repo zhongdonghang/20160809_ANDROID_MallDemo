@@ -10,13 +10,13 @@
     <RelativeLayout
         android:id="@+id/searbar"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="40dp"
         android:background="#963896"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/llogo"
-            android:layout_width="96dp"
+            android:layout_width="90dp"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:background="@drawable/logo" />
@@ -43,8 +43,9 @@
 
         <ImageView
             android:id="@+id/searchIv"
-            android:layout_width="46dp"
-            android:layout_height="38dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="5dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/sousuo"

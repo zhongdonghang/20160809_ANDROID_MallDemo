@@ -30,7 +30,7 @@
 
             <ImageView
                 android:layout_width="40dp"
-                android:layout_height="60dp"
+                android:layout_height="62dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/baojian"/>
         </LinearLayout>
@@ -46,7 +46,7 @@
 
             <ImageView
                 android:layout_width="40dp"
-                android:layout_height="60dp"
+                android:layout_height="62dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/meizhuang"/>
         </LinearLayout>
@@ -61,7 +61,7 @@
 
             <ImageView
                 android:layout_width="40dp"
-                android:layout_height="60dp"
+                android:layout_height="62dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/gehu"/>
         </LinearLayout>
@@ -76,7 +76,7 @@
 
             <ImageView
                 android:layout_width="40dp"
-                android:layout_height="60dp"
+                android:layout_height="62dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/qingqu"/>
         </LinearLayout>
@@ -91,7 +91,7 @@
 
             <ImageView
                 android:layout_width="40dp"
-                android:layout_height="60dp"
+                android:layout_height="62dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/gengduo"/>
         </LinearLayout>
