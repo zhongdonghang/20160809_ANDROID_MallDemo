@@ -231,7 +231,7 @@ public class ShopCarFragment extends BaseFragment {
 
     @Subscriber(tag = "CartAdapter_tag")
     public void refreshView(String s) {
-        loadShopCartData(uid);
+        //  loadShopCartData(uid);
         //  tvSum.setText(amount + "");
 
     }

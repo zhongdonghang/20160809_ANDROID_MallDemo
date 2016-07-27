@@ -54,21 +54,21 @@ public class ShopCarAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_shopcart, null);
-            holder = new ViewHolder();
-            holder.goodsName = (TextView) convertView.findViewById(R.id.tv_goods_name);
-            holder.goodsPrice = (TextView) convertView.findViewById(R.id.tv_goods_price);
-            holder.goodsNum = (TextView) convertView.findViewById(R.id.tv_goods_num);
-            holder.down = (ImageButton) convertView.findViewById(R.id.iv_down);
-            holder.up = (ImageButton) convertView.findViewById(R.id.iv_up);
-            holder.shopcarImg = (ImageView) convertView.findViewById(R.id.shopcarImg);
-            holder.checkGoods = (CheckBox) convertView.findViewById(R.id.checkgoods);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
+        ViewHolder holder = new ViewHolder();
+//        if (convertView == null) {
+        convertView = mInflater.inflate(R.layout.item_shopcart, null);
+        holder = new ViewHolder();
+        holder.goodsName = (TextView) convertView.findViewById(R.id.tv_goods_name);
+        holder.goodsPrice = (TextView) convertView.findViewById(R.id.tv_goods_price);
+        holder.goodsNum = (TextView) convertView.findViewById(R.id.tv_goods_num);
+        holder.down = (ImageButton) convertView.findViewById(R.id.iv_down);
+        holder.up = (ImageButton) convertView.findViewById(R.id.iv_up);
+        holder.shopcarImg = (ImageView) convertView.findViewById(R.id.shopcarImg);
+        holder.checkGoods = (CheckBox) convertView.findViewById(R.id.checkgoods);
+        //   convertView.setTag(holder);
+//        } else {
+//            holder = (ViewHolder) convertView.getTag();
+//        }
 
         holder.goodsName.setText(getItem(position).getName());
         if (getItem(position).isCheck()) {
@@ -99,11 +99,22 @@ public class ShopCarAdapter extends BaseAdapter {
         } else {
             holder.down.setVisibility(View.VISIBLE);
         }
+
+        final ViewHolder finalHolder = holder;
         holder.down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (getItem(position).getBuyCount() > 1) {
                     downGoodsToCart(position, String.valueOf(getItem(position).getPid()), String.valueOf(getItem(position).getUid()), "-1");
+
+                    getItem(position).setBuyCount(getItem(position).getBuyCount() - 1);
+
+                    finalHolder.goodsNum.setText(getItem(position).getBuyCount() + "");
+                    if (getItem(position).getBuyCount() == 1) {
+                        finalHolder.down.setVisibility(View.GONE);
+                    } else {
+                        finalHolder.down.setVisibility(View.VISIBLE);
+                    }
                 }
 
             }
@@ -114,6 +125,13 @@ public class ShopCarAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 addGoodsToCart(position, String.valueOf(getItem(position).getPid()), String.valueOf(getItem(position).getUid()), "1");
+                getItem(position).setBuyCount(getItem(position).getBuyCount() + 1);
+                finalHolder.goodsNum.setText(getItem(position).getBuyCount() + "");
+                if (getItem(position).getBuyCount() == 1) {
+                    finalHolder.down.setVisibility(View.GONE);
+                } else {
+                    finalHolder.down.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -135,7 +153,7 @@ public class ShopCarAdapter extends BaseAdapter {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getString("result").equals("true")) {
-                        getItem(position).setBuyCount(getItem(position).getBuyCount() + 1);
+                        //   getItem(position).setBuyCount(getItem(position).getBuyCount() + 1);
 //                        BigDecimal bAmount = new BigDecimal(Double.toString(shopCartModel.getProductAmount()));
 //                        BigDecimal bPrice = new BigDecimal(Double.toString(getItem(position).getShopPrice()));
 //                        double amount = bAmount.add(bPrice).doubleValue();
@@ -165,7 +183,7 @@ public class ShopCarAdapter extends BaseAdapter {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject.getString("result").equals("true")) {
-                        getItem(position).setBuyCount(getItem(position).getBuyCount() - 1);
+                        //  getItem(position).setBuyCount(getItem(position).getBuyCount() - 1);
 //                        BigDecimal bAmount = new BigDecimal(Double.toString(shopCartModel.getProductAmount()));
 //                        BigDecimal bPrice = new BigDecimal(Double.toString(getItem(position).getShopPrice()));
 //                        double amount = bAmount.subtract(bPrice).doubleValue();
