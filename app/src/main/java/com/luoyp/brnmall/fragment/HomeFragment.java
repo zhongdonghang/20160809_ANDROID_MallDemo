@@ -159,6 +159,13 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 homeGoodsList.clear();
+                homeGoodsList1.clear();
+                homeGoodsList2.clear();
+                homeGoodsList3.clear();
+                homeGoodsList4.clear();
+                homeGoodsList5.clear();
+                homeGoodsList6.clear();
+                homeGoodsList7.clear();
                 doGetHomeGoodsTask();
                 getHomeAds();
             }
@@ -186,6 +193,7 @@ public class HomeFragment extends BaseFragment {
         homelistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //减2 添加多了一个item当做head
                 KLog.d("产品id" + homeGoodsList.get(position - 2).getPid());
                 Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
                 intent.putExtra("pid", homeGoodsList.get(position - 2).getPid() + "");
@@ -299,37 +307,37 @@ public class HomeFragment extends BaseFragment {
                             HomeGoods goods = new HomeGoods();
                             if ("33".equals(id) && i == 0) {
                                 goods.setItemType(id);
-                                homeGoodsList.add(goods);
+                                homeGoodsList1.add(goods);
 
                             }
                             if ("34".equals(id) && i == 0) {
                                 goods.setItemType(id);
-                                homeGoodsList.add(goods);
+                                homeGoodsList2.add(goods);
 
                             }
                             if ("35".equals(id) && i == 0) {
                                 goods.setItemType(id);
-                                homeGoodsList.add(goods);
+                                homeGoodsList3.add(goods);
 
                             }
                             if ("36".equals(id) && i == 0) {
                                 goods.setItemType(id);
-                                homeGoodsList.add(goods);
+                                homeGoodsList4.add(goods);
 
                             }
                             if ("37".equals(id) && i == 0) {
                                 goods.setItemType(id);
-                                homeGoodsList.add(goods);
+                                homeGoodsList5.add(goods);
 
                             }
                             if ("38".equals(id) && i == 0) {
                                 goods.setItemType(id);
-                                homeGoodsList.add(goods);
+                                homeGoodsList6.add(goods);
 
                             }
                             if ("39".equals(id) && i == 0) {
                                 goods.setItemType(id);
-                                homeGoodsList.add(goods);
+                                homeGoodsList7.add(goods);
 
                             }
 
@@ -339,11 +347,67 @@ public class HomeFragment extends BaseFragment {
                             goods.setPname(json.getJSONArray("data").getJSONObject(i).getString("ExtField1"));
                             goods.setPrice(json.getJSONArray("data").getJSONObject(i).getString("ExtField2"));
                             goods.setMarkiprice(json.getJSONArray("data").getJSONObject(i).getString("ExtField3"));
-                            goods.setPid(json.getJSONArray("data").getJSONObject(i).getString("ExtField4"));
+                            goods.setPid(json.getJSONArray("data").getJSONObject(i).getString("ExtField5"));
                             goods.setImg(BrnmallAPI.adImgUrl + json.getJSONArray("data").getJSONObject(i).getString("Body"));
 
 
-                            homeGoodsList.add(goods);
+                            if ("33".equals(id)) {
+                                homeGoodsList1.add(goods);
+
+                            }
+                            if ("34".equals(id)) {
+                                homeGoodsList2.add(goods);
+
+                            }
+                            if ("35".equals(id)) {
+                                homeGoodsList3.add(goods);
+
+                            }
+                            if ("36".equals(id)) {
+                                homeGoodsList4.add(goods);
+
+                            }
+                            if ("37".equals(id)) {
+                                homeGoodsList5.add(goods);
+
+                            }
+                            if ("38".equals(id)) {
+                                homeGoodsList6.add(goods);
+
+                            }
+                            if ("39".equals(id)) {
+                                homeGoodsList7.add(goods);
+
+                            }
+
+                        }
+                        if ("33".equals(id)) {
+                            homeGoodsList.addAll(homeGoodsList1);
+
+                        }
+                        if ("34".equals(id)) {
+                            homeGoodsList.addAll(homeGoodsList2);
+
+                        }
+                        if ("35".equals(id)) {
+                            homeGoodsList.addAll(homeGoodsList3);
+
+                        }
+                        if ("36".equals(id)) {
+                            homeGoodsList.addAll(homeGoodsList4);
+
+                        }
+                        if ("37".equals(id)) {
+                            homeGoodsList.addAll(homeGoodsList5);
+
+                        }
+                        if ("38".equals(id)) {
+                            homeGoodsList.addAll(homeGoodsList6);
+
+                        }
+                        if ("39".equals(id)) {
+                            homeGoodsList.addAll(homeGoodsList7);
+
                         }
                         adapter.notifyDataSetChanged();
                     }
@@ -385,6 +449,7 @@ public class HomeFragment extends BaseFragment {
 
     @Subscriber(tag = "home_add_tocart")
     public void addToCart(String pid) {
+        KLog.d(pid);
         if (!checkLogin()) {
             return;
         }
@@ -416,6 +481,7 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onResponse(String response) {
+                //  KLog.json(response);
                 dismissProgressDialog();
                 if (response != null && !TextUtils.isEmpty(response)) {
                     try {

@@ -1,6 +1,7 @@
 package com.luoyp.brnmall;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.luoyp.brnmall.activity.SearchActivity;
 import com.luoyp.brnmall.fragment.BrandFragment;
 import com.luoyp.brnmall.fragment.CategoryFragment;
 import com.luoyp.brnmall.fragment.HomeFragment;
@@ -84,6 +86,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Subscriber(tag = "homemoreclick")
     public void moreClick(String tag) {
         KLog.d("tag = " + tag);
+
         mViewPager.setCurrentItem(2, false);
 
         //   onPageSelected(2);
@@ -124,7 +127,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     public void more(View view) {
-
+        startActivity(new Intent(this, SearchActivity.class));
     }
     /**
      * 根据不同的模式，建议设置的开关状态，可根据实际情况调整，仅供参考。

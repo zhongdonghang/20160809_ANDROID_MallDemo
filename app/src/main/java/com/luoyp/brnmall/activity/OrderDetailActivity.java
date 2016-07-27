@@ -2,7 +2,10 @@ package com.luoyp.brnmall.activity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -87,6 +90,7 @@ public class OrderDetailActivity extends BaseActivity {
         adapterGoods = new OrderGoodsAdapter(OrderDetailActivity.this, orderModel.getOrderGoodsList());
         listViewGoods.setAdapter(adapterGoods);
 
+
         oid = getIntent().getStringExtra("oid");
         // 获取当前用户的uid
         UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
@@ -95,6 +99,25 @@ public class OrderDetailActivity extends BaseActivity {
         getOrderDetail(uid, oid);
 
 
+    }
+
+    public void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + 150 + (listView.getDividerHeight() * (listAdapter.getCount()));
+        listView.setLayoutParams(params);
     }
 
     /**
@@ -130,14 +153,19 @@ public class OrderDetailActivity extends BaseActivity {
                     //orderModel.setOrdrGoodsList(OrderDetailModel.jsonToOrderGoodsList(dataObject.getString("OrderProductList")));
                     orderModel.getOrderGoodsList().addAll(orderModel.jsonToOrderGoodsList(dataObject.getString("OrderProductList")));
                     orderModel.setOrderActionList(OrderDetailModel.jsonToOrderActionList(dataObject.getString("OrderActionList")));
-
+                    setListViewHeightBasedOnChildren(listViewGoods);
                     adapterGoods.notifyDataSetChanged();
+
 
                     storeName.setText(orderModel.getOrderInfo().getStoreName());
                     tvdingdanhao.setText(orderModel.getOrderInfo().getOSN());
                     tvbeisongdanhao.setText(orderModel.getOrderInfo().getShipSN());
                     tvxiadanshijian.setText(orderModel.getOrderInfo().getAddTime());
-                    tvbeisongshijian.setText(orderModel.getOrderInfo().getShipTime());
+                    if (orderModel.getOrderInfo().getShipTime().contains("1900")) {
+                        tvbeisongshijian.setText("");
+                    } else {
+                        tvbeisongshijian.setText(orderModel.getOrderInfo().getShipTime());
+                    }
                     tvbeisongfangshi.setText(orderModel.getOrderInfo().getShipCoName());
                     tvzhifufangshi.setText(orderModel.getOrderInfo().getPayFriendName());
 

@@ -5,7 +5,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -13,7 +12,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -23,7 +21,6 @@ import com.handmark.pulltorefresh.library.internal.Utils;
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.BaseActivity;
 import com.luoyp.brnmall.R;
-import com.luoyp.brnmall.SysUtils;
 import com.luoyp.brnmall.adapter.GoodsDetailImagePagerAdapter;
 import com.luoyp.brnmall.adapter.GoodsImageAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
@@ -47,12 +44,13 @@ public class GoodsDetailActivity extends BaseActivity {
 
     boolean isbuynow = false;
     TextView topbarTitle;
-    private ImageView goodsIcon;
-    private TextView goodsName, goodsPrice, goodsPinPai, goodsGuiGe;
+    //   private ImageView goodsIcon;
+    //   private TextView goodsName, goodsPrice, goodsPinPai, goodsGuiGe;
     //  private ListView listView;
     private GoodsImageAdapter adapter;
     private GoodsDetailModel goodsDetailModel;
-    private String pid, uid;
+    private String pid = "";
+    private String uid = "";
     private boolean isLogin = false;
     private boolean isFavorite = false;
     private String sid = "";
@@ -105,13 +103,13 @@ public class GoodsDetailActivity extends BaseActivity {
         });
 
 
-        LayoutInflater mInflater = LayoutInflater.from(this);
-        View view = mInflater.inflate(R.layout.goods_detail_head_view, null);
-        goodsIcon = (ImageView) view.findViewById(R.id.iv_goods_icon);
-        goodsName = (TextView) view.findViewById(R.id.tv_goods_name);
-        goodsPrice = (TextView) view.findViewById(R.id.tv_goods_price);
-        goodsPinPai = (TextView) view.findViewById(R.id.tv_goods_pinpai);
-        goodsGuiGe = (TextView) view.findViewById(R.id.tv_goods_guige);
+//        LayoutInflater mInflater = LayoutInflater.from(this);
+//        View view = mInflater.inflate(R.layout.goods_detail_head_view, null);
+//        goodsIcon = (ImageView) view.findViewById(R.id.iv_goods_icon);
+//        goodsName = (TextView) view.findViewById(R.id.tv_goods_name);
+//        goodsPrice = (TextView) view.findViewById(R.id.tv_goods_price);
+//        goodsPinPai = (TextView) view.findViewById(R.id.tv_goods_pinpai);
+//        goodsGuiGe = (TextView) view.findViewById(R.id.tv_goods_guige);
         // listView.addHeaderView(view);
 
         goodsDetailModel = new GoodsDetailModel();
@@ -232,10 +230,15 @@ public class GoodsDetailActivity extends BaseActivity {
 
                     imageIdList = new ArrayList<String>();
 
-                    for (int i = 0; i < goodsDetailModel.getImageBeanList().size(); i++) {
-                        imageIdList.add(BrnmallAPI.BaseImgUrl1 + goodsDetailModel.getGoodsInfo().getStoreId()
-                                + BrnmallAPI.BaseImgUrl3 + goodsDetailModel.getImageBeanList().get(i).getShowImg());
+                    if (goodsDetailModel.getImageBeanList().size() == 0) {
+                        imageIdList.add("goodsdefaulimg");
+                    } else {
+                        for (int i = 0; i < goodsDetailModel.getImageBeanList().size(); i++) {
+                            imageIdList.add(BrnmallAPI.BaseImgUrl1 + goodsDetailModel.getGoodsInfo().getStoreId()
+                                    + BrnmallAPI.BaseImgUrl3 + goodsDetailModel.getImageBeanList().get(i).getShowImg());
+                        }
                     }
+
                     homeAdAdapter = new GoodsDetailImagePagerAdapter(GoodsDetailActivity.this, imageIdList, false);
                     autoviewpager.setAdapter(homeAdAdapter.setInfiniteLoop(true));
                     autoviewpager.setOnPageChangeListener(new MyOnPageChangeListener());
@@ -246,21 +249,17 @@ public class GoodsDetailActivity extends BaseActivity {
                     homeAdAdapter.notifyDataSetChanged();
 
                     sid = goodsDetailModel.getGoodsInfo().getStoreId() + "";
-                    App.getPicasso().load(BrnmallAPI.BaseImgUrl1 + goodsDetailModel.getGoodsInfo().getStoreId()
-                            + BrnmallAPI.BaseImgUrl3 + goodsDetailModel.getGoodsInfo().getShowImg())
-                            .placeholder(R.drawable.goodsdefaulimg).error(R.drawable.goodsdefaulimg).into(goodsIcon);
+
                     web.loadDataWithBaseURL(null, goodsDetailModel.getGoodsInfo().getDescription(), "text/html", "utf-8", null);
                     //  web.loadData(goodsDetailModel.getGoodsInfo().getDescription(), "text/html", "UTF-8");
                     goodsname.setText(goodsDetailModel.getGoodsInfo().getName());
                     if (isLogin) {
-                        String price = SysUtils.formatDouble((Double.valueOf(App.getPref("zhekou", "10")) * goodsDetailModel.getGoodsInfo().getShopPrice()) * 10 / 100);
-                        goodsPrice.setText(" ￥ " + price + " (" + App.getPref("zhekoutitle", "") + ")");
+                        goodvipsprice.setText("会员价￥" + goodsDetailModel.getGoodsInfo().getVipPrice());
                     } else {
-                        goodsPrice.setText(" ￥ " + goodsDetailModel.getGoodsInfo().getShopPrice());
+                        goodvipsprice.setText("会员价￥ 未登录");
                     }
-                    goodsName.setText(goodsDetailModel.getGoodsInfo().getName());
                     goodsprice.setText("商城价￥ " + goodsDetailModel.getGoodsInfo().getShopPrice());
-                    goodvipsprice.setText("会员价￥" + goodsDetailModel.getGoodsInfo().getVipPrice());
+
                     goodmarketsprice.setText("市场价￥ " + goodsDetailModel.getGoodsInfo().getMarketPrice());
                     goodmarketsprice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                     goodspinpai.setText("品牌  " + goodsDetailModel.getBrandInfo().getName());
