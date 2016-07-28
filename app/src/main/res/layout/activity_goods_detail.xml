@@ -222,7 +222,6 @@
                 android:background="#FA7329"
                 android:gravity="center"
                 android:onClick="buynow"
-
                 android:text="立即购买"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@android:color/white"
