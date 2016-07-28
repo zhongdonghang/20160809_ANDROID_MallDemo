@@ -161,8 +161,9 @@ public class GoodsDetailActivity extends BaseActivity {
         addGoodsToCart(pid, uid, "1");
     }
 
-    // 点击加入购物车
+    //
     public void buynow(View view) {
+        EventBus.getDefault().post("--", "buynowClick");
         isbuynow = true;
         showProgressDialog("正在提交商品信息");
         addGoodsToCart(pid, uid, "1");
@@ -309,7 +310,6 @@ public class GoodsDetailActivity extends BaseActivity {
                         if (isbuynow) {
                             isbuynow = false;
                             GoodsDetailActivity.this.finish();
-                            EventBus.getDefault().post("--", "buynowClick");
                             return;
 
                         }
