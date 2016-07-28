@@ -35,7 +35,7 @@ public class BaseFragment extends Fragment {
     }
 
     public void showToast(String msg) {
-        Toast toast = Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }
