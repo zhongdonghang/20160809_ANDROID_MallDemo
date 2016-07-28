@@ -148,7 +148,7 @@ public class EditOrderActy extends BaseActivity {
             return;
         }
         if (beisong == -1) {
-            showToast("请选择备送方式");
+            showToast("请选择配送方式");
             return;
         }
         // 获取当前用户的uid
@@ -292,8 +292,8 @@ public class EditOrderActy extends BaseActivity {
         }
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(EditOrderActy.this);
         builderSingle.setIcon(R.mipmap.logo);
-        builderSingle.setTitle("选择备送方式");
-        final String[] data = {"备送上门", "上门自提",};
+        builderSingle.setTitle("选择配送方式");
+        final String[] data = {"配送上门", "上门自提",};
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 EditOrderActy.this,
                 android.R.layout.select_dialog_singlechoice);
@@ -318,7 +318,7 @@ public class EditOrderActy extends BaseActivity {
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        beisongpay.setText("备送方式: " + data[which]);
+                        beisongpay.setText("配送方式: " + data[which]);
                         if (which == 0) {
                             beisong = 0;
                             getShip(beisong + "");

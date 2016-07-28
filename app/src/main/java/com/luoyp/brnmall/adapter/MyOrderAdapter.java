@@ -93,7 +93,7 @@ public class MyOrderAdapter extends BaseAdapter {
 
 
         holder.payname.setText("支付方式: " + getItem(position).getPayfriendname());
-        holder.storename.setText("备送店铺: " + getItem(position).getStorename());
+        holder.storename.setText("配送店铺: " + getItem(position).getStorename());
         holder.cancelorder.setVisibility(View.GONE);
         holder.paynow.setVisibility(View.GONE);
 
