@@ -19,11 +19,11 @@ import java.util.List;
 public class TabView extends LinearLayout implements View.OnClickListener {
 
 
+    public List<TabItem> mTabItems;
     private ViewPager mViewPager;
     private ViewPager.OnPageChangeListener mOnPageChangeListener;
     private PagerAdapter mPagerAdapter;
     private int mChildSize;
-    private List<TabItem> mTabItems;
     private OnItemIconTextSelectListener mListener;
     private Context mContext;
 

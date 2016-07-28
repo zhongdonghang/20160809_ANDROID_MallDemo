@@ -87,16 +87,16 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void moreClick(String tag) {
         KLog.d("tag = " + tag);
 
-        mViewPager.setCurrentItem(2, false);
-
+        // mViewPager.setCurrentItem(2, false);
+        mTabView.onClick(mTabView.mTabItems.get(2));
         //   onPageSelected(2);
     }
 
     @Subscriber(tag = "buynowClick")
     public void buynowClick(String tag) {
         KLog.d("tag = " + tag);
-        mViewPager.setCurrentItem(3, false);
-
+        //  mViewPager.setCurrentItem(3, false);
+        mTabView.onClick(mTabView.mTabItems.get(3));
         //   onPageSelected(2);
     }
 
