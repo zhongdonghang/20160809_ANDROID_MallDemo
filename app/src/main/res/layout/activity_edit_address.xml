@@ -197,7 +197,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorPrimary"
             android:text="保存"
             android:textColor="@color/white"/>
     </LinearLayout>

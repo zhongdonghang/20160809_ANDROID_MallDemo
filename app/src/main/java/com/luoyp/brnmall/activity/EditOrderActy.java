@@ -28,6 +28,7 @@ import com.socks.library.KLog;
 import com.squareup.okhttp.Request;
 import com.tencent.stat.StatService;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.simple.eventbus.EventBus;
@@ -117,6 +118,7 @@ public class EditOrderActy extends BaseActivity {
         shopcarlistview.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         totalPrice();
+        getMyAddress();
     }
 
     public void totalPrice() {
@@ -277,7 +279,51 @@ public class EditOrderActy extends BaseActivity {
             }
 
         }
+    }
 
+    public void getMyAddress() {
+        // 获取当前用户的uid
+        UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
+        String uid = String.valueOf(userModel.getUserInfo().getUid());
+        BrnmallAPI.getMyAddress(uid, new ApiCallback<String>() {
+            @Override
+            public void onError(Request request, Exception e) {
+
+            }
+
+            @Override
+            public void onResponse(String response) {
+
+                if (response == null || TextUtils.isEmpty(response)) {
+                    return;
+                }
+                try {
+                    JSONObject json = new JSONObject(response);
+
+                    if ("false".equals(json.getString("result"))) {
+                        return;
+                    }
+
+                    JSONArray addresslist = json.getJSONObject("data").getJSONArray("ShipAddressList");
+                    if (addresslist.length() == 0) {
+                        return;
+                    }
+                    if (addresslist.length() >= 1) {
+                        JSONObject object = addresslist.getJSONObject(0);
+
+                        aid = object.getString("SAId");
+                        orderaddress.setText("收货地址: " + object.getString("ProvinceName") + object.getString("CityName") + object.getString("CountyName") + object.getString("Address"));
+                        ordername.setText("收 货 人: " + object.getString("Consignee"));
+                        orderphone.setText("联系电话: " + object.getString("Mobile"));
+
+                        //获取地址后,备送上门(默认)
+                        getShip("0");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public void getPayway(View view) {
