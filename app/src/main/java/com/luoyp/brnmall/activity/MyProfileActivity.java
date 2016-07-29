@@ -66,6 +66,7 @@ public class MyProfileActivity extends BaseActivity {
     private android.widget.RelativeLayout rejianjie;
     private android.widget.RelativeLayout relogout;
     private File file;
+    private TextView userName;
 
     /**
      * bitmap转为base64
@@ -130,7 +131,9 @@ public class MyProfileActivity extends BaseActivity {
         this.tvnicheng = (TextView) findViewById(R.id.tv_nicheng);
         this.reavatar = (RelativeLayout) findViewById(R.id.re_avatar);
         this.ivavatar = (CircleImageView) findViewById(R.id.iv_avatar);
+        userName = (TextView) findViewById(R.id.tv_username);
 
+        userName.setText(App.getPref("UserName",""));
 
         tvnickname.setText(App.getPref("nicheng", ""));
         tvzhenming.setText(App.getPref("zhenming", ""));

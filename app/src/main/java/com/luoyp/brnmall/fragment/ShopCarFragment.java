@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.luoyp.brnmall.App;
 import com.luoyp.brnmall.R;
 import com.luoyp.brnmall.activity.EditOrderActy;
+import com.luoyp.brnmall.activity.GoodsDetailActivity;
 import com.luoyp.brnmall.adapter.ShopCarAdapter;
 import com.luoyp.brnmall.api.ApiCallback;
 import com.luoyp.brnmall.api.BrnmallAPI;
@@ -99,8 +100,10 @@ public class ShopCarFragment extends BaseFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                shopCartModel.getCartGoodsBeanList().get(position).setCheck(!shopCartModel.getCartGoodsBeanList().get(position).isCheck());
-//                adapter.notifyDataSetChanged();
+                Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+                intent.putExtra("pid", shopCartModel.getCartGoodsBeanList().get(position).getPid()+"");
+                intent.putExtra("name", shopCartModel.getCartGoodsBeanList().get(position).getName());
+                startActivity(intent);
             }
         });
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

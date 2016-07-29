@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-//    signingConfigs {
-//        config {
-//            keyAlias 'better'
-//            keyPassword 'better3314'
-//            storeFile file('/Users/luoyp/Desktop/luoyp/workspace/apkkeystore')
-//            storePassword 'better3314'
-//        }
-//    }
+    signingConfigs {
+        config {
+            keyAlias 'better'
+            keyPassword 'better3314'
+            storeFile file('/Users/luoyp/Desktop/luoyp/workspace/apkkeystore')
+            storePassword 'better3314'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
     defaultConfig {
@@ -34,13 +34,13 @@ android {
     }
     buildTypes {
         release {
-//            signingConfig signingConfigs.config
-//            minifyEnabled false
+            signingConfig signingConfigs.config
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-//            signingConfig signingConfigs.config
-//            minifyEnabled false
+            signingConfig signingConfigs.config
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
