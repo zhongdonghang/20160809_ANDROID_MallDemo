@@ -10,6 +10,7 @@ import android.view.Window;
 
 import com.luoyp.brnmall.BaseActivity;
 import com.luoyp.brnmall.R;
+import com.luoyp.brnmall.fragment.FavStoreFragment;
 import com.luoyp.brnmall.fragment.MyFavoriteFragment;
 
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class MyFavoriteActivity extends BaseActivity {
                     fragment = MyFavoriteFragment.newInstance("1");
                     break;
                 case 1:
-                    fragment = MyFavoriteFragment.newInstance("2");
+                    fragment = FavStoreFragment.newInstance("2");
                     break;
             }
             mFragmentMap.put(position, fragment);

@@ -35,10 +35,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link MyFavoriteFragment#newInstance} factory method to
+ * Use the {@link FavStoreFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyFavoriteFragment extends BaseFragment {
+public class FavStoreFragment extends BaseFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -52,7 +52,7 @@ public class MyFavoriteFragment extends BaseFragment {
     private String uid;
     private int reIndex;
 
-    public MyFavoriteFragment() {
+    public FavStoreFragment() {
         // Required empty public constructor
     }
 
@@ -64,8 +64,8 @@ public class MyFavoriteFragment extends BaseFragment {
      * @return A new instance of fragment MyFavoriteFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MyFavoriteFragment newInstance(String param1) {
-        MyFavoriteFragment fragment = new MyFavoriteFragment();
+    public static FavStoreFragment newInstance(String param1) {
+        FavStoreFragment fragment = new FavStoreFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         fragment.setArguments(args);
@@ -98,8 +98,8 @@ public class MyFavoriteFragment extends BaseFragment {
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
                 mList.clear();
                 if (mParam1.equals("1")){
-                    getGoodsData(uid);
                 } else if (mParam1.equals("2")){
+                    getStoreData(uid);
                 }
             }
         });
@@ -123,8 +123,8 @@ public class MyFavoriteFragment extends BaseFragment {
         UserModel userModel = new Gson().fromJson(App.getPref("LoginResult", ""), UserModel.class);
         uid = userModel.getUserInfo().getUid() + "";
         if (mParam1.equals("1")){
-            getGoodsData(uid);
         } else if (mParam1.equals("2")){
+            getStoreData(uid);
         }
         return rootView;
     }
@@ -136,15 +136,15 @@ public class MyFavoriteFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscriber(tag = "cancelGoods")
-    public void cancelGoods(String[] s) {
+    @Subscriber(tag = "cancelStore")
+    public void cancelStore(String[] s) {
         reIndex = Integer.parseInt(s[1]);
-        delGoods(s[0],uid);
+        delStore(s[0],uid);
     }
 
-    private void getGoodsData(String uid){
+    private void getStoreData(String uid){
         showProgressDialog("");
-        BrnmallAPI.favoriteProductList(uid, new ApiCallback<String>() {
+        BrnmallAPI.favoriteStoreList(uid, new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
                 dismissProgressDialog();
@@ -155,7 +155,7 @@ public class MyFavoriteFragment extends BaseFragment {
             public void onResponse(String response) {
                 dismissProgressDialog();
                 listView.onRefreshComplete();
-                KLog.json("收藏的商品   "+response);
+                KLog.json("收藏的店铺   "+response);
 
                 if (TextUtils.isEmpty(response)){
                     return;
@@ -165,7 +165,7 @@ public class MyFavoriteFragment extends BaseFragment {
                     if (jsonObject.getString("result").equals("false")){
 
                     } else {
-                        mList.addAll(MyFavoriteModel.jsonToGoodsBeanList(jsonObject.getString("data")));
+                        mList.addAll(MyFavoriteModel.jsonToStoreBeanList(jsonObject.getString("data")));
                         adapter.notifyDataSetChanged();
                     }
 
@@ -177,14 +177,14 @@ public class MyFavoriteFragment extends BaseFragment {
     }
 
     /**
-     * 取消商品收藏
+     * 取消店铺收藏
      *
-     * @param pid 商品id
+     * @param sid 商品id
      * @param uid 用户id
      */
-    private void delGoods(String pid, String uid) {
+    private void delStore(String sid, String uid) {
         showProgressDialog("正在取消收藏");
-        BrnmallAPI.deleteFavoriteProduct(pid, uid, new ApiCallback<String>() {
+        BrnmallAPI.deleteFavoriteStore(sid, uid, new ApiCallback<String>() {
             @Override
             public void onError(Request request, Exception e) {
                 dismissProgressDialog();
@@ -193,7 +193,7 @@ public class MyFavoriteFragment extends BaseFragment {
 
             @Override
             public void onResponse(String response) {
-                KLog.json(response);
+                //   KLog.json(response);
                 dismissProgressDialog();
                 if (response != null && !TextUtils.isEmpty(response)) {
                     try {
@@ -203,7 +203,6 @@ public class MyFavoriteFragment extends BaseFragment {
                             mList.remove(reIndex);
                             adapter.notifyDataSetChanged();
                         }
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
